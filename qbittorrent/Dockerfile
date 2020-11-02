@@ -39,12 +39,12 @@ RUN \
   && echo "libtorrent deb: ${LIBTORRENT_DEB}" \
   && echo "libtorrent-dev deb: ${LIBTORRENT_DEB}" \
   && \
-  curl -L -o libtorrent-rasterbar.deb \
+  curl -sSLk -o libtorrent-rasterbar.deb \
     "https://launchpad.net/ubuntu/+archive/primary/+files/${LIBTORRENT_DEB}" \
   && dpkg -i libtorrent-rasterbar.deb \
   && rm -rf libtorrent-rasterbar.deb \
   && \
-  curl -L -o libtorrent-rasterbar-dev.deb \
+  curl -sSLk -o libtorrent-rasterbar-dev.deb \
     "https://launchpad.net/ubuntu/+archive/primary/+files/${LIBTORRENT_DEV_DEB}" \
   && dpkg -i libtorrent-rasterbar-dev.deb \
   && rm -rf libtorrent-rasterbar-dev.deb
@@ -88,7 +88,7 @@ RUN \
       export LIBTORRENT_DEB="libtorrent-rasterbar10_1.2.5-1.2_${ARCH}.deb" ;; \
   esac \
   && \
-  curl -L -o libtorrent-rasterbar.deb \
+  curl -sSLk -o libtorrent-rasterbar.deb \
     "https://launchpad.net/ubuntu/+archive/primary/+files/${LIBTORRENT_DEB}" \
   && dpkg -i libtorrent-rasterbar.deb \
   && rm -rf libtorrent-rasterbar.deb \
