@@ -1,8 +1,6 @@
 FROM ubuntu:focal-20200925
 LABEL maintainer="k8s-at-home"
 
-ARG TARGETPLATFORM=linux/amd64
-
 ENV DEBIAN_FRONTEND=noninteractive \
     DEBCONF_NONINTERACTIVE_SEEN=true \
     UMASK=0002 \
