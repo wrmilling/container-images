@@ -5,10 +5,10 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Use this tag instead of most recent'
+        description: 'Insert tag'
         required: false
       ignore-existing-tag:
-        description: 'Ignore existing tag if "true"'
+        description: 'Force build and push if "true"'
         required: false
 env:
   REGISTRY_IMAGE: k8sathome/${{ github.workflow }}
