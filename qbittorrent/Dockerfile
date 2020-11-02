@@ -31,7 +31,7 @@ RUN \
     pkg-config \
     qtbase5-dev \
     qttools5-dev \
-    zlib1g-dev \
+    zlib1g-dev
 
 # Install lintorrent-rasterbar dependencies
 RUN \
