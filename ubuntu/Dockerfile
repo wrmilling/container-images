@@ -20,13 +20,13 @@ RUN \
 
 RUN set -eux \
   && \
-  case "${TARGETPLATFORM}" in \
+  case "${TARGETPLATFORM:-linux/amd64}" in \
     'linux/amd64') export ARCH='amd64' ;; \
     'linux/arm64') export ARCH='arm64' ;; \
     'linux/arm/v7') export ARCH='armhf' ;; \
   esac \
-  && apt -qq update \
-  && apt -qq install -y --no-install-recommends \
+  && apt-get -qq update \
+  && apt-get -qq install -y --no-install-recommends \
        gnupg2 \
        curl \
        ca-certificates \
@@ -37,10 +37,10 @@ RUN set -eux \
   && gpg --batch --verify /tini.asc /sbin/tini \
   && chmod +x /sbin/tini \
   && gpgconf --kill all \
-  && apt remove -y gnupg2 \
-  && apt purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
-  && apt autoremove -y \
-  && apt clean \
+  && apt-get remove -y gnupg2 \
+  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+  && apt-get autoremove -y \
+  && apt-get clean \
   && rm -rf \
        /tini.asc \
        /tmp/* \
