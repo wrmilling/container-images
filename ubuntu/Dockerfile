@@ -1,4 +1,4 @@
-FROM ubuntu:focal-20200925
+FROM ubuntu:focal-20201008
 LABEL maintainer="k8s-at-home"
 
 ARG TARGETPLATFORM
