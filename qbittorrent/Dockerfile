@@ -12,12 +12,26 @@ USER root
 
 WORKDIR /tmp
 
+# Install system dependencies
 RUN \
   apt-get -qq update \
-  && apt-get -qq install -y --no-install-recommends \
-    build-essential cmake ninja-build pkg-config git zlib1g-dev libssl-dev libgeoip-dev \
-    libboost-dev libboost-system-dev libboost-chrono-dev libboost-random-dev \
-    qtbase5-dev qttools5-dev libqt5svg5-dev
+  && \
+  apt-get -qq install -y --no-install-recommends \
+    build-essential \
+    cmake \
+    git \
+    libboost-chrono-dev \
+    libboost-dev \
+    libboost-random-dev \
+    libboost-system-dev \
+    libgeoip-dev \
+    libqt5svg5-dev
+    libssl-dev \
+    ninja-build \
+    pkg-config \
+    qtbase5-dev \
+    qttools5-dev \
+    zlib1g-dev \
 
 # Install lintorrent-rasterbar dependencies
 RUN \
@@ -39,26 +53,12 @@ RUN \
   && echo "libtorrent deb: ${LIBTORRENT_DEB}" \
   && echo "libtorrent-dev deb: ${LIBTORRENT_DEB}" \
   && \
-  curl \
-    --silent \
-    --show-error \
-    --location \
-    --connect-timeout 30 \
-    --retry 300 \
-    --retry-delay 5 \
-    --output libtorrent-rasterbar.deb \
+  curl -sSL -o libtorrent-rasterbar.deb \
     "https://launchpad.net/ubuntu/+archive/primary/+files/${LIBTORRENT_DEB}" \
   && dpkg -i libtorrent-rasterbar.deb \
   && rm -rf libtorrent-rasterbar.deb \
   && \
-  curl \
-    --silent \
-    --show-error \
-    --location \
-    --connect-timeout 30 \
-    --retry 300 \
-    --retry-delay 5 \
-    --output libtorrent-rasterbar-dev.deb \
+  curl -sSL -o libtorrent-rasterbar-dev.deb \
     "https://launchpad.net/ubuntu/+archive/primary/+files/${LIBTORRENT_DEV_DEB}" \
   && dpkg -i libtorrent-rasterbar-dev.deb \
   && rm -rf libtorrent-rasterbar-dev.deb
@@ -76,6 +76,9 @@ RUN \
 
 FROM k8sathome/ubuntu:focal-20200925
 
+ARG TARGETPLATFORM
+ARG VERSION
+
 # Proper way to set config directory
 ENV HOME=/config \
     XDG_CONFIG_HOME=/config \
@@ -83,6 +86,8 @@ ENV HOME=/config \
     WEBUI_PORT=8080
 
 USER root
+
+RUN echo ${VERSION}
 
 RUN \
   apt-get -qq update \
@@ -102,14 +107,7 @@ RUN \
       export LIBTORRENT_DEB="libtorrent-rasterbar10_1.2.5-1.2_${ARCH}.deb" ;; \
   esac \
   && \
-  curl \
-    --silent \
-    --show-error \
-    --location \
-    --connect-timeout 30 \
-    --retry 300 \
-    --retry-delay 5 \
-    --output libtorrent-rasterbar.deb \
+  curl -sSL -o libtorrent-rasterbar.deb \
     "https://launchpad.net/ubuntu/+archive/primary/+files/${LIBTORRENT_DEB}" \
   && dpkg -i libtorrent-rasterbar.deb \
   && rm -rf libtorrent-rasterbar.deb \
