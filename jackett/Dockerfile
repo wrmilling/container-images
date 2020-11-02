@@ -11,15 +11,17 @@ USER root
 
 RUN \
   apt-get -qq update \
-  && apt-get -qq install -y --no-install-recommends \
-  	   libicu66 \
-	     libssl1.1 \
+  && \
+  apt-get -qq install -y --no-install-recommends \
+    libicu66 \
+    libssl1.1 \
   && apt-get autoremove -y \
   && apt-get clean \
-  && rm -rf \
-       /tmp/* \
-       /var/lib/apt/lists/* \
-       /var/tmp/ \
+  && \
+  rm -rf \
+    /tmp/* \
+    /var/lib/apt/lists/* \
+    /var/tmp/ \
   && echo umask ${UMASK} >> /etc/bash.bashrc
 
 USER kah
@@ -30,11 +32,13 @@ RUN \
     'linux/arm64') export ARCH='ARM64' ;; \
     'linux/arm/v7') export ARCH='ARM32' ;; \
   esac \
-  && curl -Lso /tmp/jackett.tar.gz \
+  && \
+  curl -Lso /tmp/jackett.tar.gz \
     "https://github.com/Jackett/Jackett/releases/download/v${VERSION}/Jackett.Binaries.Linux${ARCH}.tar.gz" \
   && mkdir -p /app/jackett/bin \
   && tar ixzf /tmp/jackett.tar.gz -C /app/jackett/bin --strip-components 1 \
-  && rm -rf \
+  && \
+  rm -rf \
     /app/jackett/bin/JackettUpdater \
     /app/jackett/bin/JackettUpdater.deps.json \
     /app/jackett/bin/JackettUpdater.dll \

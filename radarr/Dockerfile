@@ -7,15 +7,17 @@ USER root
 
 RUN \
   apt-get -qq update \
-  && apt-get -qq install -y --no-install-recommends \
-  	   libicu66 \
-	     mediainfo \
+  && \
+  apt-get -qq install -y --no-install-recommends \
+    libicu66 \
+    mediainfo \
   && apt-get autoremove -y \
   && apt-get clean \
-  && rm -rf \
-       /tmp/* \
-       /var/lib/apt/lists/* \
-       /var/tmp/ \
+  && \
+  rm -rf \
+    /tmp/* \
+    /var/lib/apt/lists/* \
+    /var/tmp/ \
   && echo umask ${UMASK} >> /etc/bash.bashrc
 
 USER kah
@@ -26,13 +28,15 @@ RUN \
     'linux/arm64') export ARCH='arm64' ;; \
     'linux/arm/v7') export ARCH='arm' ;; \
   esac \
-  && curl -Lso /tmp/radarr.tar.gz \
+  && \
+  curl -Lso /tmp/radarr.tar.gz \
     "https://radarr.servarr.com/v1/update/nightly/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" \
   && mkdir -p /app/radarr/bin \
   && tar ixzf /tmp/radarr.tar.gz -C /app/radarr/bin --strip-components 1 \
-  && rm -rf \
-       /app/radarr/bin/Radarr.Update \
-	     /tmp/radarr.tar.gz \
+  && \
+  rm -rf \
+    /app/radarr/bin/Radarr.Update \
+    /tmp/radarr.tar.gz \
   && echo "UpdateMethod=docker\nBranch=nightly\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/radarr/package_info
 
 EXPOSE 7878
