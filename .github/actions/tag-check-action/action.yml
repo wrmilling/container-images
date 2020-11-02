@@ -5,7 +5,7 @@ inputs:
     description: "Image to check (e.g. k8sathome/ubuntu)"
     required: true
   tag:
-    description: "Tag to check (e.g. focal-20200925)"
+    description: "Tag to check (e.g. focal-20201008)"
     required: true
   skip:
     description: "Whether to skip check"

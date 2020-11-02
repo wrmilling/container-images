@@ -71,6 +71,3 @@ jobs:
           tags: ${{ env.REGISTRY_IMAGE }}:${{ needs.version-check.outputs.tag }}
           pull: true
           push: true
-      - name: Image Digest
-        run: |
-          echo ${{ steps.build-and-push.outputs.digest }}
