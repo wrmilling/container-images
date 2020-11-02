@@ -22,8 +22,8 @@ RUN \
        mono-devel \
        ca-certificates-mono \
   && gpgconf --kill all \
-  && apt remove -y gnupg2 \
-  && apt purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+  && apt-get remove -y gnupg2 \
+  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
   && rm -rf \

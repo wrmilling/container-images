@@ -61,7 +61,7 @@ USER kah
 RUN mkdir -p /app/qbittorrent/bin /config/qBittorrent /tmp/incomplete
 
 COPY --from=builder /usr/local/bin/qbittorrent-nox /app/qbittorrent/bin/qbittorrent
-COPY /images/qbittorrent/qBittorrent.conf /config/qBittorrent/qBittorrent.conf
+COPY /qbittorrent/qBittorrent.conf /config/qBittorrent/qBittorrent.conf
 
 EXPOSE 6881 6881/udp ${WEBUI_PORT}
 
