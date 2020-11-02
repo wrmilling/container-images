@@ -16,7 +16,7 @@ RUN \
 WORKDIR /tmp
 
 RUN git clone --depth 1 -b release-${VERSION} https://github.com/qbittorrent/qBittorrent.git . \
-    && case "${TARGETPLATFORM}" in \
+    && case "${TARGETPLATFORM:-linux/amd64}" in \
          'linux/arm/v7') export EXTRA_CFG_ARG=--with-boost-libdir=/usr/lib/arm-linux-gnueabihf ;; \
        esac \
     && ./configure ${EXTRA_CFG_ARG} --disable-gui --disable-stacktrace \
@@ -35,7 +35,7 @@ USER root
 
 RUN \
   apt-get -qq update \
-  && case "${TARGETPLATFORM}" in \
+  && case "${TARGETPLATFORM:-linux/amd64}" in \
          'linux/arm/v7') export EXTRA_INSTALL_ARG=build-essential ;; \
      esac \
   && apt-get install -y --no-install-recommends \
@@ -58,7 +58,7 @@ RUN \
 
 USER kah
 
-RUN mkdir -p /app/qbittorrent/bin /config/qBittorrent/qBittorrent.conf /tmp/incomplete
+RUN mkdir -p /app/qbittorrent/bin /config/qBittorrent /tmp/incomplete
 
 COPY --from=builder /usr/local/bin/qbittorrent-nox /app/qbittorrent/bin/qbittorrent
 COPY /images/qbittorrent/qBittorrent.conf /config/qBittorrent/qBittorrent.conf

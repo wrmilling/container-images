@@ -1,7 +1,8 @@
+---
 name: ubuntu
 on:
   schedule:
-    - cron: '0 0 * * 0'
+    - cron: '0 */12 * * *'
   workflow_dispatch:
     inputs:
       tag:
@@ -12,7 +13,6 @@ on:
         required: false
 env:
   REGISTRY_IMAGE: k8sathome/${{ github.workflow }}
-
 jobs:
   version-check:
     runs-on: ubuntu-latest
@@ -61,6 +61,7 @@ jobs:
             echo "🎉 Login Succeeded!"
           fi
       - name: Build and Push
+        id: build-and-push
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -70,3 +71,6 @@ jobs:
           tags: ${{ env.REGISTRY_IMAGE }}:${{ needs.version-check.outputs.tag }}
           pull: true
           push: true
+      - name: Image Digest
+        run: |
+          echo ${{ steps.build-and-push.outputs.digest }}
