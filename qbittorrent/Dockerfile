@@ -28,7 +28,7 @@ RUN \
   esac \
   && echo "arch: ${ARCH}" \
   && \
-  case "${VERSION:-4.2.5}" in \
+  case "${VERSION}" in \
     (4\.2.*) \
       export LIBTORRENT_DEB="libtorrent-rasterbar9_1.1.13-1.1build2_${ARCH}.deb" \
       export LIBTORRENT_DEV_DEB="libtorrent-rasterbar-dev_1.1.13-1.1build2_${ARCH}.deb" ;; \
@@ -53,7 +53,7 @@ RUN \
 RUN \
   git clone --depth 1 -b release-${VERSION} https://github.com/qbittorrent/qBittorrent.git . \
   && \
-  case "${TARGETPLATFORM:-linux/amd64}" in \
+  case "${TARGETPLATFORM}" in \
     'linux/arm/v7') export EXTRA_CFG_ARG="--with-boost-libdir=/usr/lib/arm-linux-gnueabihf" ;; \
   esac \
   && ./configure ${EXTRA_CFG_ARG} --disable-gui --disable-stacktrace \
@@ -81,7 +81,7 @@ RUN \
       export EXTRA_INSTALL_ARG="build-essential" ;; \
   esac \
   && \
-  case "${VERSION:-4.2.5}" in \
+  case "${VERSION}" in \
     (4\.2.*) \
       export LIBTORRENT_DEB="libtorrent-rasterbar9_1.1.13-1.1build2_${ARCH}.deb" ;; \
     (4\.3.*) \

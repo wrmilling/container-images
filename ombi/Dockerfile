@@ -21,7 +21,7 @@ RUN \
 USER kah
 
 RUN \
-  case "${TARGETPLATFORM:-linux/amd64}" in \
+  case "${TARGETPLATFORM}" in \
     'linux/amd64') export ARCH='linux-x64' ;; \
     'linux/arm64') export ARCH='linux-arm64' ;; \
     'linux/arm/v7') export ARCH='linux-arm.' ;; \

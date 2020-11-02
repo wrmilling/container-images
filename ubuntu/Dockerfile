@@ -22,7 +22,7 @@ RUN \
 
 RUN set -eux \
   && \
-  case "${TARGETPLATFORM:-linux/amd64}" in \
+  case "${TARGETPLATFORM}" in \
     'linux/amd64') export ARCH='amd64' ;; \
     'linux/arm64') export ARCH='arm64' ;; \
     'linux/arm/v7') export ARCH='armhf' ;; \
