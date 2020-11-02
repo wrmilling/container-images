@@ -25,7 +25,7 @@ RUN \
     libboost-random-dev \
     libboost-system-dev \
     libgeoip-dev \
-    libqt5svg5-dev
+    libqt5svg5-dev \
     libssl-dev \
     ninja-build \
     pkg-config \
