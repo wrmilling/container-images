@@ -93,9 +93,7 @@ RUN \
   case "${TARGETPLATFORM}" in \
     'linux/amd64') export ARCH='amd64' ;; \
     'linux/arm64') export ARCH='arm64' ;; \
-    'linux/arm/v7') \
-      export ARCH='armhf' \
-      export EXTRA_INSTALL_ARG="build-essential" ;; \
+    'linux/arm/v7') export ARCH='armhf' ;; \
   esac \
   && \
   case "${VERSION}" in \
@@ -120,7 +118,6 @@ RUN \
     unrar \
     geoip-bin \
     unzip \
-    ${EXTRA_INSTALL_ARG} \
   && apt-get autoremove -y \
   && apt-get clean \
   && \
