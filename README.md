@@ -2,8 +2,31 @@
 
 Container images for everyone hosted at https://hub.docker.com/r/k8sathome
 
-## Available Images
+## Purpose
 
+_There's so many images out there, why do I want to use these?_
+
+- Semantic versioning is awesome
+- s6-overlay is not awesome
+- ARM architectures are gaining popularity
+- Multiple architecture support (amd64, arm64, armv7)
+- Simplicity over complexity (e.g. only ubuntu:focal)
+
+## Deployment Information
+
+### Volumes
+| Path      | Description                                      |
+|-----------|--------------------------------------------------|
+| `/app`    | Here you'll find the binary to the application   |
+| `/config` | Place where application stores its configuration |
+
+### Environment Variables
+| Name    | Default | Description                                        |
+|---------|---------|----------------------------------------------------|
+| `UMASK` | `0002`  | Sets the default creation permission mode of files |
+| `TZ`    | `UTC`   | Set to your timezone                               |
+
+## Available Images
 | Application |                                                                                                                                                     |                                                                                                                  |
 |-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
 | [bazarr](https://github.com/morpheus65535/bazarr)      | [![Version](https://img.shields.io/docker/v/k8sathome/bazarr?sort=semver&style=for-the-badge)](https://hub.docker.com/r/k8sathome/bazarr)           | ![Status](https://img.shields.io/github/workflow/status/k8s-at-home/container-images/radarr?style=for-the-badge) |
@@ -17,18 +40,3 @@ Container images for everyone hosted at https://hub.docker.com/r/k8sathome
 | [sonarr](https://github.com/Sonarr/Sonarr)      | [![Version](https://img.shields.io/docker/v/k8sathome/sonarr?sort=semver&style=for-the-badge)](https://hub.docker.com/r/k8sathome/sonarr)           | ![Status](https://img.shields.io/github/workflow/status/k8s-at-home/container-images/radarr?style=for-the-badge) |
 | [xteve](https://github.com/xteve-project/xTeVe)       | [![Version](https://img.shields.io/docker/v/k8sathome/xteve?sort=semver&style=for-the-badge)](https://hub.docker.com/r/k8sathome/xteve)             | ![Status](https://img.shields.io/github/workflow/status/k8s-at-home/container-images/radarr?style=for-the-badge) |
 
-## Purpose
-
-_There's so many images out there, why do I want to use these?_
-
-- Semantic versioning is awesome
-- s6-overlay is not awesome
-- ARM architectures are gaining popularity
-- Multiple architecture support (amd64, arm64, armv7)
-- Simplicity over complexity (e.g. only ubuntu:focal)
-
-## image details
-
-- Application configs are in `/config`
-- Application binaries are `/app`
-- `UMASK` and `TZ` environment variables
