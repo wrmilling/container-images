@@ -1,6 +1,6 @@
 # Container Images
 
-Container images for everyone hosted at https://hub.docker.com/r/k8sathome
+Container images for everyone hosted at https://hub.docker.com/r/k8sathome. Applications are checked every several hours for new releases.
 
 ## Purpose
 
