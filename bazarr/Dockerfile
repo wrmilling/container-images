@@ -29,11 +29,9 @@ RUN \
   && pip3 install --no-cache-dir -U -r /app/bazarr/bin/requirements.txt \
   && chown -R kah:kah /app \
   && apt-get remove -y \
-    build-essential \
-    libxml2-dev \
-    libxslt1-dev \
-    python3-pip \
     python3-dev \
+    python3-pip \
+    ${EXTRA_INSTALL_ARG} \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
