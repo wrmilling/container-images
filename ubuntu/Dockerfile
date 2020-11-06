@@ -54,4 +54,6 @@ WORKDIR /config
 
 USER kah:kah
 
+VOLUME [ "/config" ]
+
 ENTRYPOINT [ "/sbin/tini", "--" ]
