@@ -32,7 +32,7 @@ RUN \
   curl -fsSL -o /tmp/lidarr.tar.gz \
     "https://lidarr.servarr.com/v1/update/nightly/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" \
   && tar ixzf /tmp/lidarr.tar.gz -C /app --strip-components 1 \
-  && chmod +x /app/lidarr \
+  && chmod +x /app/Lidarr \
   && \
   rm -rf \
     /app/lidarr.Update* \
@@ -41,4 +41,4 @@ RUN \
 
 EXPOSE 8686
 
-CMD umask ${UMASK} && /app/lidarr -nobrowser -data=/config
+CMD umask ${UMASK} && /app/Lidarr -nobrowser -data=/config
