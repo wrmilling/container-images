@@ -6,9 +6,18 @@ Container images for everyone hosted at https://hub.docker.com/r/k8sathome
 
 ## Available Images
 
-| Name | Docker Image | Architecture | Upstream Issue |
-|------|--------------|--------------|----------------|
-| apcupsd-exporter | [![Docker Pulls](https://img.shields.io/docker/pulls/raspbernetes/apcupsd-exporter)](https://hub.docker.com/r/raspbernetes/apcupsd-exporter) | `arm/arm64/amd64` | N/A |
+| Name        | Docker Image                                                                                                                 |
+|-------------|------------------------------------------------------------------------------------------------------------------------------|
+| bazarr      | [![Docker Pulls](https://img.shields.io/docker/pulls/k8sathome/bazarr)](https://hub.docker.com/r/k8sathome/bazarr)           |
+| jackett     | [![Docker Pulls](https://img.shields.io/docker/pulls/k8sathome/jackett)](https://hub.docker.com/r/k8sathome/jackett)         |
+| lidarr      | [![Docker Pulls](https://img.shields.io/docker/pulls/k8sathome/lidarr)](https://hub.docker.com/r/k8sathome/lidarr)           |
+| nzbget      | [![Docker Pulls](https://img.shields.io/docker/pulls/k8sathome/nzbget)](https://hub.docker.com/r/k8sathome/nzbget)           |
+| nzbhydra2   | [![Docker Pulls](https://img.shields.io/docker/pulls/k8sathome/nzbhydra2)](https://hub.docker.com/r/k8sathome/nzbhydra2)     |
+| ombi        | [![Docker Pulls](https://img.shields.io/docker/pulls/k8sathome/ombi)](https://hub.docker.com/r/k8sathome/ombi)               |
+| qbittorrent | [![Docker Pulls](https://img.shields.io/docker/pulls/k8sathome/qbittorrent)](https://hub.docker.com/r/k8sathome/qbittorrent) |
+| radarr      | [![Docker Pulls](https://img.shields.io/docker/pulls/k8sathome/radarr)](https://hub.docker.com/r/k8sathome/radarr)           |
+| sonarr      | [![Docker Pulls](https://img.shields.io/docker/pulls/k8sathome/sonarr)](https://hub.docker.com/r/k8sathome/sonarr)           |
+| xteve       | [![Docker Pulls](https://img.shields.io/docker/pulls/k8sathome/xteve)](https://hub.docker.com/r/k8sathome/xteve)             |
 
 ## why?
 
