@@ -14,7 +14,7 @@ RUN \
   && echo "deb http://download.mono-project.com/repo/ubuntu stable-focal main" > /etc/apt/sources.list.d/mono-official-stable.list \
   && echo "deb https://mediaarea.net/repo/deb/ubuntu focal main" > /etc/apt/sources.list.d/mediaarea.list \
   && \
-  apt-get -qq install -y --no-install-recommends \
+  apt-get -qq install -y --no-install-recommends --no-install-suggests \
     libicu66 \
     mediainfo \
     mono-devel \

@@ -110,11 +110,11 @@ RUN \
   && \
   apt-get -qq update \
   && \
-  apt-get install -y --no-install-recommends \
+  apt-get install -y --no-install-recommends --no-install-suggests \
     python3 \
     libqt5network5 \
     libqt5xml5 \
-    p7zip-full \
+    p7zip \
     unrar \
     geoip-bin \
     unzip \

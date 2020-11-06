@@ -8,7 +8,7 @@ USER root
 RUN \
   apt-get -qq update \
   &&\
-  apt-get -qq install -y --no-install-recommends \
+  apt-get -qq install -y --no-install-recommends --no-install-suggests \
     openjdk-11-jre-headless \
     python3 \
     unzip \

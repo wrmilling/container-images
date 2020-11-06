@@ -15,7 +15,7 @@ RUN \
   && \
   apt-get -qq update \
   && \
-  apt-get -qq install -y --no-install-recommends \
+  apt-get -qq install -y --no-install-recommends --no-install-suggests \
     python3 \
     python3-dev \
     python3-pip \

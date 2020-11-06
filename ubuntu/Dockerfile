@@ -28,7 +28,7 @@ RUN set -eux \
     'linux/arm/v7') export ARCH='armhf' ;; \
   esac \
   && apt-get -qq update \
-  && apt-get -qq install -y --no-install-recommends \
+  && apt-get -qq install -y --no-install-recommends --no-install-suggests \
        curl \
        ca-certificates \
        gnupg2 \

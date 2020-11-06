@@ -12,7 +12,7 @@ USER root
 RUN \
   apt-get -qq update \
   && \
-  apt-get -qq install -y --no-install-recommends \
+  apt-get -qq install -y --no-install-recommends --no-install-suggests \
     libicu66 \
     libssl1.1 \
   && apt-get autoremove -y \
