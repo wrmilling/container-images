@@ -45,7 +45,7 @@ verify () {
 
 # version=$(curl -sX GET "https://services.sonarr.tv/v1/download/phantom-develop?version=3" | jq --raw-output '.version')
 # verify "sonarr" "${version}"
-# # docker run --entrypoint="" --rm kah-sonarr:3.0.4.993 /usr/bin/mono --debug /app/Sonarr.exe
+# # docker run --entrypoint="" --rm kah-sonarr:3.0.4.993 /usr/bin/mono /app/Sonarr.exe
 
 # version=$(curl -sX GET "https://registry.hub.docker.com/v1/repositories/library/ubuntu/tags" | jq --raw-output '.[] | select(.name | contains("focal")) | .name'  | tail -n1)
 # verify "ubuntu" "${version}"
