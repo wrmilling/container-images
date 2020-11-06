@@ -7,17 +7,13 @@ ENV CGO_ENABLED=0 \
   GOPATH=/go \
   GOBIN=/go/bin
 
-RUN \
-  apt-get -qq update \
-  && apt-get -qq install -y --no-install-recommends git
-
 WORKDIR /tmp
 
 RUN \
   export GOOS=$(echo ${TARGETPLATFORM} | cut -d / -f1) \
   && export GOARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) \
   && export GOARM=$(echo ${TARGETPLATFORM} | cut -d / -f3 | cut -c2-) \
-  && git clone --depth 1 -b ${VERSION} https://github.com/xteve-project/xTeVe.git . \
+  && curl -fsSL "https://github.com/xteve-project/xTeVe/archive/${VERSION}.tar.gz" | tar xzf - -C . --strip-components=1 \
   && go get ./... \
   && go build -o /go/bin/xteve xteve.go
 
