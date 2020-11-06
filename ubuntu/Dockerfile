@@ -29,10 +29,13 @@ RUN set -eux \
   esac \
   && apt-get -qq update \
   && apt-get -qq install -y --no-install-recommends \
-       gnupg2 \
        curl \
        ca-certificates \
+       gnupg2 \
+       locales \
+       tzdata \
        vim-tiny \
+  && locale-gen en_US.UTF-8 \
   && curl -fsSL -o /sbin/tini https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini-${ARCH} \
   && curl -fsSL -o /tini.asc https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini-${ARCH}.asc \
   && gpg --batch --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7 \
