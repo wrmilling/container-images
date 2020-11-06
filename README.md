@@ -1,25 +1,25 @@
 # Container Images
 
-<a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fk8s-at-home%2Fcontainer-images?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fk8s-at-home%2Fcontainer-images.svg?type=shield"/></a>
-
 Container images for everyone hosted at https://hub.docker.com/r/k8sathome
 
 ## Available Images
 
-| Name        | Docker Image                                                                                                                 |
-|-------------|------------------------------------------------------------------------------------------------------------------------------|
-| bazarr      | [![Docker Pulls](https://img.shields.io/docker/pulls/k8sathome/bazarr)](https://hub.docker.com/r/k8sathome/bazarr)           |
-| jackett     | [![Docker Pulls](https://img.shields.io/docker/pulls/k8sathome/jackett)](https://hub.docker.com/r/k8sathome/jackett)         |
-| lidarr      | [![Docker Pulls](https://img.shields.io/docker/pulls/k8sathome/lidarr)](https://hub.docker.com/r/k8sathome/lidarr)           |
-| nzbget      | [![Docker Pulls](https://img.shields.io/docker/pulls/k8sathome/nzbget)](https://hub.docker.com/r/k8sathome/nzbget)           |
-| nzbhydra2   | [![Docker Pulls](https://img.shields.io/docker/pulls/k8sathome/nzbhydra2)](https://hub.docker.com/r/k8sathome/nzbhydra2)     |
-| ombi        | [![Docker Pulls](https://img.shields.io/docker/pulls/k8sathome/ombi)](https://hub.docker.com/r/k8sathome/ombi)               |
-| qbittorrent | [![Docker Pulls](https://img.shields.io/docker/pulls/k8sathome/qbittorrent)](https://hub.docker.com/r/k8sathome/qbittorrent) |
-| radarr      | [![Docker Pulls](https://img.shields.io/docker/pulls/k8sathome/radarr)](https://hub.docker.com/r/k8sathome/radarr)           |
-| sonarr      | [![Docker Pulls](https://img.shields.io/docker/pulls/k8sathome/sonarr)](https://hub.docker.com/r/k8sathome/sonarr)           |
-| xteve       | [![Docker Pulls](https://img.shields.io/docker/pulls/k8sathome/xteve)](https://hub.docker.com/r/k8sathome/xteve)             |
+| Application |                                                                                                                                                     |                                                                                                                  |
+|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| [bazarr](https://github.com/morpheus65535/bazarr)      | [![Version](https://img.shields.io/docker/v/k8sathome/bazarr?sort=semver&style=for-the-badge)](https://hub.docker.com/r/k8sathome/bazarr)           | ![Status](https://img.shields.io/github/workflow/status/k8s-at-home/container-images/radarr?style=for-the-badge) |
+| [jackett](https://github.com/Jackett/Jackett)     | [![Version](https://img.shields.io/docker/v/k8sathome/jackett?sort=semver&style=for-the-badge)](https://hub.docker.com/r/k8sathome/jackett)         | ![Status](https://img.shields.io/github/workflow/status/k8s-at-home/container-images/radarr?style=for-the-badge) |
+| [lidarr](https://github.com/lidarr/Lidarr)      | [![Version](https://img.shields.io/docker/v/k8sathome/lidarr?sort=semver&style=for-the-badge)](https://hub.docker.com/r/k8sathome/lidarr)           | ![Status](https://img.shields.io/github/workflow/status/k8s-at-home/container-images/radarr?style=for-the-badge) |
+| [nzbget](https://github.com/nzbget/nzbget)      | [![Version](https://img.shields.io/docker/v/k8sathome/nzbget?sort=semver&style=for-the-badge)](https://hub.docker.com/r/k8sathome/nzbget)           | ![Status](https://img.shields.io/github/workflow/status/k8s-at-home/container-images/radarr?style=for-the-badge) |
+| [nzbhydra2](https://github.com/theotherp/nzbhydra2)   | [![Version](https://img.shields.io/docker/v/k8sathome/nzbhydra2?sort=semver&style=for-the-badge)](https://hub.docker.com/r/k8sathome/nzbhydra2)     | ![Status](https://img.shields.io/github/workflow/status/k8s-at-home/container-images/radarr?style=for-the-badge) |
+| [ombi](https://github.com/tidusjar/Ombi)        | [![Version](https://img.shields.io/docker/v/k8sathome/ombi?sort=semver&style=for-the-badge)](https://hub.docker.com/r/k8sathome/ombi)               | ![Status](https://img.shields.io/github/workflow/status/k8s-at-home/container-images/radarr?style=for-the-badge) |
+| [qbittorrent](https://github.com/qbittorrent/qBittorrent) | [![Version](https://img.shields.io/docker/v/k8sathome/qbittorrent?sort=semver&style=for-the-badge)](https://hub.docker.com/r/k8sathome/qbittorrent) | ![Status](https://img.shields.io/github/workflow/status/k8s-at-home/container-images/radarr?style=for-the-badge) |
+| [radarr](https://github.com/Radarr/Radarr)      | [![Version](https://img.shields.io/docker/v/k8sathome/radarr?sort=semver&style=for-the-badge)](https://hub.docker.com/r/k8sathome/radarr)           | ![Status](https://img.shields.io/github/workflow/status/k8s-at-home/container-images/radarr?style=for-the-badge) |
+| [sonarr](https://github.com/Sonarr/Sonarr)      | [![Version](https://img.shields.io/docker/v/k8sathome/sonarr?sort=semver&style=for-the-badge)](https://hub.docker.com/r/k8sathome/sonarr)           | ![Status](https://img.shields.io/github/workflow/status/k8s-at-home/container-images/radarr?style=for-the-badge) |
+| [xteve](https://github.com/xteve-project/xTeVe)       | [![Version](https://img.shields.io/docker/v/k8sathome/xteve?sort=semver&style=for-the-badge)](https://hub.docker.com/r/k8sathome/xteve)             | ![Status](https://img.shields.io/github/workflow/status/k8s-at-home/container-images/radarr?style=for-the-badge) |
 
-## why?
+## Purpose
+
+_There's so many images out there, why do I want to use these?_
 
 - Semantic versioning is awesome
 - s6-overlay is not awesome
