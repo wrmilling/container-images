@@ -36,7 +36,6 @@ RUN \
   && chmod +x /app/Ombi \
   && \
   rm -rf \
-    /app/Ombi.Updater* \
     /tmp/ombi.tgz \
   && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info
 
