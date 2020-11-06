@@ -8,9 +8,9 @@ USER root
 RUN \
   case "${TARGETPLATFORM}" in \
     'linux/arm64') \
-      export EXTRA_INSTALL_ARG="libxml2-dev libxslt1-dev python3-libxml2 python3-lxml libatlas-base-dev" ;; \
+      export EXTRA_INSTALL_ARG="build-essential libxml2-dev libxslt1-dev python3-libxml2 python3-lxml libatlas-base-dev" ;; \
     'linux/arm/v7') \
-      export EXTRA_INSTALL_ARG="libxml2-dev libxslt1-dev python3-libxml2 python3-lxml libatlas-base-dev" ;; \
+      export EXTRA_INSTALL_ARG="build-essential libxml2-dev libxslt1-dev python3-libxml2 python3-lxml libatlas-base-dev" ;; \
   esac \
   && \
   apt-get -qq update \
