@@ -40,6 +40,7 @@ RUN \
   && \
   rm -rf \
     /app/bazarr/bin/bin \
+    /app/bazarr/bin/tests \
     /app/bazarr/bin/screenshots \
     /tmp/* \
     /var/lib/apt/lists/* \
