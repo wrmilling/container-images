@@ -29,7 +29,7 @@ RUN \
     'linux/arm/v7') export ARCH='arm' ;; \
   esac \
   && \
-  curl -Lso /tmp/lidarr.tar.gz \
+  curl -fsSL -o /tmp/lidarr.tar.gz \
     "https://lidarr.servarr.com/v1/update/nightly/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" \
   && mkdir -p /app/lidarr/bin \
   && tar ixzf /tmp/lidarr.tar.gz -C /app/lidarr/bin --strip-components 1 \

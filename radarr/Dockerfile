@@ -29,7 +29,7 @@ RUN \
     'linux/arm/v7') export ARCH='arm' ;; \
   esac \
   && \
-  curl -Lso /tmp/radarr.tar.gz \
+  curl -fsSL -o /tmp/radarr.tar.gz \
     "https://radarr.servarr.com/v1/update/nightly/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" \
   && mkdir -p /app/radarr/bin \
   && tar ixzf /tmp/radarr.tar.gz -C /app/radarr/bin --strip-components 1 \

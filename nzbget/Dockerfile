@@ -25,7 +25,7 @@ RUN \
 USER kah
 
 RUN \
-  curl -Lso /tmp/nzbget.run \
+  curl -fsSL -o /tmp/nzbget.run \
     "https://github.com/nzbget/nzbget/releases/download/v${VERSION}/nzbget-${VERSION}-bin-linux.run" \
   && mkdir -p /app/nzbget/bin \
   && sh /tmp/nzbget.run --destdir /app/nzbget/bin \

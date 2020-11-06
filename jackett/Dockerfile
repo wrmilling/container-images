@@ -33,7 +33,7 @@ RUN \
     'linux/arm/v7') export ARCH='ARM32' ;; \
   esac \
   && \
-  curl -Lso /tmp/jackett.tar.gz \
+  curl -fsSL -o /tmp/jackett.tar.gz \
     "https://github.com/Jackett/Jackett/releases/download/v${VERSION}/Jackett.Binaries.Linux${ARCH}.tar.gz" \
   && mkdir -p /app/jackett/bin \
   && tar ixzf /tmp/jackett.tar.gz -C /app/jackett/bin --strip-components 1 \

@@ -35,7 +35,7 @@ RUN \
 USER kah
 
 RUN \
-  curl -Lso /tmp/sonarr.tar.gz \
+  curl -fsSL -o /tmp/sonarr.tar.gz \
     "https://download.sonarr.tv/v3/phantom-develop/${VERSION}/Sonarr.phantom-develop.${VERSION}.linux.tar.gz" \
   && mkdir -p /app/sonarr/bin \
   && tar ixzf /tmp/sonarr.tar.gz -C /app/sonarr/bin --strip-components 1 \
