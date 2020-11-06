@@ -24,9 +24,8 @@ RUN \
     unzip \ 
     ${EXTRA_INSTALL_ARG} \
   && \
-  mkdir -p /app/bazarr/bin \
-  && curl -fsSL "https://github.com/morpheus65535/bazarr/archive/v${VERSION}.tar.gz" | tar xzf - -C /app --strip-components=1 \
-  && pip3 install --no-cache-dir -U -r /app/bazarr/bin/requirements.txt \
+  curl -fsSL "https://github.com/morpheus65535/bazarr/archive/v${VERSION}.tar.gz" | tar xzf - -C /app --strip-components=1 \
+  && pip3 install --no-cache-dir -U -r /app/requirements.txt \
   && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
   && chown -R kah:kah /app \
   && apt-get remove -y \
