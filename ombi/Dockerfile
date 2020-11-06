@@ -29,13 +29,14 @@ RUN \
     'linux/arm/v7') export ARCH='linux-arm.' ;; \
   esac \
   && \
-  export URL=$(curl -s https://api.github.com/repos/tidusjar/Ombi.Releases/releases | \
+  export URL=$(curl -sX GET https://api.github.com/repos/tidusjar/Ombi.Releases/releases | \
     jq -r '.[] | select(.tag_name | contains(env.VERSION)) | .assets[] | select(.browser_download_url | contains(env.ARCH)) | .browser_download_url') \
   && curl -fsSL -o /tmp/ombi.tgz "${URL}" \
-  && tar ixzf /tmp/ombi.tgz -C /app --strip-components 1 \
+  && tar ixzf /tmp/ombi.tgz -C /app \
   && chmod +x /app/Ombi \
   && \
   rm -rf \
+    /app/Ombi.Updater* \
     /tmp/ombi.tgz \
   && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info
 
