@@ -129,11 +129,12 @@ RUN \
 
 USER kah
 
-RUN mkdir -p /app/qbittorrent/bin /config/qBittorrent /tmp/incomplete
+RUN mkdir -p /config/qBittorrent /tmp/incomplete \
+  && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info
 
-COPY --from=builder /usr/local/bin/qbittorrent-nox /app/qbittorrent/bin/qbittorrent-nox
+COPY --from=builder /usr/local/bin/qbittorrent-nox /app/qbittorrent-nox
 COPY /qbittorrent/qBittorrent.conf /config/qBittorrent/qBittorrent.conf
 
 EXPOSE 6881 6881/udp ${WEBUI_PORT}
 
-CMD umask ${UMASK} && /app/qbittorrent/bin/qbittorrent-nox --webui-port="${WEBUI_PORT}"
+CMD umask ${UMASK} && /app/qbittorrent-nox --webui-port="${WEBUI_PORT}"

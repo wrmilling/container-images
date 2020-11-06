@@ -35,18 +35,14 @@ RUN \
   && \
   curl -fsSL -o /tmp/jackett.tar.gz \
     "https://github.com/Jackett/Jackett/releases/download/v${VERSION}/Jackett.Binaries.Linux${ARCH}.tar.gz" \
-  && mkdir -p /app/jackett/bin \
-  && tar ixzf /tmp/jackett.tar.gz -C /app/jackett/bin --strip-components 1 \
+  && tar ixzf /tmp/jackett.tar.gz -C /app --strip-components 1 \
+  && chmod +x /app/jackett \
   && \
   rm -rf \
-    /app/jackett/bin/JackettUpdater \
-    /app/jackett/bin/JackettUpdater.deps.json \
-    /app/jackett/bin/JackettUpdater.dll \
-    /app/jackett/bin/JackettUpdater.pdb \
-    /app/jackett/bin/JackettUpdater.runtimeconfig.json \
+    /app/JackettUpdater* \
     /tmp/jackett.tar.gz \
-  && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/jackett/package_info
+  && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info
 
 EXPOSE 9117
 
-CMD umask ${UMASK} && /app/jackett/bin/jackett --NoUpdates
+CMD umask ${UMASK} && /app/jackett --NoUpdates

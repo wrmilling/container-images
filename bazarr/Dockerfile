@@ -25,8 +25,9 @@ RUN \
     ${EXTRA_INSTALL_ARG} \
   && \
   mkdir -p /app/bazarr/bin \
-  && curl -fsSL "https://github.com/morpheus65535/bazarr/archive/v${VERSION}.tar.gz" | tar xzf - -C /app/bazarr/bin --strip-components=1 \
+  && curl -fsSL "https://github.com/morpheus65535/bazarr/archive/v${VERSION}.tar.gz" | tar xzf - -C /app --strip-components=1 \
   && pip3 install --no-cache-dir -U -r /app/bazarr/bin/requirements.txt \
+  && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
   && chown -R kah:kah /app \
   && apt-get remove -y \
     python3-dev \
@@ -37,9 +38,9 @@ RUN \
   && apt-get clean \
   && \
   rm -rf \
-    /app/bazarr/bin/bin \
-    /app/bazarr/bin/tests \
-    /app/bazarr/bin/screenshots \
+    /app/bin \
+    /app/tests \
+    /app/screenshots \
     /tmp/* \
     /var/lib/apt/lists/* \
     /var/tmp/ \
@@ -49,4 +50,4 @@ USER kah
 
 EXPOSE 6767
 
-CMD umask ${UMASK} && python3 /app/bazarr/bin/bazarr.py --no-update --config /config ${ARGS}
+CMD umask ${UMASK} && python3 /app/bazarr.py --no-update --config /config ${ARGS}

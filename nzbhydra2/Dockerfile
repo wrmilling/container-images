@@ -24,14 +24,17 @@ RUN \
 USER kah
 
 RUN \
-  mkdir -p /app/nzbhydra2/bin \
-  && curl -fsSL -o /tmp/nzbhydra2.zip \
+  curl -fsSL -o /tmp/nzbhydra2.zip \
     "https://github.com/theotherp/nzbhydra2/releases/download/v${VERSION}/nzbhydra2-${VERSION}-linux.zip" \
-  && unzip -q "/tmp/nzbhydra2.zip" -d /app/nzbhydra2/bin \
-  && rm -rf /tmp/nzbhydra2.zip \
-  && curl -fsSL -o /app/nzbhydra2/bin/nzbhydra2wrapperPy3.py \
-    "https://raw.githubusercontent.com/theotherp/nzbhydra2/master/other/wrapper/nzbhydra2wrapperPy3.py"
+  && unzip -q /tmp/nzbhydra2.zip -d /app \
+  && curl -fsSL -o /app/nzbhydra2wrapperPy3.py \
+    "https://raw.githubusercontent.com/theotherp/nzbhydra2/master/other/wrapper/nzbhydra2wrapperPy3.py" \
+  && chmod +x /app/nzbhydra2wrapperPy3.py \
+  && \
+  rm -rf \
+    /tmp/nzbhydra2.zip \
+  && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info
 
 EXPOSE 5076
 
-CMD umask ${UMASK} && /app/nzbhydra2/bin/nzbhydra2wrapperPy3.py --nobrowser --datafolder /config ${ARGS}
+CMD umask ${UMASK} && /app/nzbhydra2wrapperPy3.py --nobrowser --datafolder /config ${ARGS}

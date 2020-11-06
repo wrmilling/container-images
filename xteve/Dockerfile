@@ -45,8 +45,10 @@ RUN \
 
 USER kah
 
-COPY --from=builder /go/bin/xteve /app/xteve/bin/xteve
+RUN echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info
+
+COPY --from=builder /go/bin/xteve /app/xteve
 
 EXPOSE 34400
 
-CMD umask ${UMASK} && /app/xteve/bin/xteve -config /config
+CMD umask ${UMASK} && /app/xteve -config /config

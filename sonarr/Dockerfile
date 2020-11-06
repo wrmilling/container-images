@@ -37,14 +37,14 @@ USER kah
 RUN \
   curl -fsSL -o /tmp/sonarr.tar.gz \
     "https://download.sonarr.tv/v3/phantom-develop/${VERSION}/Sonarr.phantom-develop.${VERSION}.linux.tar.gz" \
-  && mkdir -p /app/sonarr/bin \
-  && tar ixzf /tmp/sonarr.tar.gz -C /app/sonarr/bin --strip-components 1 \
+  && tar ixzf /tmp/sonarr.tar.gz -C /app --strip-components 1 \
+  && chmod +x /app/Sonarr.exe \
   && \
   rm -rf \
-    /app/sonarr/bin/Sonarr.Update \
+    /app/Sonarr.Update \
     /tmp/sonarr.tar.gz \
-  && echo "UpdateMethod=docker\nBranch=phantom-develop\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/sonarr/package_info
+  && echo "UpdateMethod=docker\nBranch=phantom-develop\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info
 
 EXPOSE 8989
 
-CMD umask ${UMASK} && /usr/bin/mono --debug /app/sonarr/bin/Sonarr.exe -nobrowser -data=/config
+CMD umask ${UMASK} && /usr/bin/mono --debug /app/Sonarr.exe -nobrowser -data=/config

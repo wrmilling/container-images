@@ -31,14 +31,14 @@ RUN \
   && \
   curl -fsSL -o /tmp/radarr.tar.gz \
     "https://radarr.servarr.com/v1/update/nightly/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" \
-  && mkdir -p /app/radarr/bin \
-  && tar ixzf /tmp/radarr.tar.gz -C /app/radarr/bin --strip-components 1 \
+  && tar ixzf /tmp/radarr.tar.gz -C /app --strip-components 1 \
+  && chmod +x /app/Radarr \
   && \
   rm -rf \
-    /app/radarr/bin/Radarr.Update \
+    /app/Radarr.Update* \
     /tmp/radarr.tar.gz \
-  && echo "UpdateMethod=docker\nBranch=nightly\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/radarr/package_info
+  && echo "UpdateMethod=docker\nBranch=nightly\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info
 
 EXPOSE 7878
 
-CMD umask ${UMASK} && /app/radarr/bin/Radarr -nobrowser -data=/config
+CMD umask ${UMASK} && /app/Radarr -nobrowser -data=/config

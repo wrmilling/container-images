@@ -31,14 +31,14 @@ RUN \
   && \
   curl -fsSL -o /tmp/lidarr.tar.gz \
     "https://lidarr.servarr.com/v1/update/nightly/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" \
-  && mkdir -p /app/lidarr/bin \
-  && tar ixzf /tmp/lidarr.tar.gz -C /app/lidarr/bin --strip-components 1 \
+  && tar ixzf /tmp/lidarr.tar.gz -C /app --strip-components 1 \
+  && chmod +x /app/lidarr \
   && \
   rm -rf \
-    /app/lidarr/bin/lidarr.Update \
+    /app/lidarr.Update* \
     /tmp/lidarr.tar.gz \
-  && echo "UpdateMethod=docker\nBranch=develop\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/lidarr/package_info
+  && echo "UpdateMethod=docker\nBranch=develop\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info
 
 EXPOSE 8686
 
-CMD umask ${UMASK} && /app/lidarr/bin/lidarr -nobrowser -data=/config
+CMD umask ${UMASK} && /app/lidarr -nobrowser -data=/config
