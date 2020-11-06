@@ -90,8 +90,6 @@ USER root
 RUN echo ${VERSION}
 
 RUN \
-  apt-get -qq update \
-  && \
   case "${TARGETPLATFORM}" in \
     'linux/amd64') export ARCH='amd64' ;; \
     'linux/arm64') export ARCH='arm64' ;; \
@@ -111,6 +109,8 @@ RUN \
     "https://launchpad.net/ubuntu/+archive/primary/+files/${LIBTORRENT_DEB}" \
   && dpkg -i libtorrent-rasterbar.deb \
   && rm -rf libtorrent-rasterbar.deb \
+  && \
+  apt-get -qq update \
   && \
   apt-get install -y --no-install-recommends \
     python3 \
