@@ -23,7 +23,7 @@ _There's so many images out there, why do I want to use these?_
 ### Environment Variables
 |  Name   | Default | Description                                        |
 |:-------:|:-------:|----------------------------------------------------|
-| `UMASK` | `0002`  | Sets the default creation permission mode of files |
+| `UMASK` | `0002`  | Set the default creation permission mode of files  |
 |  `TZ`   |  `UTC`  | Set to your timezone (e.g. `America/New_York`)     |
 
 ## Available Images
