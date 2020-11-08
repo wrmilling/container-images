@@ -114,7 +114,7 @@ RUN \
     python3 \
     libqt5network5 \
     libqt5xml5 \
-    p7zip \
+    p7zip-full \
     unrar \
     geoip-bin \
     unzip \

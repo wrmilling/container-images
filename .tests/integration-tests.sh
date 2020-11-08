@@ -43,6 +43,10 @@ verify () {
 # verify "radarr" "${version}"
 # # docker run --entrypoint="" --rm kah-radarr:3.0.0.3989 /app/Radarr
 
+# version="$(curl -sX GET "https://api.github.com/repos/sabnzbd/sabnzbd/releases/latest" | jq --raw-output '.tag_name')"
+# verify "sabnzbd" "${version}"
+# docker run --entrypoint="" --rm kah-sabnzbd:3.1.0 python3 /app/SABnzbd.py --version
+
 # version=$(curl -sX GET "https://services.sonarr.tv/v1/download/phantom-develop?version=3" | jq --raw-output '.version')
 # verify "sonarr" "${version}"
 # # docker run --entrypoint="" --rm kah-sonarr:3.0.4.993 /usr/bin/mono /app/Sonarr.exe

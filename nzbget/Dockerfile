@@ -10,7 +10,7 @@ RUN \
   apt-get -qq install -y --no-install-recommends --no-install-suggests \
     unzip \
     unrar \
-    p7zip \
+    p7zip-full \
     python2 \
     wget \
   && apt-get autoremove -y \
