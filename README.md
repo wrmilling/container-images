@@ -15,10 +15,10 @@ _There's so many images out there, why do I want to use these?_
 ## Deployment Information
 
 ### Volumes
-|   Path    | Description                                      |
-|:---------:|--------------------------------------------------|
-|  `/app`   | Here you'll find the binary to the application   |
-| `/config` | Place where application stores its configuration |
+|   Path    | Description                   |
+|:---------:|-------------------------------|
+|  `/app`   | Application install directory |
+| `/config` | Configuration directory       |
 
 ### Environment Variables
 |  Name   | Default | Description                                        |
