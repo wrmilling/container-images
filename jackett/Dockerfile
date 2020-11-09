@@ -25,7 +25,6 @@ RUN \
   curl -fsSL -o /tmp/jackett.tar.gz \
     "https://github.com/Jackett/Jackett/releases/download/v${VERSION}/Jackett.Binaries.Linux${ARCH}.tar.gz" \
   && tar ixzf /tmp/jackett.tar.gz -C /app --strip-components 1 \
-  && chmod +x /app/jackett \
   && \
   rm -rf \
     /app/JackettUpdater* \

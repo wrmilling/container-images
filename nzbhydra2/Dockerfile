@@ -19,7 +19,6 @@ RUN \
   && unzip -q /tmp/nzbhydra2.zip -d /app \
   && curl -fsSL -o /app/nzbhydra2wrapperPy3.py \
     "https://raw.githubusercontent.com/theotherp/nzbhydra2/master/other/wrapper/nzbhydra2wrapperPy3.py" \
-  && chmod +x /app/nzbhydra2wrapperPy3.py \
   && \
   rm -rf \
     /tmp/nzbhydra2.zip \

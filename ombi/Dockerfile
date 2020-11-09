@@ -22,11 +22,15 @@ RUN \
     jq -r '.[] | select(.tag_name | contains(env.VERSION)) | .assets[] | select(.browser_download_url | contains(env.ARCH)) | .browser_download_url') \
   && curl -fsSL -o /tmp/ombi.tgz "${URL}" \
   && tar ixzf /tmp/ombi.tgz -C /app \
-  && chmod +x /app/Ombi \
   && \
   rm -rf \
     /tmp/ombi.tgz \
   && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
+  && apt-get remove -y \
+    jq \
+  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+  && apt-get autoremove -y \
+
   && apt-get autoremove -y \
   && apt-get clean \
   && \

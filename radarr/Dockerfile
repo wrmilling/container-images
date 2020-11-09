@@ -21,7 +21,6 @@ RUN \
   curl -fsSL -o /tmp/radarr.tar.gz \
     "https://radarr.servarr.com/v1/update/nightly/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" \
   && tar ixzf /tmp/radarr.tar.gz -C /app --strip-components 1 \
-  && chmod +x /app/Radarr \
   && \
   rm -rf \
     /app/Radarr.Update* \

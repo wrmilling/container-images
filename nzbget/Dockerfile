@@ -28,7 +28,6 @@ RUN \
   curl -fsSL -o /tmp/nzbget.run \
     "https://github.com/nzbget/nzbget/releases/download/v${VERSION}/nzbget-${VERSION}-bin-linux.run" \
   && sh /tmp/nzbget.run --destdir /app \
-  && chmod +x /app/nzbget \
   && \
   cp /app/nzbget.conf /config/nzbget.conf \
   && ls -la /app && ls -la /config \
