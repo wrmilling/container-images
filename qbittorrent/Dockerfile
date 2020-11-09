@@ -3,7 +3,7 @@
 # hence all the scattered logic written below
 #
 
-FROM k8sathome/ubuntu:focal-20201008 as builder
+FROM k8sathome/ubuntu:latest as builder
 
 ARG TARGETPLATFORM
 ARG VERSION
@@ -74,7 +74,7 @@ RUN \
   && make \
   && make install
 
-FROM k8sathome/ubuntu:focal-20201008
+FROM k8sathome/ubuntu:latest
 
 ARG TARGETPLATFORM
 ARG VERSION

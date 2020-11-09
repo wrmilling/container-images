@@ -17,7 +17,7 @@ RUN \
   && go get ./... \
   && go build -o /go/bin/xteve xteve.go
 
-FROM k8sathome/ubuntu:focal-20201008
+FROM k8sathome/ubuntu:latest
 
 ARG VERSION
 ARG TARGETPLATFORM

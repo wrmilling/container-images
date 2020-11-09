@@ -1,4 +1,4 @@
-FROM k8sathome/ubuntu:focal-20201008
+FROM k8sathome/ubuntu:latest
 
 ARG VERSION
 
