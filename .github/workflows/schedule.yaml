@@ -3,11 +3,11 @@ name: Get latest release versions
 on:
   push:
     paths:
-    - ".github/workflows/schedule.yml"
+      - ".github/workflows/schedule.yml"
     branches:
-    - master
+      - main
   schedule:
-  - cron: "0 */4 * * *"
+    - cron: "0 */2 * * *"
 
 jobs:
   get-version:
