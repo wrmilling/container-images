@@ -57,4 +57,6 @@ RUN \
     /var/cache/apt/* \
     /var/tmp/*
 
+USER kah
+
 ENTRYPOINT [ "/sbin/tini", "--" ]
