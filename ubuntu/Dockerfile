@@ -20,6 +20,8 @@ RUN \
   mkdir -p /app /config \
   && chown -R kah:kah /app /config
 
+WORKDIR /config
+
 RUN set -eux \
   && \
   case "${TARGETPLATFORM}" in \
@@ -54,9 +56,5 @@ RUN set -eux \
        /var/tmp/*
 
 USER kah:kah
-
-WORKDIR /config
-
-VOLUME [ "/config" ]
 
 ENTRYPOINT [ "/sbin/tini", "--" ]
