@@ -25,6 +25,18 @@ RUN \
     rarfile \
   && ln -s /usr/bin/python3 /usr/bin/python \
   && \
+  curl -fsSL -o /tmp/nzbget.run \
+    "https://github.com/nzbget/nzbget/releases/download/v${VERSION}/nzbget-${VERSION}-bin-linux.run" \
+  && sh /tmp/nzbget.run --destdir /app \
+  && chmod +x /app/nzbget \
+  && \
+  cp /app/nzbget.conf /config/nzbget.conf \
+  && ls -la /app && ls -la /config \
+  && \
+  rm -rf \
+    /tmp/nzbget.run \
+  && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
+  && \
   apt-get remove -y \
     build-essential \
     libxml2-dev \
@@ -38,22 +50,10 @@ RUN \
     /tmp/* \
     /var/lib/apt/lists/* \
     /var/tmp/ \
+  && chmod -R u=rwX,go=rX /app \
   && echo umask ${UMASK} >> /etc/bash.bashrc
 
 USER kah
-
-RUN \
-  curl -fsSL -o /tmp/nzbget.run \
-    "https://github.com/nzbget/nzbget/releases/download/v${VERSION}/nzbget-${VERSION}-bin-linux.run" \
-  && sh /tmp/nzbget.run --destdir /app \
-  && chmod +x /app/nzbget \
-  && \
-  cp /app/nzbget.conf /config/nzbget.conf \
-  && ls -la /app && ls -la /config \
-  && \
-  rm -rf \
-    /tmp/nzbget.run \
-  && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info
 
 EXPOSE 6789
 

@@ -46,6 +46,7 @@ RUN \
     /tmp/* \
     /var/lib/apt/lists/* \
     /var/tmp/ \
+  && chmod -R u=rwX,go=rX /app \
   && echo umask ${UMASK} >> /etc/bash.bashrc
 
 USER kah

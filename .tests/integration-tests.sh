@@ -15,8 +15,8 @@ verify () {
 # verify "bazarr" "${version}"
 # # docker run --entrypoint="" --rm kah-bazarr:0.9.0.5 /usr/bin/python3 /app/bazarr.py -h
 
-# version=$(curl -sX GET "https://api.github.com/repos/Jackett/Jackett/releases/latest" | jq --raw-output '.tag_name')
-# verify "jackett" "${version}"
+version=$(curl -sX GET "https://api.github.com/repos/Jackett/Jackett/releases/latest" | jq --raw-output '.tag_name')
+verify "jackett" "${version}"
 # # docker run --entrypoint="" --rm kah-jackett:0.16.2080 /app/jackett --version
 
 # version=$(curl -sX GET "https://lidarr.servarr.com/v1/update/nightly/changes?os=linux" | jq --raw-output '.[0].version')
@@ -27,8 +27,8 @@ verify () {
 # verify "nzbget" "${version}"
 # # docker run --entrypoint="" --rm kah-nzbget:21.0 /app/nzbget --version
 
-version=$(curl -sX GET "https://api.github.com/repos/theotherp/nzbhydra2/releases" | jq --raw-output '.[0].tag_name')
-verify "nzbhydra2" "${version}"
+# version=$(curl -sX GET "https://api.github.com/repos/theotherp/nzbhydra2/releases" | jq --raw-output '.[0].tag_name')
+# verify "nzbhydra2" "${version}"
 # # docker run --entrypoint="" --rm kah-nzbhydra2:3.4.3 /usr/bin/python3 /app/nzbhydra2wrapperPy3.py --version
 
 # version=$(curl -sX GET "https://api.github.com/repos/tidusjar/Ombi.Releases/releases" | jq --raw-output '.[0].tag_name')

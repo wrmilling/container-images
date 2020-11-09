@@ -15,18 +15,7 @@ RUN \
   apt-get -qq install -y --no-install-recommends --no-install-suggests \
     libicu66 \
     libssl1.1 \
-  && apt-get autoremove -y \
-  && apt-get clean \
   && \
-  rm -rf \
-    /tmp/* \
-    /var/lib/apt/lists/* \
-    /var/tmp/ \
-  && echo umask ${UMASK} >> /etc/bash.bashrc
-
-USER kah
-
-RUN \
   case "${TARGETPLATFORM}" in \
     'linux/amd64') export ARCH='AMDx64' ;; \
     'linux/arm64') export ARCH='ARM64' ;; \
@@ -41,7 +30,18 @@ RUN \
   rm -rf \
     /app/JackettUpdater* \
     /tmp/jackett.tar.gz \
-  && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info
+  && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
+  && apt-get autoremove -y \
+  && apt-get clean \
+  && \
+  rm -rf \
+    /tmp/* \
+    /var/lib/apt/lists/* \
+    /var/tmp/ \
+  && chmod -R u=rwX,go=rX /app \
+  && echo umask ${UMASK} >> /etc/bash.bashrc
+
+USER kah
 
 EXPOSE 9117
 

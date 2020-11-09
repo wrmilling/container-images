@@ -24,6 +24,8 @@ ARG TARGETPLATFORM
 
 USER root
 
+COPY --from=builder /go/bin/xteve /app/xteve
+
 RUN \
   apt-get -qq update \
   && apt-get -qq install -y --no-install-recommends --no-install-suggests \
@@ -32,6 +34,7 @@ RUN \
     ffmpeg \
     curl \
     vlc \
+  && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
@@ -41,13 +44,10 @@ RUN \
     /var/lib/apt/lists/* \
     /var/cache/apt/* \
     /var/tmp/ \
+  && chmod -R u=rwX,go=rX /app \
   && echo umask ${UMASK} >> /etc/bash.bashrc
 
 USER kah
-
-RUN echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info
-
-COPY --from=builder /go/bin/xteve /app/xteve
 
 EXPOSE 34400
 

@@ -11,18 +11,7 @@ RUN \
   apt-get -qq install -y --no-install-recommends --no-install-suggests \
     libicu66 \
     mediainfo \
-  && apt-get autoremove -y \
-  && apt-get clean \
   && \
-  rm -rf \
-    /tmp/* \
-    /var/lib/apt/lists/* \
-    /var/tmp/ \
-  && echo umask ${UMASK} >> /etc/bash.bashrc
-
-USER kah
-
-RUN \
   case "${TARGETPLATFORM}" in \
     'linux/amd64') export ARCH='x64' ;; \
     'linux/arm64') export ARCH='arm64' ;; \
@@ -37,7 +26,18 @@ RUN \
   rm -rf \
     /app/lidarr.Update* \
     /tmp/lidarr.tar.gz \
-  && echo "UpdateMethod=docker\nBranch=develop\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info
+  && echo "UpdateMethod=docker\nBranch=develop\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
+  && apt-get autoremove -y \
+  && apt-get clean \
+  && \
+  rm -rf \
+    /tmp/* \
+    /var/lib/apt/lists/* \
+    /var/tmp/ \
+  && chmod -R u=rwX,go=rX /app \
+  && echo umask ${UMASK} >> /etc/bash.bashrc
+
+USER kah
 
 EXPOSE 8686
 

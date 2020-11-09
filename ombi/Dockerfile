@@ -11,18 +11,7 @@ RUN \
   apt-get -qq install -y --no-install-recommends --no-install-suggests \
     libicu66 \
     jq \
-  && apt-get autoremove -y \
-  && apt-get clean \
   && \
-  rm -rf \
-    /tmp/* \
-    /var/lib/apt/lists/* \
-    /var/tmp/ \
-  && echo umask ${UMASK} >> /etc/bash.bashrc
-
-USER kah
-
-RUN \
   case "${TARGETPLATFORM}" in \
     'linux/amd64') export ARCH='linux-x64' ;; \
     'linux/arm64') export ARCH='linux-arm64' ;; \
@@ -37,7 +26,18 @@ RUN \
   && \
   rm -rf \
     /tmp/ombi.tgz \
-  && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info
+  && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
+  && apt-get autoremove -y \
+  && apt-get clean \
+  && \
+  rm -rf \
+    /tmp/* \
+    /var/lib/apt/lists/* \
+    /var/tmp/ \
+  && chmod -R u=rwX,go=rX /app \
+  && echo umask ${UMASK} >> /etc/bash.bashrc
+
+USER kah
 
 # Ombi must have a working directory of the app install path
 # see https://github.com/tidusjar/Ombi/issues/3513

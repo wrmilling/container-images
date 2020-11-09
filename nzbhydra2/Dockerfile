@@ -13,18 +13,7 @@ RUN \
     python3 \
     unzip \
   && ln -s /usr/bin/python3 /usr/bin/python \
-  && apt-get autoremove -y \
-  && apt-get clean \
   && \
-  rm -rf \
-    /tmp/* \
-    /var/lib/apt/lists/* \
-    /var/tmp/ \
-  && echo umask ${UMASK} >> /etc/bash.bashrc
-
-USER kah
-
-RUN \
   curl -fsSL -o /tmp/nzbhydra2.zip \
     "https://github.com/theotherp/nzbhydra2/releases/download/v${VERSION}/nzbhydra2-${VERSION}-linux.zip" \
   && unzip -q /tmp/nzbhydra2.zip -d /app \
@@ -34,7 +23,18 @@ RUN \
   && \
   rm -rf \
     /tmp/nzbhydra2.zip \
-  && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info
+  && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
+  && apt-get autoremove -y \
+  && apt-get clean \
+  && \
+  rm -rf \
+    /tmp/* \
+    /var/lib/apt/lists/* \
+    /var/tmp/ \
+  && chmod -R u=rwX,go=rX /app \
+  && echo umask ${UMASK} >> /etc/bash.bashrc
+
+USER kah
 
 EXPOSE 5076
 

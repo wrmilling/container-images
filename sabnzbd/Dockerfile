@@ -29,7 +29,6 @@ RUN \
   curl -fsSL "https://github.com/sabnzbd/sabnzbd/releases/download/${VERSION}/SABnzbd-${VERSION}-src.tar.gz" | tar xzf - -C /app --strip-components=1 \
   && pip3 install --no-cache-dir -U -r /app/requirements.txt \
   && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
-  && chown -R kah:kah /app \
   && \
   pip3 install --no-cache-dir -U \
     apprise \
@@ -46,6 +45,7 @@ RUN \
     /tmp/* \
     /var/lib/apt/lists/* \
     /var/tmp/ \
+  && chmod -R u=rwX,go=rX /app \
   && echo umask ${UMASK} >> /etc/bash.bashrc
 
 USER kah

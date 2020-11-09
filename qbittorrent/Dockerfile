@@ -87,7 +87,7 @@ ENV HOME=/config \
 
 USER root
 
-RUN echo ${VERSION}
+COPY --from=builder /usr/local/bin/qbittorrent-nox /app/qbittorrent-nox
 
 RUN \
   case "${TARGETPLATFORM}" in \
@@ -118,6 +118,7 @@ RUN \
     unrar \
     geoip-bin \
     unzip \
+  && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
   && apt-get autoremove -y \
   && apt-get clean \
   && \
@@ -125,17 +126,14 @@ RUN \
     /tmp/* \
     /var/lib/apt/lists/* \
     /var/tmp/ \
+  && chmod -R u=rwX,go=rX /app \
   && echo umask ${UMASK} >> /etc/bash.bashrc
 
 USER kah
 
-RUN mkdir -p /config/qBittorrent /tmp/incomplete \
-  && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info
-
-COPY --from=builder /usr/local/bin/qbittorrent-nox /app/qbittorrent-nox
-COPY /qbittorrent/qBittorrent.conf /config/qBittorrent/qBittorrent.conf
-
 EXPOSE 6881 6881/udp ${WEBUI_PORT}
+
+COPY /qbittorrent/qBittorrent.conf /config/qBittorrent/qBittorrent.conf
 
 COPY ./qbittorrent/entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]

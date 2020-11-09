@@ -19,6 +19,15 @@ RUN \
     mediainfo \
     mono-devel \
     ca-certificates-mono \
+  && \
+  curl -fsSL -o /tmp/sonarr.tar.gz \
+    "https://download.sonarr.tv/v3/phantom-develop/${VERSION}/Sonarr.phantom-develop.${VERSION}.linux.tar.gz" \
+  && tar ixzf /tmp/sonarr.tar.gz -C /app --strip-components 1 \
+  && \
+  rm -rf \
+    /app/Sonarr.Update \
+    /tmp/sonarr.tar.gz \
+  && echo "UpdateMethod=docker\nBranch=phantom-develop\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
   && gpgconf --kill all \
   && apt-get remove -y gnupg2 \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
@@ -30,20 +39,10 @@ RUN \
     /var/lib/apt/lists/* \
     /var/cache/apt/* \
     /var/tmp/ \
+  && chmod -R u=rwX,go=rX /app \
   && echo umask ${UMASK} >> /etc/bash.bashrc
 
 USER kah
-
-RUN \
-  curl -fsSL -o /tmp/sonarr.tar.gz \
-    "https://download.sonarr.tv/v3/phantom-develop/${VERSION}/Sonarr.phantom-develop.${VERSION}.linux.tar.gz" \
-  && tar ixzf /tmp/sonarr.tar.gz -C /app --strip-components 1 \
-  && chmod +x /app/Sonarr.exe \
-  && \
-  rm -rf \
-    /app/Sonarr.Update \
-    /tmp/sonarr.tar.gz \
-  && echo "UpdateMethod=docker\nBranch=phantom-develop\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info
 
 EXPOSE 8989
 
