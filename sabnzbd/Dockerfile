@@ -33,9 +33,7 @@ RUN \
   && \
   pip3 install --no-cache-dir -U \
     apprise \
-  && \
-  ln -s /usr/bin/python3 /usr/bin/python \
-  && \
+  && ln -s /usr/bin/python3 /usr/bin/python \
   && apt-get remove -y \
     python3-dev \
     python3-pip \

@@ -12,9 +12,7 @@ RUN \
     openjdk-11-jre-headless \
     python3 \
     unzip \
-  && \
-  ln -s /usr/bin/python3 /usr/bin/python \
-  && \
+  && ln -s /usr/bin/python3 /usr/bin/python \
   && apt-get autoremove -y \
   && apt-get clean \
   && \

@@ -23,8 +23,7 @@ RUN \
     chardet \
     pynzbget \
     rarfile \
-  && \
-  ln -s /usr/bin/python3 /usr/bin/python \
+  && ln -s /usr/bin/python3 /usr/bin/python \
   && \
   apt-get remove -y \
     build-essential \
