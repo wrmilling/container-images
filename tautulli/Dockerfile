@@ -13,7 +13,7 @@ RUN \
   && \
   apt-get -qq install -y --no-install-recommends --no-install-suggests \
     python3 \
-    python3-distutils \
+    python3-setuptools \
     ${EXTRA_INSTALL_ARG} \
   && \
   ln -s /usr/bin/python3 /usr/bin/python \
@@ -25,10 +25,8 @@ RUN \
   echo "master" > /app/branch.txt \
   && \
   pip3 install --no-cache-dir -U \
-	mock \
 	plexapi \
     pycryptodomex \
-    pyopenssl \
   && \
   echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
   && \ 
