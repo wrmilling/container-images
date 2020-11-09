@@ -17,10 +17,6 @@ RUN \
   --disabled-password \
   --no-create-home
 
-RUN \
-  mkdir -p /app /config \
-  && chown -R kah:kah /app /config
-
 WORKDIR /config
 
 RUN \
@@ -60,7 +56,5 @@ RUN \
     /var/lib/apt/lists/* \
     /var/cache/apt/* \
     /var/tmp/*
-
-USER kah:kah
 
 ENTRYPOINT [ "/sbin/tini", "--" ]
