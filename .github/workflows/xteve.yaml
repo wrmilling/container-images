@@ -1,73 +1,69 @@
----
 name: xteve
+
 on:
-  schedule:
-    - cron: '0 */4 * * *'
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Insert tag'
-        required: false
-      ignore-existing-tag:
-        description: 'Force build and push if "true"'
-        required: false
+  push:
+    paths:
+      - '.github/workflows/xteve.yaml'
+      - 'xteve/**'
+      - '!xteve/*.md'
 env:
   REGISTRY_IMAGE: k8sathome/${{ github.workflow }}
+
 jobs:
-  version-check:
+  build:
     runs-on: ubuntu-latest
-    outputs:
-      exists: ${{ steps.check-tag.outputs.exists }}
-      tag: ${{ steps.check-tag.outputs.tag }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Get Upstream Version
-        id: check
+
+      - name: Prepare
+        id: prep
         run: |
-          if [ -n "${{ github.event.inputs.tag }}" ]
-          then
-            TAG_NAME=${{ github.event.inputs.tag }}
-          else
-            TAG_NAME=$(curl -s https://api.github.com/repos/xteve-project/xTeVe/releases | jq -r .[0].tag_name)
-          fi
-          echo "version=${TAG_NAME}" >> $GITHUB_ENV
-      - uses: ./.github/actions/tag-check-action
-        name: Check Tag Against DockerHub
-        id: check-tag
-        with:
-          image: ${{ env.REGISTRY_IMAGE }}
-          tag: ${{ github.event.inputs.tag || env.version }}
-          skip: ${{ github.event.inputs.ignore-existing-tag }}
-  image-build:
-    needs: version-check
-    runs-on: ubuntu-latest
-    if: ${{ contains(needs.version-check.outputs.exists, 'false') }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+          BASE_DIR=${{ github.workflow }}
+          VERSION=$(cat ${{ github.workflow }}/.version)
+          echo ::set-output name=version::${VERSION}
+          echo ::set-output name=base_dir::${{ github.workflow }}
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
+        with:
+          platforms: all
+
       - name: Set up Docker Buildx
+        id: buildx
         uses: docker/setup-buildx-action@v1
         with:
           install: true
           version: latest
           driver-opts: image=moby/buildkit:master
-      - name: Dockerhub Login
-        run: |
-          echo "🔑 Logging into Dockerhub..."
-          if docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password ${{ secrets.DOCKERHUB_PASSWORD }} > /dev/null 2>&1; then
-            echo "🎉 Login Succeeded!"
-          fi
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
       - name: Build and Push
-        id: build-and-push
+        if: github.ref != 'refs/heads/master'
         uses: docker/build-push-action@v2
         with:
-          context: .
-          file: ./${{ github.workflow }}/Dockerfile
-          build-args: VERSION=${{ needs.version-check.outputs.tag }}
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
-          tags: ${{ env.REGISTRY_IMAGE }}:${{ needs.version-check.outputs.tag }}
-          pull: true
+          build-args: VERSION=${{ steps.prep.outputs.version }}
+          context: ${{ steps.prep.outputs.base_dir }}/
+          file: ${{ steps.prep.outputs.base_dir }}/Dockerfile
+          platforms: linux/amd64,linux/arm64
           push: true
+          tags: |
+            ${{ env.REGISTRY_IMAGE }}:${{ github.sha }}
+
+      - name: Build and Push
+        if: github.ref == 'refs/heads/master'
+        uses: docker/build-push-action@v2
+        with:
+          build-args: VERSION=${{ steps.prep.outputs.version }}
+          context: ${{ steps.prep.outputs.base_dir }}/
+          file: ${{ steps.prep.outputs.base_dir }}/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ${{ env.REGISTRY_IMAGE }}:latest
+            ${{ env.REGISTRY_IMAGE }}:${{ steps.prep.outputs.version }}

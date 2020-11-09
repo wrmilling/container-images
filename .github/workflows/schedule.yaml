@@ -1,0 +1,125 @@
+name: Get latest release versions
+
+on:
+  push:
+    paths:
+    - ".github/workflows/schedule.yml"
+    branches:
+    - master
+  schedule:
+  - cron: "0 */4 * * *"
+
+jobs:
+  get-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT }}
+
+      #
+      # Ubuntu base image
+      #
+      - name: Fetch ubuntu release version
+        run: |
+          TAG_NAME=$(curl -s https://registry.hub.docker.com/v1/repositories/library/ubuntu/tags | jq -r '.[] | select(.name | contains("focal")) | .name'  | tail -n1)
+          echo "${TAG_NAME}" > ubuntu/.version
+
+      - name: Fetch bazarr release version
+        run: |
+          TAG_NAME=$(curl -s "https://api.github.com/repos/morpheus65535/bazarr/releases" | jq --raw-output '.[0].tag_name')
+          TAG_NAME="${TAG_NAME#*v}"
+          TAG_NAME="${TAG_NAME#*release-}"
+          echo "${TAG_NAME}" > bazarr/.version
+
+      - name: Fetch jackett release version
+        run: |
+          TAG_NAME=$(curl -s "https://api.github.com/repos/Jackett/Jackett/releases/latest" | jq --raw-output -r '.tag_name')
+          TAG_NAME="${TAG_NAME#*v}"
+          TAG_NAME="${TAG_NAME#*release-}"
+          echo "${TAG_NAME}" > jackett/.version
+
+      - name: Fetch lidarr release version
+        run: |
+          TAG_NAME=$(curl -s "https://lidarr.servarr.com/v1/update/nightly/changes?os=linux" | jq --raw-output '.[0].version')
+          TAG_NAME="${TAG_NAME#*v}"
+          TAG_NAME="${TAG_NAME#*release-}"
+          echo "${TAG_NAME}" > lidarr/.version
+
+      - name: Fetch nzbget release version
+        run: |
+          TAG_NAME=$(curl -s "https://api.github.com/repos/nzbget/nzbget/releases/latest" | jq --raw-output '.tag_name')
+          TAG_NAME="${TAG_NAME#*v}"
+          TAG_NAME="${TAG_NAME#*release-}"
+          echo "${TAG_NAME}" > nzbget/.version
+
+      - name: Fetch nzbhydra2 release version
+        run: |
+          TAG_NAME=$(curl -s "https://api.github.com/repos/theotherp/nzbhydra2/releases" | jq --raw-output '.[0].tag_name')
+          TAG_NAME="${TAG_NAME#*v}"
+          TAG_NAME="${TAG_NAME#*release-}"
+          echo "${TAG_NAME}" > nzbhydra2/.version
+
+      - name: Fetch ombi release version
+        run: |
+          TAG_NAME=$(curl -s "https://api.github.com/repos/tidusjar/Ombi.Releases/releases" | jq --raw-output '.[0].tag_name')
+          TAG_NAME="${TAG_NAME#*v}"
+          TAG_NAME="${TAG_NAME#*release-}"
+          echo "${TAG_NAME}" > ombi/.version
+
+      - name: Fetch qbittorrent release version
+        run: |
+          TAG_NAME=$(curl -s "https://api.github.com/repos/qbittorrent/qBittorrent/tags" | jq --raw-output '.[0].name')
+          TAG_NAME="${TAG_NAME#*v}"
+          TAG_NAME="${TAG_NAME#*release-}"
+          echo "${TAG_NAME}" > qbittorrent/.version
+
+      - name: Fetch radarr release version
+        run: |
+          TAG_NAME=$(curl -s "https://radarr.servarr.com/v1/update/nightly/changes?os=linux" | jq -r '.[0].version')
+          TAG_NAME="${TAG_NAME#*v}"
+          TAG_NAME="${TAG_NAME#*release-}"
+          echo "${TAG_NAME}" > radarr/.version
+
+      - name: Fetch sabnzbd release version
+        run: |
+          TAG_NAME=$(curl -s "https://api.github.com/repos/sabnzbd/sabnzbd/releases/latest" | jq --raw-output '.tag_name')
+          TAG_NAME="${TAG_NAME#*v}"
+          TAG_NAME="${TAG_NAME#*release-}"
+          echo "${TAG_NAME}" > sabnzbd/.version
+
+      - name: Fetch sonarr release version
+        run: |
+          TAG_NAME=$(curl -s "https://services.sonarr.tv/v1/download/phantom-develop?version=3" | jq --raw-output '.version')
+          TAG_NAME="${TAG_NAME#*v}"
+          TAG_NAME="${TAG_NAME#*release-}"
+          echo "${TAG_NAME}" > sonarr/.version
+
+      - name: Fetch sonarr release version
+        run: |
+          TAG_NAME=$(curl -s "https://services.sonarr.tv/v1/download/phantom-develop?version=3" | jq --raw-output '.version')
+          TAG_NAME="${TAG_NAME#*v}"
+          TAG_NAME="${TAG_NAME#*release-}"
+          echo "${TAG_NAME}" > sonarr/.version
+
+      - name: Fetch xteve release version
+        run: |
+          TAG_NAME=$(curl -s https://api.github.com/repos/xteve-project/xTeVe/releases | jq --raw-output '.[0].tag_name')
+          TAG_NAME="${TAG_NAME#*v}"
+          TAG_NAME="${TAG_NAME#*release-}"
+          echo "${TAG_NAME}" > xteve/.version
+
+      - name: Check for modified files
+        id: git-check
+        run: echo ::set-output name=modified::$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
+
+      - name: Commit latest release version
+        if: steps.git-check.outputs.modified == 'true'
+        run: |
+          git config --global user.name 'Devin Buhl'
+          git config --global user.email 'onedr0p@users.noreply.github.com'
+          git commit -sam "Adding new release version" || exit 0
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.PAT }}
