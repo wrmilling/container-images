@@ -6,14 +6,14 @@ verify () {
   version="${version#*release-}"
 
   echo "Building kah-${app}:${version}..."
-  docker build -f "${app}/Dockerfile" -t "kah-${app}:${version}" --build-arg VERSION="${version}" --build-arg TARGETPLATFORM="linux/amd64" . 1> /dev/null
+  docker build --no-cache -f "${app}/Dockerfile" -t "kah-${app}:${version}" --build-arg VERSION="${version}" --build-arg TARGETPLATFORM="linux/amd64" .
   size=$(docker image inspect "kah-${app}:${version}" --format='{{.Size}}')
   echo "Image size: $(echo ${size} | numfmt --to=iec-i --suffix=B)"
 }
 
-# version="$(curl -sX GET "https://api.github.com/repos/morpheus65535/bazarr/releases" | jq --raw-output '.[0].tag_name')"
-# verify "bazarr" "${version}"
-# # docker run --entrypoint="" --rm kah-bazarr:0.9.0.5 python3 /app/bazarr.py -h
+version="$(curl -sX GET "https://api.github.com/repos/morpheus65535/bazarr/releases" | jq --raw-output '.[0].tag_name')"
+verify "bazarr" "${version}"
+# # docker run --entrypoint="" --rm kah-bazarr:0.9.0.5 /usr/bin/python3 /app/bazarr.py -h
 
 # version=$(curl -sX GET "https://api.github.com/repos/Jackett/Jackett/releases/latest" | jq --raw-output '.tag_name')
 # verify "jackett" "${version}"
@@ -29,10 +29,10 @@ verify () {
 
 # version=$(curl -sX GET "https://api.github.com/repos/theotherp/nzbhydra2/releases" | jq --raw-output '.[0].tag_name')
 # verify "nzbhydra2" "${version}"
-# # docker run --entrypoint="" --rm kah-nzbhydra2:3.4.3 python3 /app/nzbhydra2wrapperPy3.py --version
+# # docker run --entrypoint="" --rm kah-nzbhydra2:3.4.3 /usr/bin/python3 /app/nzbhydra2wrapperPy3.py --version
 
-version=$(curl -sX GET "https://api.github.com/repos/tidusjar/Ombi.Releases/releases" | jq --raw-output '.[0].tag_name')
-verify "ombi" "${version}"
+# version=$(curl -sX GET "https://api.github.com/repos/tidusjar/Ombi.Releases/releases" | jq --raw-output '.[0].tag_name')
+# verify "ombi" "${version}"
 # # docker run --entrypoint="" --rm kah-ombi:4.0.643 /app/Ombi --version
 
 # version=$(curl -sX GET "https://api.github.com/repos/qbittorrent/qBittorrent/tags" | jq --raw-output '.[0].name')
@@ -45,7 +45,7 @@ verify "ombi" "${version}"
 
 # version="$(curl -sX GET "https://api.github.com/repos/sabnzbd/sabnzbd/releases/latest" | jq --raw-output '.tag_name')"
 # verify "sabnzbd" "${version}"
-# # docker run --entrypoint="" --rm kah-sabnzbd:3.1.0 python3 /app/SABnzbd.py --version
+# # docker run --entrypoint="" --rm kah-sabnzbd:3.1.0 /usr/bin/python3 /app/SABnzbd.py --version
 
 # version=$(curl -sX GET "https://services.sonarr.tv/v1/download/phantom-develop?version=3" | jq --raw-output '.version')
 # verify "sonarr" "${version}"

@@ -45,4 +45,5 @@ WORKDIR /app
 
 EXPOSE 5000
 
-CMD umask ${UMASK} && /app/Ombi --storage /config ${EXTRA_ARGS}
+COPY ./ombi/entrypoint.sh /entrypoint.sh
+CMD ["/entrypoint.sh"]

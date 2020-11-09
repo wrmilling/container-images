@@ -12,6 +12,9 @@ RUN \
     openjdk-11-jre-headless \
     python3 \
     unzip \
+  && \
+  ln -s /usr/bin/python3 /usr/bin/python \
+  && \
   && apt-get autoremove -y \
   && apt-get clean \
   && \
@@ -37,4 +40,5 @@ RUN \
 
 EXPOSE 5076
 
-CMD umask ${UMASK} && python3 /app/nzbhydra2wrapperPy3.py --nobrowser --datafolder /config ${EXTRA_ARGS}
+COPY ./nzbhydra2/entrypoint.sh /entrypoint.sh
+CMD ["/entrypoint.sh"]

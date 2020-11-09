@@ -53,9 +53,9 @@ RUN set -eux \
        /var/cache/apt/* \
        /var/tmp/*
 
-WORKDIR /config
-
 USER kah:kah
+
+WORKDIR /config
 
 VOLUME [ "/config" ]
 

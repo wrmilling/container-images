@@ -41,4 +41,5 @@ RUN \
 
 EXPOSE 7878
 
-CMD umask ${UMASK} && /app/Radarr -nobrowser -data=/config ${EXTRA_ARGS}
+COPY ./radarr/entrypoint.sh /entrypoint.sh
+CMD ["/entrypoint.sh"]

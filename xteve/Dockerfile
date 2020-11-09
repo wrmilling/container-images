@@ -51,4 +51,5 @@ COPY --from=builder /go/bin/xteve /app/xteve
 
 EXPOSE 34400
 
-CMD umask ${UMASK} && /app/xteve -config /config ${EXTRA_ARGS}
+COPY ./xteve/entrypoint.sh /entrypoint.sh
+CMD ["/entrypoint.sh"]

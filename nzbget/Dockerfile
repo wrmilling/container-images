@@ -8,11 +8,30 @@ RUN \
   apt-get -qq update \
   && \
   apt-get -qq install -y --no-install-recommends --no-install-suggests \
+    build-essential \
+    libxml2-dev \
+    libxslt1-dev \
+    python3-pip \
     unzip \
     unrar \
     p7zip-full \
-    python2 \
+    python3 \
     wget \
+  && \
+  pip3 install --no-cache-dir -U \
+    apprise \
+    chardet \
+    pynzbget \
+    rarfile \
+  && \
+  ln -s /usr/bin/python3 /usr/bin/python \
+  && \
+  apt-get remove -y \
+    build-essential \
+    libxml2-dev \
+    libxslt1-dev \
+    python3-pip \
+  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
   && \
@@ -30,11 +49,14 @@ RUN \
   && sh /tmp/nzbget.run --destdir /app \
   && chmod +x /app/nzbget \
   && \
+  cp /app/nzbget.conf /config/nzbget.conf \
+  && ls -la /app && ls -la /config \
+  && \
   rm -rf \
-    /tmp/nzbget-${VERSION}-bin-linux.run \
+    /tmp/nzbget.run \
   && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info
-
 
 EXPOSE 6789
 
-CMD umask ${UMASK} && /app/nzbget -s -c /config/nzbget.conf -o OutputMode=log ${EXTRA_ARGS}
+COPY ./nzbget/entrypoint.sh /entrypoint.sh
+CMD ["/entrypoint.sh"]

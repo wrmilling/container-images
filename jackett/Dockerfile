@@ -45,4 +45,5 @@ RUN \
 
 EXPOSE 9117
 
-CMD umask ${UMASK} && /app/jackett --NoUpdates ${EXTRA_ARGS}
+COPY ./jackett/entrypoint.sh /entrypoint.sh
+CMD ["/entrypoint.sh"]

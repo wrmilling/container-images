@@ -47,4 +47,5 @@ RUN \
 
 EXPOSE 8989
 
-CMD umask ${UMASK} && /usr/bin/mono --debug /app/Sonarr.exe -nobrowser -data=/config ${EXTRA_ARGS}
+COPY ./sonarr/entrypoint.sh /entrypoint.sh
+CMD ["/entrypoint.sh"]

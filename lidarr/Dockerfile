@@ -41,4 +41,5 @@ RUN \
 
 EXPOSE 8686
 
-CMD umask ${UMASK} && /app/Lidarr -nobrowser -data=/config ${EXTRA_ARGS}
+COPY ./lidarr/entrypoint.sh /entrypoint.sh
+CMD ["/entrypoint.sh"]

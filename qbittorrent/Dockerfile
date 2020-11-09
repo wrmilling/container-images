@@ -137,4 +137,5 @@ COPY /qbittorrent/qBittorrent.conf /config/qBittorrent/qBittorrent.conf
 
 EXPOSE 6881 6881/udp ${WEBUI_PORT}
 
-CMD umask ${UMASK} && /app/qbittorrent-nox --webui-port="${WEBUI_PORT}" ${EXTRA_ARGS}
+COPY ./qbittorrent/entrypoint.sh /entrypoint.sh
+CMD ["/entrypoint.sh"]

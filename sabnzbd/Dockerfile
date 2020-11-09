@@ -30,6 +30,12 @@ RUN \
   && pip3 install --no-cache-dir -U -r /app/requirements.txt \
   && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
   && chown -R kah:kah /app \
+  && \
+  pip3 install --no-cache-dir -U \
+    apprise \
+  && \
+  ln -s /usr/bin/python3 /usr/bin/python \
+  && \
   && apt-get remove -y \
     python3-dev \
     python3-pip \
@@ -48,5 +54,5 @@ USER kah
 
 EXPOSE 8080
 
-CMD umask ${UMASK} && python3 /app/SABnzbd.py --browser 0 --server 0.0.0.0:8080 --config-file /config/sabnzbd.ini ${EXTRA_ARGS}
-
+COPY ./sabnzbd/entrypoint.sh /entrypoint.sh
+CMD ["/entrypoint.sh"]

@@ -25,6 +25,8 @@ RUN \
     unzip \ 
     ${EXTRA_INSTALL_ARG} \
   && \
+  ln -s /usr/bin/python3 /usr/bin/python \
+  && \
   curl -fsSL "https://github.com/morpheus65535/bazarr/archive/v${VERSION}.tar.gz" | tar xzf - -C /app --strip-components=1 \
   && pip3 install --no-cache-dir -U -r /app/requirements.txt \
   && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
@@ -50,4 +52,5 @@ USER kah
 
 EXPOSE 6767
 
-CMD umask ${UMASK} && python3 /app/bazarr.py --no-update --config /config ${EXTRA_ARGS}
+COPY ./bazarr/entrypoint.sh /entrypoint.sh
+CMD ["/entrypoint.sh"]
