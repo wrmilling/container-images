@@ -22,6 +22,8 @@ WORKDIR /config
 RUN \
   set -eux \
   && \
+  mkdir -p /app \
+  && \
   case "${TARGETPLATFORM}" in \
     'linux/amd64') export ARCH='amd64' ;; \
     'linux/arm64') export ARCH='arm64' ;; \
