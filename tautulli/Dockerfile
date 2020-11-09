@@ -23,6 +23,8 @@ RUN \
   echo "master" > /app/branch.txt \
   && \
   pip3 install --no-cache-dir -U \
+	mock \
+	plexapi \
     pycryptodomex \
     pyopenssl \
   && \
