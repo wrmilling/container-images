@@ -12,7 +12,8 @@ RUN \
     openjdk-11-jre-headless \
     python3 \
     unzip \
-  && ln -s /usr/bin/python3 /usr/bin/python \
+  && \
+  ln -s /usr/bin/python3 /usr/bin/python \
   && \
   curl -fsSL -o /tmp/nzbhydra2.zip \
     "https://github.com/theotherp/nzbhydra2/releases/download/v${VERSION}/nzbhydra2-${VERSION}-linux.zip" \

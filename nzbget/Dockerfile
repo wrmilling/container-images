@@ -5,25 +5,24 @@ ARG VERSION
 USER root
 
 RUN \
+  export EXTRA_INSTALL_ARG="build-essential libxml2-dev libxslt1-dev python3-dev python3-pip"; \
   apt-get -qq update \
   && \
   apt-get -qq install -y --no-install-recommends --no-install-suggests \
-    build-essential \
-    libxml2-dev \
-    libxslt1-dev \
-    python3-pip \
-    unzip \
-    unrar \
     p7zip-full \
     python3 \
+    unrar \
+    unzip \
     wget \
+    ${EXTRA_INSTALL_ARG} \
   && \
   pip3 install --no-cache-dir -U \
     apprise \
     chardet \
     pynzbget \
     rarfile \
-  && ln -s /usr/bin/python3 /usr/bin/python \
+  && \
+  ln -s /usr/bin/python3 /usr/bin/python \
   && \
   curl -fsSL -o /tmp/nzbget.run \
     "https://github.com/nzbget/nzbget/releases/download/v${VERSION}/nzbget-${VERSION}-bin-linux.run" \
@@ -35,12 +34,7 @@ RUN \
   rm -rf \
     /tmp/nzbget.run \
   && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
-  && \
-  apt-get remove -y \
-    build-essential \
-    libxml2-dev \
-    libxslt1-dev \
-    python3-pip \
+  && apt-get remove -y ${EXTRA_INSTALL_ARG} \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \

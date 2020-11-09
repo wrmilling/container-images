@@ -1,34 +1,34 @@
 FROM k8sathome/ubuntu:latest
 
-ARG VERSION
 ARG TARGETPLATFORM
+ARG VERSION
 
 USER root
 
 RUN \
-  export EXTRA_INSTALL_ARG="build-essential libffi-dev libssl-dev python3-dev python3-pip"; \
+  export EXTRA_INSTALL_ARG="build-essential libssl-dev libffi-dev python3-dev python3-pip"; \
   apt-get -qq update \
   && \
   apt-get -qq install -y --no-install-recommends --no-install-suggests \
-    p7zip-full \
-    par2 \
     python3 \
     python3-distutils \
-    unrar \
-    unzip \ 
     ${EXTRA_INSTALL_ARG} \
   && \
   ln -s /usr/bin/python3 /usr/bin/python \
   && \
-  curl -fsSL "https://github.com/sabnzbd/sabnzbd/releases/download/${VERSION}/SABnzbd-${VERSION}-src.tar.gz" | tar xzf - -C /app --strip-components=1 \
+  curl -fsSL "https://github.com/Tautulli/Tautulli/archive/v${VERSION}.tar.gz" | tar xzf - -C /app --strip-components 1 \
   && \
-  pip3 install --no-cache-dir -U -r /app/requirements.txt \
+  echo "${VERSION}" > /app/version.txt \
   && \
-  echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
+  echo "master" > /app/branch.txt \
   && \
   pip3 install --no-cache-dir -U \
-    apprise \
-  && apt-get remove -y ${EXTRA_INSTALL_ARG} \
+    pycryptodomex \
+    pyopenssl \
+  && \
+  echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
+  && \ 
+  apt-get remove -y ${EXTRA_INSTALL_ARG} \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
@@ -42,7 +42,7 @@ RUN \
 
 USER kah
 
-EXPOSE 8080
+EXPOSE 8181
 
-COPY ./sabnzbd/entrypoint.sh /entrypoint.sh
+COPY ./tautulli/entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]

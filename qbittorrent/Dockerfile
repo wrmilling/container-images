@@ -111,12 +111,12 @@ RUN \
   apt-get -qq update \
   && \
   apt-get install -y --no-install-recommends --no-install-suggests \
-    python3 \
+    geoip-bin \
     libqt5network5 \
     libqt5xml5 \
     p7zip-full \
+    python3 \
     unrar \
-    geoip-bin \
     unzip \
   && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
   && apt-get autoremove -y \

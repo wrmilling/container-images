@@ -6,19 +6,11 @@ ARG TARGETPLATFORM
 USER root
 
 RUN \
-  case "${TARGETPLATFORM}" in \
-    'linux/arm64') \
-      export EXTRA_INSTALL_ARG="build-essential libxml2-dev libxslt1-dev" ;; \
-    'linux/arm/v7') \
-      export EXTRA_INSTALL_ARG="build-essential libxml2-dev libxslt1-dev" ;; \
-  esac \
-  && \
+  export EXTRA_INSTALL_ARG="build-essential libxml2-dev libxslt1-dev python3-dev python3-pip"; \
   apt-get -qq update \
   && \
   apt-get -qq install -y --no-install-recommends --no-install-suggests \
     python3 \
-    python3-dev \
-    python3-pip \
     python3-distutils \
     ffmpeg \
     unrar \
@@ -30,10 +22,7 @@ RUN \
   curl -fsSL "https://github.com/morpheus65535/bazarr/archive/v${VERSION}.tar.gz" | tar xzf - -C /app --strip-components=1 \
   && pip3 install --no-cache-dir -U -r /app/requirements.txt \
   && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
-  && apt-get remove -y \
-    python3-dev \
-    python3-pip \
-    ${EXTRA_INSTALL_ARG} \
+  && apt-get remove -y ${EXTRA_INSTALL_ARG} \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
