@@ -39,6 +39,10 @@ RUN \
     /tmp/ombi.tgz \
   && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info
 
+# Ombi must have a working directory of the app install path
+# see https://github.com/tidusjar/Ombi/issues/3513
+WORKDIR /app
+
 EXPOSE 5000
 
 CMD umask ${UMASK} && /app/Ombi --storage /config ${EXTRA_ARGS}
