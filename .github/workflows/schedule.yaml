@@ -7,7 +7,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: "0 */2 * * *"
+    - cron: "0 */6 * * *"
   workflow_dispatch:
 
 jobs:
@@ -18,74 +18,13 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           fetch-depth: 1
-
-      #
-      # Ubuntu base image
-      #
-      - name: Fetch ubuntu release version
+      - name: Fetch release versions
         run: |
-          version=$(./ubuntu/latest-version.sh)
-          echo "${version}" | tee ubuntu/.version
-
-      - name: Fetch bazarr release version
-        run: |
-          version=$(./bazarr/latest-version.sh)
-          echo "${version}" | tee bazarr/.version
-
-      - name: Fetch jackett release version
-        run: |
-          version=$(./jackett/latest-version.sh)
-          echo "${version}" | tee jackett/.version
-
-      - name: Fetch lidarr release version
-        run: |
-          version=$(./lidarr/latest-version.sh)
-          echo "${version}" | tee lidarr/.version
-
-      - name: Fetch nzbget release version
-        run: |
-          version=$(./nzbget/latest-version.sh)
-          echo "${version}" | tee nzbget/.version
-
-      - name: Fetch nzbhydra2 release version
-        run: |
-          version=$(./nzbhydra2/latest-version.sh)
-          echo "${version}" | tee nzbhydra2/.version
-
-      - name: Fetch ombi release version
-        run: |
-          version=$(./ombi/latest-version.sh)
-          echo "${version}" | tee ombi/.version
-
-      - name: Fetch qbittorrent release version
-        run: |
-          version=$(./qbittorrent/latest-version.sh)
-          echo "${version}" | tee qbittorrent/.version
-
-      - name: Fetch radarr release version
-        run: |
-          version=$(./radarr/latest-version.sh)
-          echo "${version}" | tee radarr/.version
-
-      - name: Fetch sabnzbd release version
-        run: |
-          version=$(./sabnzbd/latest-version.sh)
-          echo "${version}" | tee sabnzbd/.version
-
-      - name: Fetch sonarr release version
-        run: |
-          version=$(./sonarr/latest-version.sh)
-          echo "${version}" | tee sonarr/.version
-
-      - name: Fetch xteve release version
-        run: |
-          version=$(./xteve/latest-version.sh)
-          echo "${version}" | tee xteve/.version
-
-      #
-      # Add, Commit and Push changes if any
-      #
-      - name: Commit and push secrets
+          find . -maxdepth 1 -mindepth 1 -type d | while read app; do
+            version=$(bash "./${app}/latest-version.sh")
+            echo "${version}" | tee "${app}/.version"
+          done
+      - name: Add, commit and push to applications version file
         run: |
           if [[ -n $(git status --porcelain) ]]; then
             git config --global user.name "Devin Buhl"
