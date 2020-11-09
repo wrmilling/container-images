@@ -2,4 +2,4 @@
 
 umask "${UMASK:-0002}"
 
-exec /usr/bin/python3 /app/Tautulli.py --datadir /config --nolaunch ${EXTRA_ARGS}
+exec /usr/bin/python3 /app/Tautulli.py --nolaunch --config /config/config.ini --datadir /config ${EXTRA_ARGS}

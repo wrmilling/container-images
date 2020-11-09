@@ -3,6 +3,8 @@ FROM k8sathome/ubuntu:latest
 ARG TARGETPLATFORM
 ARG VERSION
 
+ENV TAUTULLI_DOCKER="True"
+
 USER root
 
 RUN \
