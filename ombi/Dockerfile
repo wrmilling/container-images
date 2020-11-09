@@ -41,4 +41,4 @@ RUN \
 
 EXPOSE 5000
 
-CMD umask ${UMASK} && /app/Ombi --storage /config
+CMD umask ${UMASK} && /app/Ombi --storage /config ${EXTRA_ARGS}

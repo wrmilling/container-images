@@ -37,4 +37,4 @@ RUN \
 
 EXPOSE 6789
 
-CMD umask ${UMASK} && /app/nzbget -s -c /config/nzbget.conf -o OutputMode=log
+CMD umask ${UMASK} && /app/nzbget -s -c /config/nzbget.conf -o OutputMode=log ${EXTRA_ARGS}

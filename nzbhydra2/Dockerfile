@@ -37,4 +37,4 @@ RUN \
 
 EXPOSE 5076
 
-CMD umask ${UMASK} && /app/nzbhydra2wrapperPy3.py --nobrowser --datafolder /config ${ARGS}
+CMD umask ${UMASK} && /app/nzbhydra2wrapperPy3.py --nobrowser --datafolder /config ${EXTRA_ARGS}

@@ -48,5 +48,5 @@ USER kah
 
 EXPOSE 8080
 
-CMD umask ${UMASK} && python3 /app/SABnzbd.py --browser 0 --server 0.0.0.0:8080 --config-file /config/sabnzbd.ini ${ARGS}
+CMD umask ${UMASK} && python3 /app/SABnzbd.py --browser 0 --server 0.0.0.0:8080 --config-file /config/sabnzbd.ini ${EXTRA_ARGS}
 

@@ -51,4 +51,4 @@ COPY --from=builder /go/bin/xteve /app/xteve
 
 EXPOSE 34400
 
-CMD umask ${UMASK} && /app/xteve -config /config
+CMD umask ${UMASK} && /app/xteve -config /config ${EXTRA_ARGS}

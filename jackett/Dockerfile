@@ -45,4 +45,4 @@ RUN \
 
 EXPOSE 9117
 
-CMD umask ${UMASK} && /app/jackett --NoUpdates
+CMD umask ${UMASK} && /app/jackett --NoUpdates ${EXTRA_ARGS}

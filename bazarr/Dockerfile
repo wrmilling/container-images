@@ -50,4 +50,4 @@ USER kah
 
 EXPOSE 6767
 
-CMD umask ${UMASK} && python3 /app/bazarr.py --no-update --config /config ${ARGS}
+CMD umask ${UMASK} && python3 /app/bazarr.py --no-update --config /config ${EXTRA_ARGS}

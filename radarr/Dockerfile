@@ -41,4 +41,4 @@ RUN \
 
 EXPOSE 7878
 
-CMD umask ${UMASK} && /app/Radarr -nobrowser -data=/config
+CMD umask ${UMASK} && /app/Radarr -nobrowser -data=/config ${EXTRA_ARGS}

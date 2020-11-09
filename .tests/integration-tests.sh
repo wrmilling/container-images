@@ -11,8 +11,8 @@ verify () {
   echo "Image size: $(echo ${size} | numfmt --to=iec-i --suffix=B)"
 }
 
-# version="$(curl -sX GET "https://api.github.com/repos/morpheus65535/bazarr/releases" | jq --raw-output '.[0].tag_name')"
-# verify "bazarr" "${version}"
+version="$(curl -sX GET "https://api.github.com/repos/morpheus65535/bazarr/releases" | jq --raw-output '.[0].tag_name')"
+verify "bazarr" "${version}"
 # # docker run --entrypoint="" --rm kah-bazarr:0.9.0.5 python3 /app/bazarr.py -h
 
 # version=$(curl -sX GET "https://api.github.com/repos/Jackett/Jackett/releases/latest" | jq --raw-output '.tag_name')
