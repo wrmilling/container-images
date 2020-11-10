@@ -6,10 +6,10 @@ if
     [[ "${WAIT_FOR_VPN}" == "true" ]];
 then
     echo "Waiting for VPN to be connected..."
-    while ! grep -s -q "connected" /tmp/vpnstatus;
+    while ! grep -s -q "connected" /shared/vpnstatus;
     do 
-        echo "VPN Not connected"
+        echo "VPN not connected"
         sleep 2
     done
-    echo "VPN Connected, starting Jackett"
+    echo "VPN Connected, starting application..."
 fi

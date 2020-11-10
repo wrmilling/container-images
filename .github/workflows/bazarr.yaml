@@ -49,7 +49,6 @@ jobs:
           context: .
           file: ./${{ github.workflow }}/Dockerfile
           platforms: linux/amd64,linux/arm64
-          pull: true
           push: true
           tags: |
             ${{ env.REGISTRY_IMAGE }}:${{ github.sha }}
@@ -62,7 +61,6 @@ jobs:
           context: .
           file: ./${{ github.workflow }}/Dockerfile
           platforms: linux/amd64,linux/arm64
-          pull: true
           push: true
           tags: |
             ${{ env.REGISTRY_IMAGE }}:latest

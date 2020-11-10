@@ -15,16 +15,18 @@ _There's so many images out there, why do I want to use these?_
 ## Deployment Information
 
 ### Volumes
-|   Path    | Description                   |
-|:---------:|-------------------------------|
-|  `/app`   | Application install directory |
-| `/config` | Configuration directory       |
+|   Path    | Description                         |
+|:---------:|-------------------------------------|
+|  `/app`   | Application install directory       |
+| `/config` | Application configuration directory |
 
 ### Environment Variables
-|  Name   | Default | Description                                        |
-|:-------:|:-------:|----------------------------------------------------|
-| `UMASK` | `0002`  | Set the default creation permission mode of files  |
-|  `TZ`   |  `UTC`  | Set to your timezone (e.g. `America/New_York`)     |
+|      Name      | Default | Description                                       |
+|:--------------:|:-------:|---------------------------------------------------|
+|    `UMASK`     | `0002`  | Set the default creation permission mode of files |
+| `WAIT_FOR_VPN` | `false` |                                                   |
+|  `EXTRA_ARGS`  |         |                                                   |
+|      `TZ`      |  `UTC`  | Set to your timezone (e.g. `America/New_York`)    |
 
 ## Available Images
 |                        Application                        |                                                                                                                                                     |                                                                                                                                                                                                               |
