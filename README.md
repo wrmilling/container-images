@@ -1,6 +1,8 @@
 # Container Images
 
-Container images for everyone hosted at https://hub.docker.com/r/k8sathome. Applications are checked every several hours for new releases.
+Kubernetes tailored container images for various applications. Hosted at https://hub.docker.com/r/k8sathome. 
+
+Applications are checked every several hours for new releases.
 
 ## Purpose
 
@@ -9,7 +11,7 @@ _There's so many images out there, why do I want to use these?_
 - Semantic versioning is awesome
 - s6-overlay is not awesome
 - ARM architectures are gaining popularity
-- Multiple architecture support (amd64, arm64, armv7)
+- Multiple architecture support (amd64, arm64)
 - Simplicity over complexity (e.g. only ubuntu:focal)
 
 ## Deployment Information
@@ -25,7 +27,7 @@ _There's so many images out there, why do I want to use these?_
 |:--------------:|:-------:|---------------------------------------------------|
 |    `UMASK`     | `0002`  | Set the default creation permission mode of files |
 | `WAIT_FOR_VPN` | `false` |                                                   |
-|  `EXTRA_ARGS`  |         |                                                   |
+|  `EXTRA_ARGS`  |         | Additional arguements to pass to the application  |
 |      `TZ`      |  `UTC`  | Set to your timezone (e.g. `America/New_York`)    |
 
 ## Available Images
