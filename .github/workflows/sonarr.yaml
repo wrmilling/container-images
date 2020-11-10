@@ -2,10 +2,15 @@ name: sonarr
 
 on:
   push:
+    branches:
+      - main
     paths:
       - '.github/workflows/sonarr.yaml'
       - 'sonarr/**'
       - '!sonarr/*.md'
+  pull_request:
+    types: [opened, reopened]
+
 env:
   REGISTRY_IMAGE: k8sathome/${{ github.workflow }}
 
@@ -51,7 +56,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ${{ env.REGISTRY_IMAGE }}:${{ github.sha }}
+            ${{ env.REGISTRY_IMAGE }}:${{ steps.prep.outputs.version }}-pr${{github.event.number}}
 
       - name: Build and Push
         if: github.ref == 'refs/heads/main'
