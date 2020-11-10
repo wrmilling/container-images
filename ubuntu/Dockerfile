@@ -17,12 +17,10 @@ RUN \
   --disabled-password \
   --no-create-home
 
-WORKDIR /config
+WORKDIR /app
 
 RUN \
   set -eux \
-  && \
-  mkdir -p /app \
   && \
   case "${TARGETPLATFORM}" in \
     'linux/amd64') export ARCH='amd64' ;; \
@@ -61,4 +59,7 @@ RUN \
 
 USER kah
 
+VOLUME [ "/config" ]
+
+COPY ./shim /
 ENTRYPOINT [ "/sbin/tini", "--" ]
