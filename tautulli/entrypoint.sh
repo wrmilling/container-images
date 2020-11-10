@@ -1,19 +1,8 @@
 #!/usr/bin/env bash
 
-umask "${UMASK:-0002}"
+#shellcheck disable=SC1091
+source "/shim/umask.sh"
+source "/shim/config.sh"
+source "/shim/vpn.sh"
 
-WAIT_FOR_VPN=${WAIT_FOR_VPN:-"false"}
-
-if
-    [[ "${WAIT_FOR_VPN}" == "true" ]];
-then
-    echo "Waiting for VPN to be connected..."
-    while ! grep -q "connected" /shared/vpnstatus;
-    do 
-        echo "VPN Not connected"
-        sleep 2
-    done
-    echo "VPN Connected, starting Jackett"
-fi
-
-exec /usr/bin/python3 /app/Tautulli.py --nolaunch --config /config/config.ini --datadir /config ${EXTRA_ARGS}
+exec /usr/bin/python3 /app/Tautulli.py --nolaunch --config /config/config.ini --datadir /config "${EXTRA_ARGS}"

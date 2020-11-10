@@ -41,11 +41,7 @@ RUN \
 
 USER kah
 
-# Ombi must have a working directory of the app install path
-# see https://github.com/tidusjar/Ombi/issues/3513
-WORKDIR /app
-
-EXPOSE 5000
+EXPOSE 3579
 
 COPY ./ombi/entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]
