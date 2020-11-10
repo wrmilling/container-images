@@ -61,5 +61,5 @@ USER kah
 
 VOLUME [ "/config" ]
 
-COPY ./shim /
+COPY ./shim /shim
 ENTRYPOINT [ "/sbin/tini", "--" ]
