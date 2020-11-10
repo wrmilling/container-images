@@ -2,7 +2,6 @@
 
 #shellcheck disable=SC1091
 source "/shim/umask.sh"
-source "/shim/config.sh"
 source "/shim/vpn.sh"
 
-exec /app/jackett --NoUpdates "${EXTRA_ARGS}"
+exec /app/jackett --NoUpdates ${EXTRA_ARGS}
