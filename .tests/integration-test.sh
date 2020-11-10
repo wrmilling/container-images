@@ -6,7 +6,7 @@ verify () {
   version="${version#*release-}"
 
   echo "Building kah-${app}:${version}..."
-  docker build --no-cache -f "${app}/Dockerfile" -t "kah-${app}:latest" --build-arg VERSION="${version}" --build-arg TARGETPLATFORM="linux/amd64" .
+  docker build -f "${app}/Dockerfile" -t "kah-${app}:latest" --build-arg VERSION="${version}" --build-arg TARGETPLATFORM="linux/amd64" .
   size=$(docker image inspect "kah-${app}:latest" --format='{{.Size}}')
   echo "Image size: $(echo ${size} | numfmt --to=iec-i --suffix=B)"
 }
@@ -23,9 +23,9 @@ verify () {
 # verify "lidarr" "${version}"
 # # docker run --entrypoint="" --rm kah-lidarr:0.8.0.1886 /app/Lidarr
 
-# version=$(curl -sX GET "https://api.github.com/repos/nzbget/nzbget/releases/latest" | jq --raw-output '.tag_name')
-# verify "nzbget" "${version}"
-# # docker run --entrypoint="" --rm kah-nzbget:21.0 /app/nzbget --version
+version=$(curl -sX GET "https://api.github.com/repos/nzbget/nzbget/releases/latest" | jq --raw-output '.tag_name')
+verify "nzbget" "${version}"
+# docker run --entrypoint="" --rm kah-nzbget:21.0 /app/nzbget --version
 
 # version=$(curl -sX GET "https://api.github.com/repos/theotherp/nzbhydra2/releases" | jq --raw-output '.[0].tag_name')
 # verify "nzbhydra2" "${version}"
@@ -51,9 +51,9 @@ verify () {
 # verify "sonarr" "${version}"
 # # docker run --entrypoint="" --rm kah-sonarr:3.0.4.993 /usr/bin/mono /app/Sonarr.exe
 
-version=$(curl -sX GET "https://api.github.com/repos/Tautulli/Tautulli/releases/latest" | jq --raw-output '. | .tag_name')
-verify "tautulli" "${version}"
-# docker run --entrypoint="" --rm kah-sonarr:3.0.4.993 /usr/bin/mono /app/Sonarr.exe
+# version=$(curl -sX GET "https://api.github.com/repos/Tautulli/Tautulli/releases/latest" | jq --raw-output '. | .tag_name')
+# verify "tautulli" "${version}"
+# # docker run --entrypoint="" --rm kah-sonarr:3.0.4.993 /usr/bin/mono /app/Sonarr.exe
 
 # version=$(curl -sX GET "https://registry.hub.docker.com/v1/repositories/library/ubuntu/tags" | jq --raw-output '.[] | select(.name | contains("focal")) | .name'  | tail -n1)
 # verify "ubuntu" "${version}"

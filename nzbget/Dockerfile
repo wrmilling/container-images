@@ -28,9 +28,6 @@ RUN \
     "https://github.com/nzbget/nzbget/releases/download/v${VERSION}/nzbget-${VERSION}-bin-linux.run" \
   && sh /tmp/nzbget.run --destdir /app \
   && \
-  cp /app/nzbget.conf /config/nzbget.conf \
-  && ls -la /app && ls -la /config \
-  && \
   rm -rf \
     /tmp/nzbget.run \
   && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
