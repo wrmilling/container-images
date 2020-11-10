@@ -9,7 +9,13 @@ on:
       - 'nzbget/**'
       - '!nzbget/*.md'
   pull_request:
-    types: [opened, reopened]
+    paths:
+      - '.github/workflows/nzbget.yaml'
+      - 'nzbget/**'
+      - '!nzbget/*.md'
+    types:
+      - opened
+      - reopened
 
 env:
   REGISTRY_IMAGE: k8sathome/${{ github.workflow }}

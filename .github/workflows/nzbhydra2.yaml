@@ -9,7 +9,13 @@ on:
       - 'nzbhydra2/**'
       - '!nzbhydra2/*.md'
   pull_request:
-    types: [opened, reopened]
+    paths:
+      - '.github/workflows/nzbhydra2.yaml'
+      - 'nzbhydra2/**'
+      - '!nzbhydra2/*.md'
+    types:
+      - opened
+      - reopened
 
 env:
   REGISTRY_IMAGE: k8sathome/${{ github.workflow }}

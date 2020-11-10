@@ -9,7 +9,13 @@ on:
       - 'sabnzbd/**'
       - '!sabnzbd/*.md'
   pull_request:
-    types: [opened, reopened]
+    paths:
+      - '.github/workflows/sabnzbd.yaml'
+      - 'sabnzbd/**'
+      - '!sabnzbd/*.md'
+    types:
+      - opened
+      - reopened
 
 env:
   REGISTRY_IMAGE: k8sathome/${{ github.workflow }}

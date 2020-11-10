@@ -9,7 +9,13 @@ on:
       - 'jackett/**'
       - '!jackett/*.md'
   pull_request:
-    types: [opened, reopened]
+    paths:
+      - '.github/workflows/jackett.yaml'
+      - 'jackett/**'
+      - '!jackett/*.md'
+    types:
+      - opened
+      - reopened
 
 env:
   REGISTRY_IMAGE: k8sathome/${{ github.workflow }}

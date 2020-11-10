@@ -9,7 +9,13 @@ on:
       - 'bazarr/**'
       - '!bazarr/*.md'
   pull_request:
-    types: [opened, reopened]
+    paths:
+      - '.github/workflows/bazarr.yaml'
+      - 'bazarr/**'
+      - '!bazarr/*.md'
+    types:
+      - opened
+      - reopened
 
 env:
   REGISTRY_IMAGE: k8sathome/${{ github.workflow }}

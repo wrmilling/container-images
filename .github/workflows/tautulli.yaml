@@ -9,7 +9,13 @@ on:
       - 'tautulli/**'
       - '!tautulli/*.md'
   pull_request:
-    types: [opened, reopened]
+    paths:
+      - '.github/workflows/tautulli.yaml'
+      - 'tautulli/**'
+      - '!tautulli/*.md'
+    types:
+      - opened
+      - reopened
 
 env:
   REGISTRY_IMAGE: k8sathome/${{ github.workflow }}

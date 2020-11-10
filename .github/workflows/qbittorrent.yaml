@@ -9,7 +9,13 @@ on:
       - 'qbittorrent/**'
       - '!qbittorrent/*.md'
   pull_request:
-    types: [opened, reopened]
+    paths:
+      - '.github/workflows/qbittorrent.yaml'
+      - 'qbittorrent/**'
+      - '!qbittorrent/*.md'
+    types:
+      - opened
+      - reopened
 
 env:
   REGISTRY_IMAGE: k8sathome/${{ github.workflow }}

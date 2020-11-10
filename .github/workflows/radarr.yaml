@@ -9,7 +9,13 @@ on:
       - 'radarr/**'
       - '!radarr/*.md'
   pull_request:
-    types: [opened, reopened]
+    paths:
+      - '.github/workflows/radarr.yaml'
+      - 'radarr/**'
+      - '!radarr/*.md'
+    types:
+      - opened
+      - reopened
 
 env:
   REGISTRY_IMAGE: k8sathome/${{ github.workflow }}

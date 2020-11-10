@@ -9,7 +9,13 @@ on:
       - 'ubuntu/**'
       - '!ubuntu/*.md'
   pull_request:
-    types: [opened, reopened]
+    paths:
+      - '.github/workflows/ubuntu.yaml'
+      - 'ubuntu/**'
+      - '!ubuntu/*.md'
+    types:
+      - opened
+      - reopened
 
 env:
   REGISTRY_IMAGE: k8sathome/${{ github.workflow }}

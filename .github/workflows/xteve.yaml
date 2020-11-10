@@ -9,7 +9,13 @@ on:
       - 'xteve/**'
       - '!xteve/*.md'
   pull_request:
-    types: [opened, reopened]
+    paths:
+      - '.github/workflows/xteve.yaml'
+      - 'xteve/**'
+      - '!xteve/*.md'
+    types:
+      - opened
+      - reopened
 
 env:
   REGISTRY_IMAGE: k8sathome/${{ github.workflow }}

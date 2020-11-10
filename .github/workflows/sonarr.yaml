@@ -9,7 +9,13 @@ on:
       - 'sonarr/**'
       - '!sonarr/*.md'
   pull_request:
-    types: [opened, reopened]
+    paths:
+      - '.github/workflows/sonarr.yaml'
+      - 'sonarr/**'
+      - '!sonarr/*.md'
+    types:
+      - opened
+      - reopened
 
 env:
   REGISTRY_IMAGE: k8sathome/${{ github.workflow }}
