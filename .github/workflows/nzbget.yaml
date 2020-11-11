@@ -8,7 +8,7 @@ on:
       - '.github/workflows/nzbget.yaml'
       - 'nzbget/**'
       - '!nzbget/*.md'
-  pull_request:
+  pull_request_target:
     paths:
       - '.github/workflows/nzbget.yaml'
       - 'nzbget/**'

@@ -8,7 +8,7 @@ on:
       - '.github/workflows/lidarr.yaml'
       - 'lidarr/**'
       - '!lidarr/*.md'
-  pull_request:
+  pull_request_target:
     paths:
       - '.github/workflows/lidarr.yaml'
       - 'lidarr/**'
