@@ -62,7 +62,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ${{ env.REGISTRY_IMAGE }}:${{ steps.prep.outputs.version }}-pr${{github.event.number}}
+            ${{ env.REGISTRY_IMAGE }}:v${{ steps.prep.outputs.version }}-pr${{github.event.number}}
 
       - name: Build and Push
         if: github.ref == 'refs/heads/main'
@@ -75,4 +75,4 @@ jobs:
           push: true
           tags: |
             ${{ env.REGISTRY_IMAGE }}:latest
-            ${{ env.REGISTRY_IMAGE }}:${{ steps.prep.outputs.version }}
+            ${{ env.REGISTRY_IMAGE }}:v${{ steps.prep.outputs.version }}
