@@ -2,7 +2,10 @@
 
 ARG VERSION
 
-FROM summerwind/actions-runner:${VERSION}
+FROM summerwind/actions-runner:v${VERSION}
+
+ARG TARGETPLATFORM
+
 SHELL ["/bin/bash", "-c"]
 
 ENV DEBIAN_FRONTEND=noninteractive \
