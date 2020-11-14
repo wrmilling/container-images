@@ -1,0 +1,85 @@
+# https://github.com/summerwind/actions-runner-controller/blob/master/runner/Dockerfile
+
+ARG VERSION
+
+FROM summerwind/actions-runner:${VERSION}
+SHELL ["/bin/bash", "-c"]
+
+ENV DEBIAN_FRONTEND=noninteractive \
+  DEBCONF_NONINTERACTIVE_SEEN=true
+
+# Install apt packages
+RUN sudo apt-get update -qqy \
+  && sudo apt-get upgrade -qqy \
+  && sudo apt-get install -qqy --no-install-recommends \
+    git-crypt gettext-base \
+    yamllint \
+  && sudo rm -rf /var/lib/apt/lists/*
+
+# Install latest kubectl
+RUN sudo curl -sLO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
+  && sudo mv kubectl /usr/local/bin/kubectl \
+  && sudo chmod +x /usr/local/bin/kubectl \
+  && kubectl version --client 
+  
+# Install latest helm3
+RUN sudo curl -sL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | sudo bash \
+  && helm version 
+
+# Install latest kubeseal
+RUN KUBESEAL_VERSION=$(curl -s "https://api.github.com/repos/bitnami-labs/sealed-secrets/releases" | jq --raw-output '.[0].tag_name') \
+  && KUBESEAL_VERSION=${KUBESEAL_VERSION:1} \
+  && sudo curl -sL -o /usr/local/bin/kubeseal https://github.com/bitnami-labs/sealed-secrets/releases/download/v${KUBESEAL_VERSION}/kubeseal-linux-amd64 \
+  && sudo chmod +x /usr/local/bin/kubeseal \
+  && kubeseal --version
+
+# Install latest fluxctl
+RUN FLUXCTL_VERSION=$(curl -s "https://api.github.com/repos/fluxcd/flux/releases" | jq --raw-output '.[0].tag_name') \
+  && FLUXCTL_VERSION=${FLUXCTL_VERSION} \
+  && sudo curl -sL -o /usr/local/bin/fluxctl https://github.com/fluxcd/flux/releases/download/${FLUXCTL_VERSION}/fluxctl_linux_amd64 \
+  && sudo chmod +x /usr/local/bin/fluxctl \
+  && fluxctl version
+
+# Install latest gomplate
+RUN GOMPLATE_VERSION=$(curl -s "https://api.github.com/repos/hairyhenderson/gomplate/releases" | jq --raw-output '.[0].tag_name') \
+  && GOMPLATE_VERSION=${GOMPLATE_VERSION:1} \
+  && sudo curl -o /usr/local/bin/gomplate -sSL https://github.com/hairyhenderson/gomplate/releases/download/v${GOMPLATE_VERSION}/gomplate_linux-amd64 \
+  && sudo chmod 755 /usr/local/bin/gomplate \
+  && gomplate -v
+
+# Install latest kubeval
+RUN KUBEVAL_VERSION=$(curl -s "https://api.github.com/repos/instrumenta/kubeval/releases" | jq --raw-output '.[0].tag_name') \
+  && KUBEVAL_VERSION=${KUBEVAL_VERSION} \
+  && sudo curl -sL -o kubeval-linux-amd64.tar.gz https://github.com/instrumenta/kubeval/releases/download/${KUBEVAL_VERSION}/kubeval-linux-amd64.tar.gz \
+  && sudo tar xf kubeval-linux-amd64.tar.gz -C /usr/local/bin kubeval \
+  && sudo chmod +x /usr/local/bin/kubeval \
+  && sudo rm kubeval-linux-amd64.tar.gz \
+  && kubeval --version
+
+# Install latest conftest
+RUN CONFTEST_VERSION=$(curl -s "https://api.github.com/repos/open-policy-agent/conftest/releases" | jq --raw-output '.[0].tag_name') \
+  && CONFTEST_VERSION=${CONFTEST_VERSION:1} \
+  && sudo curl -sL -o conftest_Linux_x86_64.tar.gz https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz \
+  && sudo tar xf conftest_Linux_x86_64.tar.gz -C /usr/local/bin conftest \
+  && sudo chmod +x /usr/local/bin/conftest \
+  && sudo rm conftest_Linux_x86_64.tar.gz \
+  && conftest --version
+
+# Install latest shellcheck
+RUN SHELLCHECK_VERSION=$(curl -s "https://api.github.com/repos/koalaman/shellcheck/releases" | jq --raw-output '.[0].tag_name') \
+&& SHELLCHECK_VERSION=${SHELLCHECK_VERSION} \
+&& sudo curl -sL -o shellcheck.linux.x86_64.tar.gz https://github.com/koalaman/shellcheck/releases/download/${SHELLCHECK_VERSION}/shellcheck-${SHELLCHECK_VERSION}.linux.x86_64.tar.xz \
+&& sudo tar xf shellcheck.linux.x86_64.tar.gz --strip-components=1 -C /usr/local/bin shellcheck-${SHELLCHECK_VERSION}/shellcheck \
+&& sudo chmod +x /usr/local/bin/shellcheck \
+&& shellcheck --version
+
+# Install latest yq
+RUN sudo curl -sL -o /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 \
+  && sudo chmod +x /usr/local/bin/yq \
+  && yq --version
+
+# Install latest task
+RUN sudo curl -sL https://taskfile.dev/install.sh | sudo sh \
+  && sudo mv ./bin/task /usr/local/bin/task \
+  && sudo chmod +x /usr/local/bin/task \
+  && task --version
