@@ -19,7 +19,7 @@ RUN \
     "https://github.com/theotherp/nzbhydra2/releases/download/v${VERSION}/nzbhydra2-${VERSION}-linux.zip" \
   && unzip -q /tmp/nzbhydra2.zip -d /app \
   && curl -fsSL -o /app/nzbhydra2wrapperPy3.py \
-    "https://raw.githubusercontent.com/theotherp/nzbhydra2/master/other/wrapper/nzbhydra2wrapperPy3.py" \
+    "https://raw.githubusercontent.com/theotherp/nzbhydra2/v${VERSION}/other/wrapper/nzbhydra2wrapperPy3.py" \
   && \
   rm -rf \
     /tmp/nzbhydra2.zip \
