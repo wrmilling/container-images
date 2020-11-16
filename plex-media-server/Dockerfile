@@ -22,7 +22,6 @@ RUN \
   esac \
   && \
   export PLEX_ARCH="${ARCH}"; \
-  && \
   apt-get -qq update \
   && \
   apt-get -qq install -y --no-install-recommends --no-install-suggests \
