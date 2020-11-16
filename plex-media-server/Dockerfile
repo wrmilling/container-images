@@ -51,7 +51,7 @@ RUN \
 
 USER kah
 
-ENV LD_LIBRARY_PATH=/usr/lib/plexmediaserver:/usr/lib/plexmediaserver/lib
+ENV LD_LIBRARY_PATH="/usr/lib/plexmediaserver:/usr/lib/plexmediaserver/lib"
 
 EXPOSE 32400/tcp 1900/udp 3005/tcp 5353/udp 8324/tcp 32410/udp 32412/udp 32413/udp 32414/udp 32469/tcp
 
