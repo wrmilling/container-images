@@ -16,18 +16,19 @@ ENV NVIDIA_DRIVER_CAPABILITIES="compute,video,utility" \
 
 RUN \
   case "${TARGETPLATFORM}" in \
-    'linux/amd64') export ARCH='amd64' ;; \
+    'linux/amd64') export ARCH='amd64' EXTRA_INSTALL_ARG='beignet-opencl-icd ocl-icd-libopencl1';; \
     'linux/arm64') export ARCH='arm64' ;; \
     'linux/arm/v7') export ARCH='armhf' ;; \
   esac \
   && \
-  export PLEX_ARCH="${ARCH}"; \
   apt-get -qq update \
   && \
   apt-get -qq install -y --no-install-recommends --no-install-suggests \
     unrar \
     udev \
     wget \
+    xmlstarlet \
+    ${EXTRA_INSTALL_ARG} \
   && \
   curl -fsSL -o /tmp/plex.deb \
     "${PLEX_DOWNLOAD}/${VERSION}/debian/plexmediaserver_${VERSION}_${ARCH}.deb" \
