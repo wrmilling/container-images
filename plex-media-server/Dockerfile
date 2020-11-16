@@ -58,7 +58,7 @@ ENV LD_LIBRARY_PATH="/usr/lib/plexmediaserver:/usr/lib/plexmediaserver/lib"
 
 EXPOSE 32400/tcp 1900/udp 3005/tcp 5353/udp 8324/tcp 32410/udp 32412/udp 32413/udp 32414/udp 32469/tcp
 
-COPY ./plex-media-server/plex-preferences.sh /shim/plex-preferences.sh
+COPY ./plex-media-server/shim/plex-preferences.sh /shim/plex-preferences.sh
 
 COPY ./plex-media-server/entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]
