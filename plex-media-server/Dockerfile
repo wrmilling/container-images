@@ -16,7 +16,10 @@ ENV NVIDIA_DRIVER_CAPABILITIES="compute,video,utility" \
 
 RUN \
   case "${TARGETPLATFORM}" in \
-    'linux/amd64') export ARCH='amd64' EXTRA_INSTALL_ARG='beignet-opencl-icd ocl-icd-libopencl1';; \
+    'linux/amd64') \
+        export ARCH='amd64'; \
+        export EXTRA_INSTALL_ARG='beignet-opencl-icd ocl-icd-libopencl1'; \
+    ;; \
     'linux/arm64') export ARCH='arm64' ;; \
     'linux/arm/v7') export ARCH='armhf' ;; \
   esac \
