@@ -8,7 +8,7 @@ on:
       - '.github/workflows/radarr.yaml'
       - 'radarr/**'
       - '!radarr/*.md'
-  pull_request_target:
+  pull_request:
     paths:
       - '.github/workflows/radarr.yaml'
       - 'radarr/**'

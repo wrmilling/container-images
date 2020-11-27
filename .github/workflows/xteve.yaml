@@ -8,7 +8,7 @@ on:
       - '.github/workflows/xteve.yaml'
       - 'xteve/**'
       - '!xteve/*.md'
-  pull_request_target:
+  pull_request:
     paths:
       - '.github/workflows/xteve.yaml'
       - 'xteve/**'

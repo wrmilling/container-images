@@ -8,7 +8,7 @@ on:
       - '.github/workflows/plex-media-server.yaml'
       - 'plex-media-server/**'
       - '!plex-media-server/*.md'
-  pull_request_target:
+  pull_request:
     paths:
       - '.github/workflows/plex-media-server.yaml'
       - 'plex-media-server/**'

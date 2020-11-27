@@ -8,7 +8,7 @@ on:
       - '.github/workflows/bazarr.yaml'
       - 'bazarr/**'
       - '!bazarr/*.md'
-  pull_request_target:
+  pull_request:
     paths:
       - '.github/workflows/bazarr.yaml'
       - 'bazarr/**'

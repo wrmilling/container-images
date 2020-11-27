@@ -8,7 +8,7 @@ on:
       - '.github/workflows/ubuntu.yaml'
       - 'ubuntu/**'
       - '!ubuntu/*.md'
-  pull_request_target:
+  pull_request:
     paths:
       - '.github/workflows/ubuntu.yaml'
       - 'ubuntu/**'
