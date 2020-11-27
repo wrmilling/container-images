@@ -23,6 +23,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci-skip]')"
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -62,7 +63,7 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: |
-            ${{ env.REGISTRY_IMAGE }}:v${{ steps.prep.outputs.version }}-pr${{github.event.number}}
+            k8sathome/pull-request:${{github.event.number}}
 
       - name: Build and Push
         if: github.ref == 'refs/heads/main'
