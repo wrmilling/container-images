@@ -19,13 +19,13 @@ RUN \
   esac \
   && \
   curl -fsSL -o /tmp/radarr.tar.gz \
-    "https://radarr.servarr.com/v1/update/nightly/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" \
+    "https://radarr.servarr.com/v1/update/develop/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" \
   && tar ixzf /tmp/radarr.tar.gz -C /app --strip-components 1 \
   && \
   rm -rf \
     /app/Radarr.Update* \
     /tmp/radarr.tar.gz \
-  && echo "UpdateMethod=docker\nBranch=nightly\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
+  && echo "UpdateMethod=docker\nBranch=develop\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
   && apt-get autoremove -y \
   && apt-get clean \
   && \
