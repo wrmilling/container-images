@@ -5,7 +5,8 @@ ARG VERSION
 USER root
 
 RUN \
-  export EXTRA_INSTALL_ARG="build-essential libssl-dev"; \
+  export EXTRA_INSTALL_ARG="build-essential libssl-dev" \
+  && \
   apt-get -qq update \
   && \
   apt-get -qq install -y \
