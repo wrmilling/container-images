@@ -8,7 +8,7 @@ RUN \
   export EXTRA_INSTALL_ARG="build-essential git" \
   && apt-get -qq update \
   && \
-  apt-get -qq install -y --no-install-recommends --no-install-suggests \
+  apt-get -qq install -y \
     iptables \
     iproute2 \
     openresolv \
@@ -43,7 +43,8 @@ RUN \
     /var/lib/apt/lists/* \
     /var/tmp/ \
   && chmod -R u=rwX,go=rX /app \
-  && echo umask ${UMASK} >> /etc/bash.bashrc
+  && echo umask ${UMASK} >> /etc/bash.bashrc \
+  && update-ca-certificates
 
 USER kah
 

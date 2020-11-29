@@ -110,7 +110,7 @@ RUN \
   && \
   apt-get -qq update \
   && \
-  apt-get install -y --no-install-recommends --no-install-suggests \
+  apt-get install -y \
     geoip-bin \
     libqt5network5 \
     libqt5xml5 \
@@ -127,7 +127,8 @@ RUN \
     /var/lib/apt/lists/* \
     /var/tmp/ \
   && chmod -R u=rwX,go=rX /app \
-  && echo umask ${UMASK} >> /etc/bash.bashrc
+  && echo umask ${UMASK} >> /etc/bash.bashrc \
+  && update-ca-certificates
 
 USER kah
 

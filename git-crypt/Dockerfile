@@ -5,10 +5,10 @@ ARG VERSION
 USER root
 
 RUN \
-  export EXTRA_INSTALL_ARG="build-essential libssl-dev" \
-  && apt-get -qq update \
+  export EXTRA_INSTALL_ARG="build-essential libssl-dev"; \
+  apt-get -qq update \
   && \
-  apt-get -qq install -y --no-install-recommends --no-install-suggests \
+  apt-get -qq install -y \
     git \
     openssl \
     ${EXTRA_INSTALL_ARG} \
@@ -27,7 +27,8 @@ RUN \
   rm -rf \
     /tmp/* \
     /var/lib/apt/lists/* \
-    /var/tmp/
+    /var/tmp/ \
+  && update-ca-certificates
 
 USER kah
 
