@@ -16,6 +16,7 @@ apt-get install -qqy --no-install-recommends \
     git-crypt \
     gettext-base \
     jq \
+    file \
     sudo \
     tzdata \
     ${EXTRA_INSTALL_ARG}
