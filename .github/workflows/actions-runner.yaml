@@ -16,6 +16,7 @@ on:
     types:
       - opened
       - reopened
+  workflow_dispatch:
 
 env:
   REGISTRY_IMAGE: k8sathome/${{ github.workflow }}
