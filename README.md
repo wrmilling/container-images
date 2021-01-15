@@ -16,12 +16,35 @@ _There's so many images out there, why do I want to use these?_
 
 ## Deployment Information
 
+### Deployment on Kubernetes
+
+Most of these containers can be used as drop-in-replacements for the images in our k8s-at-home [Helm charts](https://github.com/k8s-at-home/charts/).
+While we do not know if (or when) these containers will be the default for the Helm Charts, they work just fine!
+
+Within docker-compose and other solutions, they should work just fine too but that isn't guaranteed. 
+But please do report any bugs when you see them!
+
 ### Volumes
 |   Path    | Description                         |
 |:---------:|-------------------------------------|
 |  `/app`   | Application install directory       |
 | `/config` | Application configuration directory |
 
+### Permissions:
+
+Our default permissions are set for user 568.
+However: With these containers, permissions are not set using environment variables.
+
+Switching to these images might requires you to either:
+1. change permissions to the Persistent Volume (from PVC) (example: `chown -R 568:568 /path/to/volume/`)
+or
+2. setting the podSecurityContext in the helm charts to your user/group ids, like below:
+```
+podSecurityContext:
+  runAsUser: 1001
+  runAsGroup: 1001
+  fsGroup: 1001
+```
 ### Environment Variables
 |      Name      | Default | Description                                       |
 |:--------------:|:-------:|---------------------------------------------------|
@@ -47,4 +70,3 @@ _There's so many images out there, why do I want to use these?_
 |        [tautulli](https://github.com/Tautulli/Tautulli)         | [![Version](https://img.shields.io/docker/v/k8sathome/tautulli?sort=semver&style=for-the-badge)](https://hub.docker.com/r/k8sathome/tautulli)           | [![Status](https://img.shields.io/github/workflow/status/k8s-at-home/container-images/tautulli?style=for-the-badge)](https://github.com/k8s-at-home/container-images/actions?query=workflow%3Atautulli)           |
 |      [wireguard](https://github.com/WireGuard/wireguard-tools)      | [![Version](https://img.shields.io/docker/v/k8sathome/wireguard?sort=semver&style=for-the-badge)](https://hub.docker.com/r/k8sathome/wireguard)             | [![Status](https://img.shields.io/github/workflow/status/k8s-at-home/container-images/wireguard?style=for-the-badge)](https://github.com/k8s-at-home/container-images/actions?query=workflow%3Awireguard)             |
 |      [xteve](https://github.com/xteve-project/xTeVe)      | [![Version](https://img.shields.io/docker/v/k8sathome/xteve?sort=semver&style=for-the-badge)](https://hub.docker.com/r/k8sathome/xteve)             | [![Status](https://img.shields.io/github/workflow/status/k8s-at-home/container-images/xteve?style=for-the-badge)](https://github.com/k8s-at-home/container-images/actions?query=workflow%3Axteve)             |
-
