@@ -48,7 +48,7 @@ RUN \
   && \
   curl -fsSL -o /tmp/plex.deb \
     "${PLEX_DOWNLOAD}/${VERSION}/debian/plexmediaserver_${VERSION}_${ARCH}.deb" \
-  && dpkg -i /tmp/plex.deb \
+  && dpkg -i --force-confold --force-architecture /tmp/plex.deb \
   && \
   rm -rf \
     /tmp/plex.deb \
@@ -67,8 +67,6 @@ RUN \
   && update-ca-certificates
 
 USER kah
-
-ENV LD_LIBRARY_PATH="/usr/lib/plexmediaserver:/usr/lib/plexmediaserver/lib"
 
 EXPOSE 32400/tcp 1900/udp 3005/tcp 5353/udp 8324/tcp 32410/udp 32412/udp 32413/udp 32414/udp 32469/tcp
 
