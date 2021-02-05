@@ -9,10 +9,10 @@ Applications are checked every several hours for new releases.
 _There's so many images out there, why do I want to use these?_
 
 - Semantic versioning is awesome
+- Kubernetes is awesome
 - s6-overlay is not awesome
-- ARM architectures are gaining popularity
 - Multiple architecture support (amd64, arm64)
-- Simplicity over complexity (e.g. only ubuntu:focal)
+- Simplicity over complexity (e.g. only `ubuntu:focal`)
 
 ## Deployment Information
 
@@ -21,31 +21,35 @@ _There's so many images out there, why do I want to use these?_
 Most of these containers can be used as drop-in-replacements for the images in our k8s-at-home [Helm charts](https://github.com/k8s-at-home/charts/).
 While we do not know if (or when) these containers will be the default for the Helm Charts, they work just fine!
 
-Within docker-compose and other solutions, they should work just fine too but that isn't guaranteed. 
-But please do report any bugs when you see them!
+Within docker-compose and other solutions, they should work just fine too but that isn't guaranteed. But please do report any bugs when you see them!
 
 ### Volumes
+
 |   Path    | Description                         |
 |:---------:|-------------------------------------|
 |  `/app`   | Application install directory       |
 | `/config` | Application configuration directory |
 
-### Permissions:
+### Permissions
 
-Our default permissions are set for user 568.
-However: With these containers, permissions are not set using environment variables.
+Our default permissions are set for user `568`.
 
-Switching to these images might requires you to either:
-1. change permissions to the Persistent Volume (from PVC) (example: `chown -R 568:568 /path/to/volume/`)
-or
-2. setting the podSecurityContext in the helm charts to your user/group ids, like below:
+Because we're not using `s6-overlay`, permissions are not set using environment variables but rather with `podSecurityContext`.
+
+Switching to these images might requires you to either...
+
+- Change permissions to the Persistent Volume (from PVC) (example: `chown -R 568:568 /path/to/volume/`), or
+- Setting the `podSecurityContext` in the helm charts to your desired User/Group Ids, like below:
+
 ```
 podSecurityContext:
   runAsUser: 1001
   runAsGroup: 1001
   fsGroup: 1001
 ```
+
 ### Environment Variables
+
 |      Name      | Default | Description                                       |
 |:--------------:|:-------:|---------------------------------------------------|
 |    `UMASK`     | `0002`  | Set the default creation permission mode of files |
@@ -54,6 +58,7 @@ podSecurityContext:
 |      `TZ`      |  `UTC`  | Set to your timezone (e.g. `America/New_York`)    |
 
 ## Available Images
+
 |                        Application                        |                                                                                                                                                     |                                                                                                                                                                                                               |
 |:---------------------------------------------------------:|-----------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |     [actions-runner](https://github.com/summerwind/actions-runner-controller)     | [![Version](https://img.shields.io/docker/v/k8sathome/actions-runner?sort=semver&style=for-the-badge)](https://hub.docker.com/r/k8sathome/actions-runner)           | [![Status](https://img.shields.io/github/workflow/status/k8s-at-home/container-images/actions-runner?style=for-the-badge)](https://github.com/k8s-at-home/container-images/actions?query=workflow%3Aactions-runner)           |
