@@ -78,4 +78,4 @@ jobs:
         push: true
         tags: |
           ghcr.io/k8s-at-home/${{ env.REGISTRY_IMAGE }}:latest
-          ghcr.io/k8s-at-home/${{ env.REGISTRY_IMAGE }}:v${{ steps.prep.outputs.version }}
+          ghcr.io/k8s-at-home/${{ env.REGISTRY_IMAGE }}:${{ steps.prep.outputs.version }}
