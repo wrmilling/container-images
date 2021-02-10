@@ -15,11 +15,7 @@ The goal of these images is to support:
 
 ## Images
 
-As of 2021/02/09 GitHub does not provide a nice way to browse Docker images in their Container Registry (GHCR). However it's not hard to figure out what the tag would be for the images we have here.
-
-Each image will consist of `ghcr.io/k8s-at-home/`, then the app name in the folder structure above `radarr` and then the tag from the `.version` file in the `radarr` directory prefixed with a `:v`. Put this together and this is what you'll get `ghcr.io/k8s-at-home/radarr:v3.0.2.4552`
-
-We will update once there is a much nicer way of browsing or search for image tags.
+For an overview of the k8s-at-home images, please click [here](https://github.com/orgs/k8s-at-home/packages?ecosystem=container&visibility=public).
 
 ## Configuration
 
