@@ -6,12 +6,19 @@ Applications are checked every several hours for new releases.
 
 ## Purpose
 
-The goal of these images is to support:
+The goal of these images is to support...
 
 - semantic versioning
 - multiple architectures (`amd64`/`arm64`)
 - Kubernetes [Security Contexts](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) over using `s6-overlay`
 - only using `ubuntu:focal` as the base image
+
+Container images that were once here but now are gone it is likely that...
+
+1. the application developers are supporting their own images and conforming to semver, or
+2. the application has been replaced with a different application, or
+3. the application maintaince cost it too high to continue to build images for, or
+4. the application is no longer maintained
 
 ## Images
 
