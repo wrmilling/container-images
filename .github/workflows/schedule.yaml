@@ -23,7 +23,7 @@ jobs:
         find . -maxdepth 1 -mindepth 1 -type d | while read app; do
           if test -f "./${app}/latest-version.sh"; then
             version=$(bash "./${app}/latest-version.sh")
-            if [ ! -z "${version}" ]; then
+            if [[ ! -z "${version}" || "${version}" != "null" ]]; then
               echo "${version}" | tee "${app}/.version" > /dev/null
               echo "${app} ${version}"
             fi
