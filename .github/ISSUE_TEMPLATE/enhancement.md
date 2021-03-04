@@ -2,7 +2,7 @@
 name: Feature request
 about: Suggest an idea for this project
 title: ''
-labels: enhancement
+labels: kind:enhancement
 assignees: ''
 
 ---
@@ -11,7 +11,7 @@ assignees: ''
 
 **Image name:**
 
-<!-- Note: This should be the image name you are referring to. e.g. jackett -->
+<!-- Note: This should be the helm chart name you are referring to. e.g. jackett -->
 
 **Describe the solution you'd like:**
 
