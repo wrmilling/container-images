@@ -2,22 +2,20 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: bug
+labels: kind:bug
 assignees: ''
 
 ---
 
 # Details
 
-**Image name and version:**
-
-<!-- Note: This should be the container image name and version you have deployed. e.g. jackett 0.17.496 -->
-
 **What steps did you take and what happened:**
 
 <!-- Note: This should be a clear and concise description of what the bug is. -->
 
 **What did you expect to happen:**
+
+<!-- Note: This should be a clear and concise description of what you expected to happen. -->
 
 **Anything else you would like to add:**
 
