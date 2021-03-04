@@ -9,6 +9,10 @@ assignees: ''
 
 # Details
 
+**Image name:**
+
+<!-- Note: This should be the helm chart name you are referring to. e.g. jackett -->
+
 **What steps did you take and what happened:**
 
 <!-- Note: This should be a clear and concise description of what the bug is. -->
