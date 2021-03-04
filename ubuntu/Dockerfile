@@ -1,7 +1,6 @@
 ARG VERSION
 
 FROM ubuntu:${VERSION}
-LABEL maintainer="k8s-at-home"
 
 ARG TARGETPLATFORM
 
