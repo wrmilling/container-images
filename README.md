@@ -1,4 +1,4 @@
-# k8s@Home collection of container images
+# Container Images
 
 Running applications in Kubernetes is a bit different that in a regular Docker Swarm or Docker Compose setup. Our [container images](https://github.com/k8s-at-home/container-images) are tailored for running in Kubernetes.
 
