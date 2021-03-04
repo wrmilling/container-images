@@ -74,3 +74,7 @@ VOLUME [ "/config" ]
 
 COPY ./shim /shim
 ENTRYPOINT [ "/sbin/tini", "--" ]
+
+LABEL "maintainer"="Devin Buhl <devin.kray@gmail.com>, Bernd Schorgers <me@bjw-s.dev>"
+LABEL "org.opencontainers.image.source"="https://github.com/k8s-at-home/container-images"
+
