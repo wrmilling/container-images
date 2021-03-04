@@ -8,7 +8,7 @@ We try to keep a [KISS principle](https://en.wikipedia.org/wiki/KISS_principle) 
 
 ## Container images
 
-In order to get the Container images repositiry and tags see [here](https://github.com/orgs/k8s-at-home/packages?ecosystem=container&visibility=public).
+In order to get the Container images repository and tags see [here](https://github.com/orgs/k8s-at-home/packages?ecosystem=container&visibility=public).
 
 ## Configuration
 
