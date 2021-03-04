@@ -10,11 +10,11 @@ We try to keep a [KISS principle](https://en.wikipedia.org/wiki/KISS_principle) 
 
 ## Container images
 
-For a list of images see [here](https://github.com/orgs/k8s-at-home/packages?ecosystem=container&visibility=public)
+For a list of images see [here](https://github.com/orgs/k8s-at-home/packages?ecosystem=container&visibility=public).
 
 ## Configuration
 
-For configuration and documentation see [here](https://docs.k8s-at-home.com/our-container-images/getting-started/)
+For configuration and documentation see [here](https://docs.k8s-at-home.com/our-container-images/getting-started/).
 
 ## Support
 
