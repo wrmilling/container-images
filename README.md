@@ -6,11 +6,9 @@ The goal of this project and the container images are to support [Semantic Versi
 
 We try to keep a [KISS principle](https://en.wikipedia.org/wiki/KISS_principle) when building these images, which means no [s6-overlay](https://github.com/just-containers/s6-overlay) and all images are built on top of [ubuntu:focal](https://hub.docker.com/_/ubuntu).
 
-## Container images
+## Configuration
 
 In order to get the Container images repository and tags see [here](https://github.com/orgs/k8s-at-home/packages?ecosystem=container&visibility=public).
-
-## Configuration
 
 For configuration and documentation see [here](https://docs.k8s-at-home.com/our-container-images/getting-started/).
 
