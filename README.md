@@ -16,7 +16,8 @@ For configuration and documentation see [here](https://docs.k8s-at-home.com/our-
 
 ## Support
 
-We have several different methods for getting support.
+We have a few outlets for getting support with our projects:
 
-- [GitHub Discussions](https://github.com/k8s-at-home/organization/discussions)
-- [Discord](https://discord.gg/sTMX7Vh)
+- Visit our [Docs](https://docs.k8s-at-home.com/).
+- Bugs or feature requests should be opened in an [issue](https://github.com/k8s-at-home/container-images/issues/new/choose).
+- Questions or comments should be discussed in our [Discord](https://discord.gg/sTMX7Vh) or via [Github discussions](https://github.com/k8s-at-home/organization/discussions).
