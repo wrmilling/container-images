@@ -2,6 +2,8 @@
 
 These [container images](https://github.com/k8s-at-home/container-images) are tailored for Kubernetes.
 
+Images are hosted on Github Container Registry [here](https://github.com/orgs/k8s-at-home/packages?ecosystem=container&visibility=public).
+
 ## Purpose
 
 The goal of this project and the container images are to support [Semantic Versioning](https://semver.org/) and multiple architectures. 
@@ -10,9 +12,7 @@ We try to keep a [KISS principle](https://en.wikipedia.org/wiki/KISS_principle) 
 
 ## Configuration
 
-In order to get the Container images repository and tags see [here](https://github.com/orgs/k8s-at-home/packages?ecosystem=container&visibility=public).
-
-For configuration and documentation see [here](https://docs.k8s-at-home.com/our-container-images/getting-started/).
+For configuration see [here](https://docs.k8s-at-home.com).
 
 ## Support
 
