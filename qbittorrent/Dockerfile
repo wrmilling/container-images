@@ -92,10 +92,9 @@ RUN \
   && \
   export LIBTORRENT_DEB="libtorrent-rasterbar10_1.2.12+git20210118.3efdb8a941-1ppa1~20.04_${ARCH}.deb" \
   && \
-  curl -fsSL -o libtorrent-rasterbar.deb \
+  curl -fsSL -o /tmp/libtorrent-rasterbar.deb \
     "https://launchpad.net/~qbittorrent-team/+archive/ubuntu/qbittorrent-stable/+files/${LIBTORRENT_DEB}" \
-  && dpkg -i libtorrent-rasterbar.deb \
-  && rm -rf libtorrent-rasterbar.deb \
+  && dpkg -i /tmp/libtorrent-rasterbar.deb \
   && \
   apt-get -qq update \
   && \

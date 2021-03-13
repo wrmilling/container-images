@@ -24,7 +24,6 @@ RUN \
   && \
   rm -rf \
     /app/Radarr.Update* \
-    /tmp/radarr.tar.gz \
   && echo "UpdateMethod=docker\nBranch=develop\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
   && apt-get autoremove -y \
   && apt-get clean \

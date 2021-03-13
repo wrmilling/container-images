@@ -42,12 +42,12 @@ RUN \
     /var/lib/apt/lists/* \
     /var/tmp/
 
-COPY ./tt-rss/nginx.conf /etc/nginx/sites-enabled/default
-COPY ./tt-rss/entrypoint.sh /entrypoint.sh
-CMD ["/entrypoint.sh"]
-
 #USER kah
 #nginx and php use www-data as non-privileged user
 #this container does not need to write persistent files - it only persists to DB
 
 EXPOSE 8080
+
+COPY ./tt-rss/nginx.conf /etc/nginx/sites-enabled/default
+COPY ./tt-rss/entrypoint.sh /entrypoint.sh
+CMD ["/entrypoint.sh"]

@@ -25,8 +25,7 @@ RUN \
   && tar ixzf /tmp/sonarr.tar.gz -C /app --strip-components 1 \
   && \
   rm -rf \
-    /app/Sonarr.Update \
-    /tmp/sonarr.tar.gz \
+    /app/Sonarr.Update* \
   && echo "UpdateMethod=docker\nBranch=phantom-develop\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
   && gpgconf --kill all \
   && apt-get remove -y gnupg2 \

@@ -28,7 +28,6 @@ RUN \
   && \
   rm -rf \
     /app/JackettUpdater* \
-    /tmp/jackett.tar.gz \
   && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
   && apt-get autoremove -y \
   && apt-get clean \

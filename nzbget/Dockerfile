@@ -26,11 +26,10 @@ RUN \
   && \
   curl -fsSL -o /tmp/nzbget.run \
     "https://github.com/nzbget/nzbget/releases/download/v${VERSION}/nzbget-${VERSION}-bin-linux.run" \
-  && sh /tmp/nzbget.run --destdir /app \
   && \
-  rm -rf \
-    /tmp/nzbget.run \
-  && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
+  sh /tmp/nzbget.run --destdir /app \
+  && \
+  echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
   && apt-get remove -y ${EXTRA_INSTALL_ARG} \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \

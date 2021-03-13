@@ -25,7 +25,7 @@ RUN \
   echo "master" > /app/branch.txt \
   && \
   pip3 install --no-cache-dir -U \
-	plexapi \
+	  plexapi \
     pycryptodomex \
   && \
   echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
