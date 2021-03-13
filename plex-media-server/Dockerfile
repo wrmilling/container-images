@@ -23,36 +23,42 @@ RUN \
         export ARCH='amd64'; \
         export EXTRA_INSTALL_ARG='beignet-opencl-icd ocl-icd-libopencl1'; \
     ;; \
-    'linux/arm64') export ARCH='arm64' ;; \
-    'linux/arm/v7') export ARCH='armhf' ;; \
+    'linux/arm64') \
+        export ARCH='arm64'; \
+        export EXTRA_INSTALL_ARG=''; \
+        unset NVIDIA_DRIVER_CAPABILITIES; \
+        unset INTEL_NEO_VERSION; \
+        unset INTEL_IGC_VERSION; \
+        unset INTEL_GMMLIB_VERSION; \
+    ;; \
   esac \
   && \
   apt-get -qq update \
   && \
   apt-get -qq install -y \
+    udev \
     unrar \
     uuid-runtime \
     xmlstarlet \
     ${EXTRA_INSTALL_ARG} \
   && \
-  case "${TARGETPLATFORM}" in \
-    'linux/amd64') \
-      curl -J -L -o /tmp/gmmlib.deb https://github.com/intel/compute-runtime/releases/download/${INTEL_NEO_VERSION}/intel-gmmlib_${INTEL_GMMLIB_VERSION}_amd64.deb && \
-      apt install -y /tmp/gmmlib.deb && \
-      curl -J -L -o /tmp/#1.deb https://github.com/intel/intel-graphics-compiler/releases/download/igc-${INTEL_IGC_VERSION}/{intel-igc-core,intel-igc-opencl}_${INTEL_IGC_VERSION}_amd64.deb && \
-      apt install -y /tmp/intel-igc-core.deb /tmp/intel-igc-opencl.deb && \
-      curl -J -L -o /tmp/intel-opencl.deb https://github.com/intel/compute-runtime/releases/download/${INTEL_NEO_VERSION}/intel-opencl_${INTEL_NEO_VERSION}_amd64.deb && \
-      apt install -y /tmp/intel-opencl.deb \
+  case "${ARCH}" in \
+    'amd64') \
+      curl -J -L -o /tmp/gmmlib.deb https://github.com/intel/compute-runtime/releases/download/${INTEL_NEO_VERSION}/intel-gmmlib_${INTEL_GMMLIB_VERSION}_amd64.deb \
+      && apt install -y /tmp/gmmlib.deb \
+      && curl -J -L -o /tmp/#1.deb https://github.com/intel/intel-graphics-compiler/releases/download/igc-${INTEL_IGC_VERSION}/{intel-igc-core,intel-igc-opencl}_${INTEL_IGC_VERSION}_amd64.deb \
+      && apt install -y /tmp/intel-igc-core.deb /tmp/intel-igc-opencl.deb \
+      && curl -J -L -o /tmp/intel-opencl.deb https://github.com/intel/compute-runtime/releases/download/${INTEL_NEO_VERSION}/intel-opencl_${INTEL_NEO_VERSION}_amd64.deb \
+      && apt install -y /tmp/intel-opencl.deb \
     ;; \
   esac \
   && \
   curl -fsSL -o /tmp/plex.deb \
     "${PLEX_DOWNLOAD}/${VERSION}/debian/plexmediaserver_${VERSION}_${ARCH}.deb" \
-  && dpkg -i --force-confold --force-architecture /tmp/plex.deb \
   && \
-  rm -rf \
-    /tmp/plex.deb \
-  && echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
+  dpkg -i --force-confold --force-architecture /tmp/plex.deb \
+  && \
+  echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
