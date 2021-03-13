@@ -36,7 +36,7 @@ RUN \
   apt-get -qq update \
   && \
   apt-get -qq install -y \
-    udev \
+    aria2 \
     unrar \
     uuid-runtime \
     xmlstarlet \
@@ -53,12 +53,15 @@ RUN \
     ;; \
   esac \
   && \
-  curl -fsSL -o /tmp/plex.deb \
+  echo "Using curl or wget to download the plex debian package result in a qemu failure, why? I dunno" \
+  && \
+  aria2c -d /tmp -o plex.deb \
     "${PLEX_DOWNLOAD}/${VERSION}/debian/plexmediaserver_${VERSION}_${ARCH}.deb" \
   && \
   dpkg -i --force-confold --force-architecture /tmp/plex.deb \
   && \
   echo "UpdateMethod=docker\nPackageVersion=${VERSION}\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" > /app/package_info \
+  && apt-get remove -y aria2 \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
