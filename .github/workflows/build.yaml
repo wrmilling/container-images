@@ -1,31 +1,42 @@
-name: sonarr
+name: Build-Test-Publish
 
 on:
   workflow_dispatch:
   push:
     branches:
     - main
-    paths:
-    - '.github/workflows/sonarr.yaml'
-    - 'sonarr/**'
-    - '!sonarr/*.md'
   pull_request:
-    paths:
-    - '.github/workflows/sonarr.yaml'
-    - 'sonarr/**'
-    - '!sonarr/*.md'
     types:
     - opened
     - reopened
 
 env:
-  REGISTRY_IMAGE: ${{ github.workflow }}
   # How long to sleep before running the tests (gives the application time to start)
   GOSS_SLEEP: 30
 
 jobs:
+  detect_changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: "{\"container\": ${{ steps.detect_changes.outputs.matrix }} }"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Generate matrix
+        id: detect_changes
+        uses: ReyahSolutions/matrix-git-generator@v1
+        with:
+          filters: |
+            **
+
   build:
+    name: Build
     runs-on: ubuntu-20.04
+    needs: [detect_changes]
+    strategy:
+      matrix: ${{fromJson(needs.detect_changes.outputs.matrix)}}
+      fail-fast: true
     if: "!contains(github.event.head_commit.message, '[ci-skip]')"
     steps:
     - name: Checkout
@@ -34,8 +45,13 @@ jobs:
     - name: Prepare
       id: prep
       run: |
-        VERSION=$(cat ${{ github.workflow }}/.version)
+        VERSION=$(cat ${{ matrix.container }}/VERSION)
         echo ::set-output name=version::${VERSION}
+        if test -f "${{ matrix.container }}/goss.yaml"; then
+          echo ::set-output name=goss::true
+        else
+          echo ::set-output name=goss::false
+        fi
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
@@ -60,6 +76,7 @@ jobs:
 
     - name: Set up goss/dgoss
       uses: e1himself/goss-installation-action@v1.0.3
+      if: ${{ steps.prep.outputs.goss == 'true' }}
       with:
         version: 'v0.3.16'
 
@@ -77,21 +94,21 @@ jobs:
       with:
         build-args: VERSION=${{ steps.prep.outputs.version }}
         context: .
-        file: ./${{ github.workflow }}/Dockerfile
         platforms: linux/amd64,linux/arm64
+        file: ./${{ matrix.container }}/Dockerfile
         push: false # GitHub secrets not available in PRs
         tags: |
           ghcr.io/${{ github.repository_owner }}/pull-request:${{github.event.number}}
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache
 
-    - name: Build local single-platform for testing
+    - name: Build local single-platform for testing (PR)
       if: github.event.number != ''
       uses: docker/build-push-action@v2
       with:
         build-args: VERSION=${{ steps.prep.outputs.version }}
         context: .
-        file: ./${{ github.workflow }}/Dockerfile
+        file: ./${{ matrix.container }}/Dockerfile
         load: true
         tags: |
           ghcr.io/${{ github.repository_owner }}/pull-request:${{github.event.number}}
@@ -99,9 +116,9 @@ jobs:
         cache-to: type=local,dest=/tmp/.buildx-cache
 
     - name: Test image
-      if: github.event.number != ''
+      if: ${{ github.event.number != '' && steps.prep.outputs.goss  == 'true' }}
       env:
-        GOSS_FILE: ${{ github.workflow }}/goss.yaml
+        GOSS_FILE: ${{ matrix.container }}/goss.yaml
       run: |
         dgoss run ghcr.io/${{ github.repository_owner }}/pull-request:${{github.event.number}}
 
@@ -111,9 +128,9 @@ jobs:
       with:
         build-args: VERSION=${{ steps.prep.outputs.version }}
         context: .
-        file: ./${{ github.workflow }}/Dockerfile
         platforms: linux/amd64,linux/arm64
+        file: ./${{ matrix.container }}/Dockerfile
         push: true
         tags: |
-          ghcr.io/${{ github.repository_owner }}/${{ env.REGISTRY_IMAGE }}:latest
-          ghcr.io/${{ github.repository_owner }}/${{ env.REGISTRY_IMAGE }}:v${{ steps.prep.outputs.version }}
+          ghcr.io/${{ github.repository_owner }}/${{ matrix.container }}:latest
+          ghcr.io/${{ github.repository_owner }}/${{ matrix.container }}:v${{ steps.prep.outputs.version }}
