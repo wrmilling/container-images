@@ -43,18 +43,21 @@ jobs:
     - uses: dorny/paths-filter@v2
       id: filter
       with:
-        list-files: shell
+        list-files: json
         filters: |
           changed:
           - 'base/**'
     - run: echo ${{ steps.filter.outputs.changed_files }}
 
-  test:
+  parse:
     name: Test
     runs-on: ubuntu-20.04
     needs: changes
     steps:
-    - run: echo ${{ needs.changes.outputs.containers }}
+    - name: derp
+      run: |
+        echo ${{ needs.changes.outputs.containers }}
+        echo ${{ fromJSON(needs.changes.outputs.containers) }}
 
   # build:
   #   name: Build
