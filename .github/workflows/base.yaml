@@ -17,16 +17,17 @@ env:
 
 # Detect which folders in project-root (which contain the containers) contain changes
 jobs:
-  detect_changes:
+  generate_matrix:
     name: Detect Changes
     runs-on: ubuntu-20.04
     outputs:
-      matrix: "{\"path\": ${{ steps.detect_changes.outputs.matrix }} }"
+      matrix: "{\"path\": ${{ steps.generate_matrix.outputs.matrix }} }"
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    - run: cd ./base
     - name: Generate matrix
-      id: detect_changes
+      id: generate_matrix
       uses: ReyahSolutions/matrix-git-generator@v1
       with:
         filters: |
@@ -35,9 +36,9 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-20.04
-    needs: [detect_changes]
+    needs: [generate_matrix]
     strategy:
-      matrix: ${{fromJson(needs.detect_changes.outputs.matrix)}}
+      matrix: ${{fromJson(needs.generate_matrix.outputs.matrix)}}
       fail-fast: false
     if: "!contains(github.event.head_commit.message, '[ci-skip]')"
     steps:
