@@ -52,7 +52,8 @@ jobs:
     runs-on: ubuntu-20.04
     needs: changes
     strategy:
-      matrix: ${{ fromJSON(needs.changes.outputs.containers) }}
+      matrix:
+        container: ${{ fromJSON(needs.changes.outputs.containers) }}
       fail-fast: false
     if: "!contains(github.event.head_commit.message, '[ci-skip]')"
     steps:
@@ -63,12 +64,12 @@ jobs:
     - name: Prepare
       id: prep
       run: |
-        VERSION=$(cat ${{ matrix.files }}/VERSION)
+        VERSION=$(cat ${{ matrix.container }}/VERSION)
         echo ::set-output name=version::${VERSION}
-        PLATFORM=$(cat ${{ matrix.files }}/PLATFORM)
+        PLATFORM=$(cat ${{ matrix.container }}/PLATFORM)
         echo ::set-output name=platform::${PLATFORM}
         # Goss?
-        if test -f "${{ matrix.files }}/goss.yaml"; then
+        if test -f "${{ matrix.container }}/goss.yaml"; then
           echo ::set-output name=goss::true
         else
           echo ::set-output name=goss::false
