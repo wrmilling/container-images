@@ -39,7 +39,7 @@ RUN \
   && \
   apt-get -qq update \
   && \
-  apt-get -qq install -y --no-install-recommends --no-install-suggests \
+  apt-get -qq install -y \
     ca-certificates \
     curl \
     gnupg2 \
