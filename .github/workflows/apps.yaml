@@ -19,18 +19,18 @@ env:
 jobs:
   detect_changes:
     name: Detect Changes
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     outputs:
       matrix: "{\"container\": ${{ steps.detect_changes.outputs.matrix }} }"
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Generate matrix
-        id: detect_changes
-        uses: ReyahSolutions/matrix-git-generator@v1
-        with:
-          filters: |
-            apps/**
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Generate matrix
+      id: detect_changes
+      uses: ReyahSolutions/matrix-git-generator@v1
+      with:
+        filters: |
+          apps/**
 
   build:
     name: Build
