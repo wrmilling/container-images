@@ -122,5 +122,5 @@ jobs:
         push: ${{ steps.prep.outputs.push }}
         tags: |
           ghcr.io/${{ github.repository_owner }}/${{ matrix.container }}:latest
-          ghcr.io/${{ github.repository_owner }}/${{ matrix.container }}:v${{ steps.prep.outputs.version }}
+          ghcr.io/${{ github.repository_owner }}/${{ matrix.container }}:${{ steps.prep.outputs.version }}
         cache-from: type=local,src=/tmp/.buildx-cache
