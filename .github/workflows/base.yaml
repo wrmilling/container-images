@@ -50,14 +50,14 @@ jobs:
     - run: echo '${{ toJson(steps.filter.outputs) }}' > changes.json
     - id: reduce
       run: |
-        echo "::set-output name=containers:$(jq --raw-output '.[] |= sub("base/(?<container>.*)/.*"; "\(.container)") | unique' changes.json)"
+        echo "::set-output name=containers:$(jq --raw-output '.changed_files | fromjson | .[] |= sub("base/(?<container>.*)/.*"; "\(.container)") | unique' changes.json)"
 
   build:
     name: Build
     runs-on: ubuntu-20.04
     needs:
     - changes
-    if: ${{ needs.changes.outputs.containers != '[]' && needs.changes.outputs.containers != '' }}
+    # if: ${{ needs.changes.outputs.containers != '[]' && needs.changes.outputs.containers != '' }}
     strategy:
       matrix:
         container: ${{ fromJSON(needs.changes.outputs.containers) }}
