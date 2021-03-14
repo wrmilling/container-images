@@ -37,7 +37,7 @@ RUN \
   && echo 'APT::Get::Install-Recommends "false";' >>/etc/apt/apt.conf.d/00recommends \
   && echo 'APT::Get::Install-Suggests "false";' >>/etc/apt/apt.conf.d/00recommends \
   && \
-  apt-get -qq update \
+  apt-get update \
   && \
   apt-get -qq install -y \
     ca-certificates \
