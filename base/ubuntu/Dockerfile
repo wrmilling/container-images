@@ -39,7 +39,7 @@ RUN \
   && \
   apt-get update \
   && \
-  apt-get -qq install -y \
+  apt-get install -y \
     ca-certificates \
     curl \
     gnupg2 \
