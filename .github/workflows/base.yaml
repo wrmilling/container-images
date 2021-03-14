@@ -21,7 +21,7 @@ jobs:
     name: Get changes
     runs-on: ubuntu-20.04
     outputs:
-      containers: ${{ steps.reduce.outputs.containers }}
+      matrix: "{\"container\": ${{ steps.reduce.outputs.containers }} }"
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -43,9 +43,8 @@ jobs:
     runs-on: ubuntu-20.04
     needs:
     - changes
-    # if: ${{ needs.changes.outputs.containers != '[]' && needs.changes.outputs.containers != '' }}
     strategy:
-      matrix: ${{ fromJson(needs.changes.outputs.containers) }}
+      matrix: ${{ fromJson(needs.changes.outputs.matrix) }}
       fail-fast: false
     steps:
     - name: Checkout
