@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-20.04
     needs:
     - changes
-    if: ${{ needs.changes.outputs.containers != '[]' && needs.changes.outputs.containers != '' }}
+    # if: ${{ needs.changes.outputs.containers != '[]' && needs.changes.outputs.containers != '' }}
     strategy:
       matrix:
         container: ${{ fromJSON(needs.changes.outputs.containers) }}
