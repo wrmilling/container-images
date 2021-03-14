@@ -31,11 +31,11 @@ jobs:
         list-files: json
         filters: |
           changed:
-          - 'base/**'
+          - 'apps/**'
     - run: echo '${{ toJson(steps.filter.outputs) }}' > changes.json
     - id: reduce
       run: |
-        CONTAINERS=$(jq --raw-output '.changed_files | fromjson | .[] |= sub("base/(?<container>.*)/.*"; "\(.container)") | unique' changes.json)
+        CONTAINERS=$(jq --raw-output '.changed_files | fromjson | .[] |= sub("apps/(?<container>.*)/.*"; "\(.container)") | unique' changes.json)
         echo ::set-output name=containers::${CONTAINERS}
 
   build:
