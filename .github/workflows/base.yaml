@@ -47,10 +47,10 @@ jobs:
         filters: |
           changed:
           - 'base/**'
-    - run: echo ${{ steps.filter.outputs.changed_files }}
+    - run: echo '${{ toJson(steps.filter.outputs) }}' > changes.json
 
   reduce:
-    name: Test
+    name: Reduce
     runs-on: ubuntu-20.04
     needs: changes
     outputs:
@@ -58,7 +58,7 @@ jobs:
     steps:
     - id: reduce
       run: |
-        echo "::set-output name=containers:$(jq --raw-output '.[] |= sub("base/(?<container>.*)/.*"; "\(.container)") | unique')"
+        echo "::set-output name=containers:$(jq --raw-output '.[] |= sub("base/(?<container>.*)/.*"; "\(.container)") | unique' changes.json)"
 
   build:
     name: Build
