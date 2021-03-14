@@ -64,6 +64,10 @@ jobs:
     - name: Prepare
       id: prep
       run: |
+        echo ${{ matrix }}
+
+        echo ${{ matrix.container }}
+
         echo ${{ matrix.container.changed_files }}
         echo ${{ matrix.changed_files }}
 
