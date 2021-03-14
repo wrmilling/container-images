@@ -17,44 +17,59 @@ env:
 
 # Detect which folders in project-root (which contain the containers) contain changes
 jobs:
+  # generate_matrix:
+  #   name: Detect Changes
+  #   runs-on: ubuntu-20.04
+  #   outputs:
+  #     matrix: "{\"path\": ${{ steps.generate_matrix.outputs.matrix }} }"
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v2
+  #   - name: Generate matrix
+  #     id: generate_matrix
+  #     uses: ReyahSolutions/matrix-git-generator@v1
+  #     with:
+  #       filters: |
+  #         **
+
   generate_matrix:
-    name: Detect Changes
+    name: Generate matrix
     runs-on: ubuntu-20.04
-    outputs:
-      matrix: "{\"path\": ${{ steps.generate_matrix.outputs.matrix }} }"
+    # outputs:
+    #   matrix: "{\"path\": ${{ steps.generate_matrix.outputs.matrix }} }"
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - run: cd ./base
-    - name: Generate matrix
+    - uses: dorny/paths-filter@v2
       id: generate_matrix
-      uses: ReyahSolutions/matrix-git-generator@v1
       with:
+        list-files: json
         filters: |
-          **
+          files:
+          - 'base/**'
 
   build:
     name: Build
     runs-on: ubuntu-20.04
     needs: [generate_matrix]
     strategy:
-      matrix: ${{fromJson(needs.generate_matrix.outputs.matrix)}}
+      matrix: ${{fromJson(needs.generate_matrix.outputs.changes)}}
       fail-fast: false
     if: "!contains(github.event.head_commit.message, '[ci-skip]')"
     steps:
     - name: Checkout
       uses: actions/checkout@v2
 
-      # Define if tests and push should be run against which versions/platforms
+    # Define if tests and push should be run against which versions/platforms
     - name: Prepare
       id: prep
       run: |
-        VERSION=$(cat ${{ matrix.path }}/VERSION)
+        VERSION=$(cat ${{ matrix.files }}/VERSION)
         echo ::set-output name=version::${VERSION}
-        PLATFORM=$(cat ${{ matrix.path }}/PLATFORM)
+        PLATFORM=$(cat ${{ matrix.files }}/PLATFORM)
         echo ::set-output name=platform::${PLATFORM}
         # Goss?
-        if test -f "${{ matrix.path }}/goss.yaml"; then
+        if test -f "${{ matrix.files }}/goss.yaml"; then
           echo ::set-output name=goss::true
         else
           echo ::set-output name=goss::false
