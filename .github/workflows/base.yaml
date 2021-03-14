@@ -64,17 +64,8 @@ jobs:
     - name: Prepare
       id: prep
       run: |
-        echo ${{ matrix }}
-
-        echo ${{ matrix.container }}
-
         echo ${{ matrix.container.path }}
-        echo ${{ matrix.container.path.changed_files }}
-        echo ${{ matrix.container.changed_files }}
-        echo ${{ matrix.changed_files }}
-
-        echo ${{ matrix.container.changes }}
-        echo ${{ matrix.changes }}
+        echo ${{ matrix.container.path_files }}
 
 # VERSION=$(cat ${{ matrix.container }}/VERSION)
 # echo ::set-output name=version::${VERSION}
