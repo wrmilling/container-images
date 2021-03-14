@@ -45,7 +45,7 @@ jobs:
     - changes
     # if: ${{ needs.changes.outputs.containers != '[]' && needs.changes.outputs.containers != '' }}
     strategy:
-      matrix: ${{ needs.changes.outputs.containers }}
+      matrix: ${{ fromJSON(needs.changes.outputs.containers) }}
       fail-fast: false
     steps:
     - name: Checkout
