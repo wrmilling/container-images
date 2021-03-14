@@ -32,16 +32,16 @@ jobs:
   #       filters: |
   #         **
 
-  generate_matrix:
-    name: Generate matrix
+  changes:
+    name: Get changes
     runs-on: ubuntu-20.04
-    # outputs:
-    #   matrix: "{\"path\": ${{ steps.generate_matrix.outputs.matrix }} }"
+    outputs:
+      containers: ${{ steps.filter.outputs.changes }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
     - uses: dorny/paths-filter@v2
-      id: generate_matrix
+      id: filter
       with:
         list-files: json
         filters: |
@@ -51,9 +51,9 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-20.04
-    needs: [generate_matrix]
+    needs: changes
     strategy:
-      matrix: ${{fromJson(needs.generate_matrix.outputs.changes)}}
+      matrix: ${{ fromJSON(needs.changes.outputs.containers) }}
       fail-fast: false
     if: "!contains(github.event.head_commit.message, '[ci-skip]')"
     steps:
