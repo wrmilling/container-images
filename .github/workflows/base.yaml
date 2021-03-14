@@ -68,6 +68,8 @@ jobs:
 
         echo ${{ matrix.container }}
 
+        echo ${{ matrix.container.changed }}
+        echo ${{ matrix.container.changed.changed_files }}
         echo ${{ matrix.container.changed_files }}
         echo ${{ matrix.changed_files }}
 
