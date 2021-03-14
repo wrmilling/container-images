@@ -51,11 +51,11 @@ jobs:
     name: Build
     runs-on: ubuntu-20.04
     needs: changes
+    if: ${{ needs.changes.outputs.containers != '[]' && needs.changes.outputs.containers != '' }}
     strategy:
       matrix:
         container: ${{ fromJSON(needs.changes.outputs.containers) }}
       fail-fast: false
-    if: "!contains(github.event.head_commit.message, '[ci-skip]')"
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -64,22 +64,23 @@ jobs:
     - name: Prepare
       id: prep
       run: |
-        VERSION=$(cat ${{ matrix.container }}/VERSION)
-        echo ::set-output name=version::${VERSION}
-        PLATFORM=$(cat ${{ matrix.container }}/PLATFORM)
-        echo ::set-output name=platform::${PLATFORM}
-        # Goss?
-        if test -f "${{ matrix.container }}/goss.yaml"; then
-          echo ::set-output name=goss::true
-        else
-          echo ::set-output name=goss::false
-        fi
-        # PR?
-        if [ "${{github.event_name}}" == "pull_request" ]; then
-          echo ::set-output name=push::false
-        else
-          echo ::set-output name=push::true
-        fi
+        echo ${{ steps.filter.outputs.changed_files }}
+# VERSION=$(cat ${{ matrix.container }}/VERSION)
+# echo ::set-output name=version::${VERSION}
+# PLATFORM=$(cat ${{ matrix.container }}/PLATFORM)
+# echo ::set-output name=platform::${PLATFORM}
+# # Goss?
+# if test -f "${{ matrix.container }}/goss.yaml"; then
+#   echo ::set-output name=goss::true
+# else
+#   echo ::set-output name=goss::false
+# fi
+# # PR?
+# if [ "${{github.event_name}}" == "pull_request" ]; then
+#   echo ::set-output name=push::false
+# else
+#   echo ::set-output name=push::true
+# fi
 
     # - name: Set up QEMU
     #   uses: docker/setup-qemu-action@v1
