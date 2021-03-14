@@ -8,4 +8,4 @@ RUN \
         ca-certificates
 
 ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["echo", "This is base image is not supported yet. Check back later!", "exit", "1" ]
+CMD ["echo", "'No can haz support yet. Chek bak l8r!'", "exit", "1337" ]

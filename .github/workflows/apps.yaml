@@ -17,27 +17,34 @@ env:
 
 # Detect which folders in project-root (which contain the containers) contain changes
 jobs:
-  detect_changes:
-    name: Detect Changes
+  changes:
+    name: Get changes
     runs-on: ubuntu-20.04
     outputs:
-      matrix: "{\"container\": ${{ steps.detect_changes.outputs.matrix }} }"
+      matrix: "{\"container\": ${{ steps.reduce.outputs.containers }} }"
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Generate matrix
-      id: detect_changes
-      uses: ReyahSolutions/matrix-git-generator@v1
+    - uses: dorny/paths-filter@v2
+      id: filter
       with:
+        list-files: json
         filters: |
-          apps/**
+          changed:
+          - 'base/**'
+    - run: echo '${{ toJson(steps.filter.outputs) }}' > changes.json
+    - id: reduce
+      run: |
+        CONTAINERS=$(jq --raw-output '.changed_files | fromjson | .[] |= sub("base/(?<container>.*)/.*"; "\(.container)") | unique' changes.json)
+        echo ::set-output name=containers::${CONTAINERS}
 
   build:
     name: Build
     runs-on: ubuntu-20.04
-    needs: [detect_changes]
+    needs:
+    - changes
     strategy:
-      matrix: ${{fromJson(needs.detect_changes.outputs.matrix)}}
+      matrix: ${{ fromJson(needs.changes.outputs.matrix) }}
       fail-fast: false
     if: "!contains(github.event.head_commit.message, '[ci-skip]')"
     steps:
