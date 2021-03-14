@@ -43,9 +43,8 @@ jobs:
     - uses: dorny/paths-filter@v2
       id: filter
       with:
-        list-files: json
         filters: |
-          files:
+          changed:
           - 'base/**'
 
   build:
