@@ -38,10 +38,26 @@ jobs:
         CONTAINERS=$(jq --raw-output '.changed_files | fromjson | .[] |= sub("(?<filepath>(?<first_directory>(?<root1>[/]?)[^/]+/)(?<second_directory>(?<root2>[/]?)[^/]+)(?<extra_paths>.+))"; "\(.second_directory)") | unique' changes.json)
         echo ::set-output name=containers::${CONTAINERS}
 
+  hadolint:
+    name: Run hadolint
+    runs-on: ubuntu-20.04
+    needs:
+    - changes
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: hadolint
+      uses: reviewdog/action-hadolint@v1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        reporter: github-pr-review
+        fail_on_error: true
+
   build:
     name: Build
     runs-on: ubuntu-20.04
     needs:
+    - hadolint
     - changes
     strategy:
       matrix: ${{ fromJson(needs.changes.outputs.matrix) }}
@@ -130,7 +146,6 @@ jobs:
       run: |
         rm -rf /tmp/.buildx-cache
         mv /tmp/.buildx-cache-new /tmp/.buildx-cache | exit 0
-
 
     # Run GOSS tests if included with the container
     - name: Run GOSS tests

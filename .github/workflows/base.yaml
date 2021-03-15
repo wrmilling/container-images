@@ -34,10 +34,26 @@ jobs:
         CONTAINERS=$(jq --raw-output '.changed_files | fromjson | .[] |= sub("(?<filepath>(?<first_directory>(?<root1>[/]?)[^/]+/)(?<second_directory>(?<root2>[/]?)[^/]+)(?<extra_paths>.+))"; "\(.second_directory)") | unique' changes.json)
         echo ::set-output name=containers::${CONTAINERS}
 
+  hadolint:
+    name: Run hadolint
+    runs-on: ubuntu-20.04
+    needs:
+    - changes
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: hadolint
+      uses: reviewdog/action-hadolint@v1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        reporter: github-pr-review
+        fail_on_error: true
+
   build:
     name: Build
     runs-on: ubuntu-20.04
     needs:
+    - hadolint
     - changes
     strategy:
       matrix: ${{ fromJson(needs.changes.outputs.matrix) }}
