@@ -31,7 +31,7 @@ jobs:
     - run: echo '${{ toJson(steps.filter.outputs) }}' > changes.json
     - id: reduce
       run: |
-        CONTAINERS=$(jq --raw-output '.changed_files | fromjson | .[] |= sub("base/(?<container>.*)/.*"; "\(.container)") | unique' changes.json)
+        CONTAINERS=$(jq --raw-output '.changed_files | fromjson | .[] |= sub("(?<filepath>(?<first_directory>(?<root1>[/]?)[^/]+/)(?<second_directory>(?<root2>[/]?)[^/]+)(?<extra_paths>.+))"; "\(.second_directory)") | unique' changes.json)
         echo ::set-output name=containers::${CONTAINERS}
 
   build:
