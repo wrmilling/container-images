@@ -11,10 +11,6 @@ on:
     paths:
     - 'base/**'
 
-env:
-  # How long to sleep before running the tests (gives the application time to start)
-  GOSS_SLEEP: 30
-
 # Detect which folders in project-root (which contain the containers) contain changes
 jobs:
   changes:
