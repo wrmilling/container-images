@@ -30,6 +30,40 @@ function setPref {
 
 prefFile="${PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR}/Plex Media Server/Preferences.xml"
 
+# Setup Server's client identifier
+serial="$(getPref "MachineIdentifier")"
+if [ -z "${serial}" ]; then
+  serial="$(uuidgen)"
+  setPref "MachineIdentifier" "${serial}"
+fi
+clientId="$(getPref "ProcessedMachineIdentifier")"
+if [ -z "${clientId}" ]; then
+  clientId="$(echo -n "${serial}- Plex Media Server" | sha1sum | cut -b 1-40)"
+  setPref "ProcessedMachineIdentifier" "${clientId}"
+fi
+
+# Get server token and only turn claim token into server token if we have former but not latter.
+token="$(getPref "PlexOnlineToken")"
+if [ ! -z "${PLEX_CLAIM}" ] && [ -z "${token}" ]; then
+  echo "Attempting to obtain server token from claim token"
+  loginInfo="$(curl -X POST \
+        -H 'X-Plex-Client-Identifier: '${clientId} \
+        -H 'X-Plex-Product: Plex Media Server'\
+        -H 'X-Plex-Version: 1.1' \
+        -H 'X-Plex-Provides: server' \
+        -H 'X-Plex-Platform: Linux' \
+        -H 'X-Plex-Platform-Version: 1.0' \
+        -H 'X-Plex-Device-Name: PlexMediaServer' \
+        -H 'X-Plex-Device: Linux' \
+        "https://plex.tv/api/claim/exchange?token=${PLEX_CLAIM}")"
+  token="$(echo "$loginInfo" | sed -n 's/.*<authentication-token>\(.*\)<\/authentication-token>.*/\1/p')"
+  
+  if [ "$token" ]; then
+    echo "Token obtained successfully"
+    setPref "PlexOnlineToken" "${token}"
+  fi
+fi
+
 if [ -n "${ADVERTISE_IP}" ]; then
   setPref "customConnections" "${ADVERTISE_IP}"
 fi
