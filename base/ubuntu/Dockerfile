@@ -32,14 +32,7 @@ WORKDIR /app
 # hadolint ignore=DL3008,DL3015
 RUN \
   set -eux \
-  && \
-  case "${TARGETPLATFORM}" in \
-    'linux/amd64') export ARCH='amd64' ;; \
-    'linux/arm64') export ARCH='arm64' ;; \
-    'linux/arm/v7') export ARCH='armhf' ;; \
-  esac \
-  && \
-  echo 'APT::Install-Recommends "false";' >/etc/apt/apt.conf.d/00recommends \
+  && echo 'APT::Install-Recommends "false";' >/etc/apt/apt.conf.d/00recommends \
   && echo 'APT::Install-Suggests "false";' >>/etc/apt/apt.conf.d/00recommends \
   && echo 'APT::Get::Install-Recommends "false";' >>/etc/apt/apt.conf.d/00recommends \
   && echo 'APT::Get::Install-Suggests "false";' >>/etc/apt/apt.conf.d/00recommends \
@@ -49,13 +42,32 @@ RUN \
   apt-get install -y \
     ca-certificates \
     curl \
+    jq \
     locales \
     tini \
     tzdata \
-    vim \
   && locale-gen en_US.UTF-8 \
   && update-locale \
   && dpkg-reconfigure -f noninteractive locales \
+  && \
+  case "${TARGETPLATFORM}" in \
+    'linux/amd64') export MICRO_ARCH='linux64' ;; \
+    'linux/arm64') export MICRO_ARCH='linux-arm64' ;; \
+    'linux/arm/v7') export MICRO_ARCH='linux-arm' ;; \
+  esac \
+  && MICRO_VERSION=$(curl -s "https://api.github.com/repos/zyedidia/micro/releases" | jq --raw-output '.[0].tag_name') \
+  && MICRO_VERSION="${MICRO_VERSION#?}" \
+  && curl -fsSL "https://github.com/zyedidia/micro/releases/download/v${MICRO_VERSION}/micro-${MICRO_VERSION}-${MICRO_ARCH}.tar.gz" | tar xzf - -C /tmp --strip-components=1 \
+  && mv /tmp/micro /usr/local/bin/micro \
+  && /usr/local/bin/micro --version \
+  && ln -s /usr/local/bin/micro /usr/local/bin/vi \
+  && ln -s /usr/local/bin/micro /usr/local/bin/vim \
+  && ln -s /usr/local/bin/micro /usr/local/bin/nano \
+  && ln -s /usr/local/bin/micro /usr/local/bin/emacs \
+  && unset MICRO_ARCH \
+  && unset MICRO_VERSION \
+  && \
+  apt-get remove -y jq \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
