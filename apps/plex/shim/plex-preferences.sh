@@ -57,7 +57,7 @@ if [ ! -z "${PLEX_CLAIM}" ] && [ -z "${token}" ]; then
         -H 'X-Plex-Device: Linux' \
         "https://plex.tv/api/claim/exchange?token=${PLEX_CLAIM}")"
   token="$(echo "$loginInfo" | sed -n 's/.*<authentication-token>\(.*\)<\/authentication-token>.*/\1/p')"
-  
+
   if [ "$token" ]; then
     echo "Token obtained successfully"
     setPref "PlexOnlineToken" "${token}"
