@@ -1,0 +1,4 @@
+---
+process:
+  EmbyServer:
+    running: true
