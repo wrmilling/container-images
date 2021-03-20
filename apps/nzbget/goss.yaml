@@ -1,14 +1,14 @@
 ---
 process:
-  Lidarr:
+  nzbget:
     running: true
 
 port:
-  tcp6:8686:
+  tcp:6789:
     listening: true
 
 http:
-  http://localhost:8686:
+  http://localhost:6789:
     status: 200
     body:
-    - '<title>Lidarr</title>'
+    - '<title>NZBGet</title>'
