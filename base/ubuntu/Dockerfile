@@ -14,7 +14,8 @@ ENV \
   UMASK=0002 \
   LANG=en_US.UTF-8 \
   LANGUAGE=en_US:en \
-  LC_ALL=en_US.UTF-8
+  LC_ALL=en_US.UTF-8 \
+  MICRO_CONFIG_HOME=/tmp
 
 RUN \
   adduser kah \
@@ -42,32 +43,17 @@ RUN \
   apt-get install -y \
     ca-certificates \
     curl \
-    jq \
     locales \
+    micro \
     tini \
     tzdata \
   && locale-gen en_US.UTF-8 \
   && update-locale \
   && dpkg-reconfigure -f noninteractive locales \
-  && \
-  case "${TARGETPLATFORM}" in \
-    'linux/amd64') export MICRO_ARCH='linux64' ;; \
-    'linux/arm64') export MICRO_ARCH='linux-arm64' ;; \
-    'linux/arm/v7') export MICRO_ARCH='linux-arm' ;; \
-  esac \
-  && MICRO_VERSION=$(curl -s "https://api.github.com/repos/zyedidia/micro/releases" | jq --raw-output '.[0].tag_name') \
-  && MICRO_VERSION="${MICRO_VERSION#?}" \
-  && curl -fsSL "https://github.com/zyedidia/micro/releases/download/v${MICRO_VERSION}/micro-${MICRO_VERSION}-${MICRO_ARCH}.tar.gz" | tar xzf - -C /tmp --strip-components=1 \
-  && mv /tmp/micro /usr/local/bin/micro \
-  && /usr/local/bin/micro --version \
   && ln -s /usr/local/bin/micro /usr/local/bin/vi \
   && ln -s /usr/local/bin/micro /usr/local/bin/vim \
   && ln -s /usr/local/bin/micro /usr/local/bin/nano \
   && ln -s /usr/local/bin/micro /usr/local/bin/emacs \
-  && unset MICRO_ARCH \
-  && unset MICRO_VERSION \
-  && \
-  apt-get remove -y jq \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
