@@ -14,8 +14,7 @@ ENV \
   UMASK=0002 \
   LANG=en_US.UTF-8 \
   LANGUAGE=en_US:en \
-  LC_ALL=en_US.UTF-8 \
-  MICRO_CONFIG_HOME=/tmp
+  LC_ALL=en_US.UTF-8
 
 RUN \
   adduser kah \
