@@ -24,13 +24,13 @@ RUN \
     libmediainfo0v5 \
   && \
   curl -fsSL -o /tmp/sonarr.tar.gz \
-    "https://download.sonarr.tv/v3/phantom-develop/${VERSION}/Sonarr.phantom-develop.${VERSION}.linux.tar.gz" \
+    "https://download.sonarr.tv/v3/main/${VERSION}/Sonarr.main.${VERSION}.linux.tar.gz" \
   && tar ixzf /tmp/sonarr.tar.gz -C /app --strip-components 1 \
   && \
   rm -rf \
     /app/Sonarr.Update* \
   && \
-  printf "UpdateMethod=docker\nBranch=phantom-develop\nPackageVersion=%s\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" "${VERSION}" > /app/package_info \
+  printf "UpdateMethod=docker\nBranch=main\nPackageVersion=%s\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" "${VERSION}" > /app/package_info \
   && \
   gpgconf --kill all \
   && apt-get remove -y gnupg2 \
