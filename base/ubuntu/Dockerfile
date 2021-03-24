@@ -41,6 +41,7 @@ RUN \
   apt-get -qq update \
   && \
   apt-get install -y \
+    bash \
     ca-certificates \
     curl \
     jq \
@@ -66,6 +67,8 @@ RUN \
   && ln -s /usr/local/bin/micro /usr/local/bin/emacs \
   && unset MICRO_ARCH \
   && unset MICRO_VERSION \
+  && \
+  printf "/bin/bash /shim/greeting.sh" >> /etc/bash.bashrc \
   && \
   apt-get remove -y jq \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
