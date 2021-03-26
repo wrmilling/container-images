@@ -1,12 +1,10 @@
-name: Apps - Get latest versions
+name: Get latest versions
 
 on:
   workflow_dispatch:
   push:
     branches:
     - main
-    paths:
-    - ".github/workflows/apps-schedule.yml"
   schedule:
   - cron: "0 */4 * * *"
 
@@ -18,7 +16,18 @@ jobs:
       with:
         token: ${{ secrets.PAT }}
         fetch-depth: 1
-    - name: Fetch new application versions
+    - name: Fetch new base versions
+      run: |
+        find ./base -maxdepth 1 -mindepth 1 -type d -exec basename {} \; | while read app; do
+          if test -f "./base/${app}/latest-version.sh"; then
+            version=$(bash "./base/${app}/latest-version.sh")
+            if [[ ! -z "${version}" || "${version}" != "null" ]]; then
+              echo "${version}" | tee "./base/${app}/VERSION" > /dev/null
+              echo "${app} ${version}"
+            fi
+          fi
+        done
+    - name: Fetch new app versions
       run: |
         find ./apps -maxdepth 1 -mindepth 1 -type d -exec basename {} \; | while read app; do
           if test -f "./apps/${app}/latest-version.sh"; then
@@ -35,6 +44,6 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git add -A
-          git commit -sam "chore: added new release versions" || exit 0
+          git commit -sam "chore: add new release versions" || exit 0
           git push
         fi
