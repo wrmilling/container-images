@@ -68,7 +68,7 @@ RUN \
   && unset MICRO_ARCH \
   && unset MICRO_VERSION \
   && \
-  printf "/bin/bash /shim/greeting.sh" >> /etc/bash.bashrc \
+  printf "/bin/bash /shim/greeting.sh\n" >> /etc/bash.bashrc \
   && \
   apt-get remove -y jq \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
