@@ -8,7 +8,7 @@ ENV CGO_ENABLED=0 \
     GOBIN=/go/bin \
     GO111MODULE=off
 
-WORKDIR /tmp
+WORKDIR /go/src/xteve
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -19,9 +19,12 @@ RUN \
   && GOARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) \
   && export GOARM \
   && GOARM=$(echo ${TARGETPLATFORM} | cut -d / -f3 | cut -c2-) \
-  && curl -fsSL "https://github.com/xteve-project/xTeVe/archive/${VERSION}.tar.gz" | tar xzf - -C . --strip-components=1 \
-  && go get ./... \
-  && go build -o /go/bin/xteve xteve.go
+  && git clone https://github.com/xteve-project/xTeVe.git . \
+  && git checkout ${VERSION} \
+  && go get github.com/koron/go-ssdp \
+  && go get github.com/gorilla/websocket \
+  && go get github.com/kardianos/osext \
+  && go build -o /xteve xteve.go
 
 # hadolint ignore=DL3007
 FROM ghcr.io/k8s-at-home/ubuntu:latest
@@ -31,7 +34,7 @@ ARG TARGETPLATFORM
 
 USER root
 
-COPY --from=builder /go/bin/xteve /app/xteve
+COPY --from=builder /xteve /app/xteve
 
 # hadolint ignore=DL3008,DL3015,SC2086
 RUN \
