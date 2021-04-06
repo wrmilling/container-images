@@ -20,7 +20,7 @@ RUN \
   && export GOARM \
   && GOARM=$(echo ${TARGETPLATFORM} | cut -d / -f3 | cut -c2-) \
   && git clone https://github.com/mxpv/podsync.git . \
-  && git checkout ${VERSION} \
+  && git checkout v${VERSION} \
   && go build -o /bin/podsync ./cmd/podsync
 
 
