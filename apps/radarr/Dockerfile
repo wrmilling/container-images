@@ -2,6 +2,7 @@
 FROM ghcr.io/k8s-at-home/ubuntu:latest
 
 ARG TARGETPLATFORM
+ARG BUILDPLATFORM
 ARG VERSION
 
 USER root
@@ -17,7 +18,6 @@ RUN \
   case "${TARGETPLATFORM}" in \
     'linux/amd64') export ARCH='x64' ;; \
     'linux/arm64') export ARCH='arm64' ;; \
-    'linux/arm/v7') export ARCH='arm' ;; \
   esac \
   && \
   curl -fsSL -o /tmp/radarr.tar.gz \

@@ -1,7 +1,6 @@
 # hadolint ignore=DL3007
 FROM ghcr.io/k8s-at-home/ubuntu:latest
 
-ARG TARGETPLATFORM
 ARG VERSION
 
 USER root

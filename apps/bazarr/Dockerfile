@@ -2,7 +2,6 @@
 FROM ghcr.io/k8s-at-home/ubuntu:latest
 
 ARG VERSION
-ARG TARGETPLATFORM
 
 USER root
 

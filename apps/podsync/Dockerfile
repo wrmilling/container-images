@@ -1,14 +1,15 @@
 FROM golang:1.16 as builder
 
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+ARG VERSION
+
 ENV CGO_ENABLED=0 \
     GOPATH=/go \
     GOBIN=/go/bin \
     GO111MODULE=on
 
 WORKDIR /workspace
-
-ARG TARGETPLATFORM
-ARG VERSION
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -49,7 +50,7 @@ RUN \
     python3 \
   && curl -fsSL -o /usr/bin/youtube-dl \
     "https://github.com/ytdl-org/youtube-dl/releases/latest/download/youtube-dl" \
-  && chmod +x /usr/bin/youtube-dl \    
+  && chmod +x /usr/bin/youtube-dl \
   && \
   ln -s /usr/bin/python3 /usr/bin/python \
   && \

@@ -2,6 +2,7 @@
 FROM ghcr.io/k8s-at-home/ubuntu:latest as builder
 
 ARG TARGETPLATFORM
+ARG BUILDPLATFORM
 ARG VERSION
 
 # hadolint ignore=DL3002
