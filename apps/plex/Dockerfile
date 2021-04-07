@@ -41,6 +41,7 @@ RUN \
   apt-get -qq install -y \
     aria2 \
     unrar \
+    unzip \
     uuid-runtime \
     xmlstarlet \
     ${EXTRA_INSTALL_ARG} \
