@@ -11,14 +11,12 @@ fi
 
 function getPref {
   local key="${1}"
-
   xmlstarlet sel -T -t -m "/Preferences" -v "@${key}" -n "${prefFile}"
 }
 
 function setPref {
   local key="${1}"
   local value="${2}"
-
   count="$(xmlstarlet sel -t -v "count(/Preferences/@${key})" "${prefFile}")"
   count=$(($count + 0))
   if [[ $count > 0 ]]; then
