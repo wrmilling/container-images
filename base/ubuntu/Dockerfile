@@ -12,9 +12,6 @@ ENV \
   APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn \
   TINI_VERSION=0.19.0 \
   UMASK=0002 \
-  LANG=en_US.UTF-8 \
-  LANGUAGE=en_US:en \
-  LC_ALL=en_US.UTF-8 \
   MICRO_CONFIG_HOME=/tmp
 
 RUN \
@@ -48,9 +45,8 @@ RUN \
     locales \
     tini \
     tzdata \
-  && locale-gen en_US.UTF-8 \
-  && update-locale \
-  && dpkg-reconfigure -f noninteractive locales \
+  && \
+  localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
   && \
   case "${TARGETPLATFORM}" in \
     'linux/amd64') export MICRO_ARCH='linux64' ;; \
@@ -81,6 +77,8 @@ RUN \
     /var/lib/apt/lists/* \
     /var/cache/apt/* \
     /var/tmp/*
+
+ENV LANG en_US.UTF-8
 
 USER kah
 
