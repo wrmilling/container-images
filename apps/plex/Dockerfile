@@ -60,7 +60,7 @@ RUN \
   aria2c -d /tmp -o plex.deb \
     "${PLEX_DOWNLOAD}/${VERSION}/debian/plexmediaserver_${VERSION}_${ARCH}.deb" \
   && \
-  dpkg -i --force-confold --force-architecture /tmp/plex.deb \
+  dpkg -i --force-confold /tmp/plex.deb \
   && \
   printf "UpdateMethod=docker\nPackageVersion=%s\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" "${VERSION}" > /app/package_info \
   && \
