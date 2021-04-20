@@ -70,8 +70,6 @@ RUN \
     unrar \
     unzip \
   && \
-  printf "UpdateMethod=docker\nPackageVersion=%s\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" "${VERSION}" > /app/package_info \
-  && \
   apt-get autoremove -y \
   && apt-get clean \
   && \
@@ -79,6 +77,8 @@ RUN \
     /tmp/* \
     /var/lib/apt/lists/* \
     /var/tmp/ \
+  && chown -R kah:kah /app \
+  && chown -R kah:kah /web \
   && chmod -R u=rwX,go=rX /app \
   && chmod -R u=rwX,go=rX /web \
   && printf "umask %d" "${UMASK}" >> /etc/bash.bashrc \
