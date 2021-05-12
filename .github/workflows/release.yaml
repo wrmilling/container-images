@@ -98,6 +98,13 @@ jobs:
           echo ::set-output name=cache_to::"type=registry,ref=ghcr.io/${{ github.repository_owner }}/${{ matrix.container }}:buildcache,mode=max"
         fi
 
+    - uses: mukunku/tag-exists-action@v1.0.0
+      id: checkTag
+      with: 
+        tag: ${{ steps.prep.outputs.version }}-${{ steps.prep.outputs.ls }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
       with:
