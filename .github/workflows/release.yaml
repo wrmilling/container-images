@@ -104,7 +104,9 @@ jobs:
         tag: ${{ steps.prep.outputs.version }}-${{ steps.prep.outputs.ls }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+    
+    - run: echo ${{ steps.checkTag.outputs.exists }}
+    
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
       with:
