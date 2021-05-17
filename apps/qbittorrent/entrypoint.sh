@@ -9,4 +9,10 @@ if [[ ! -f "/config/qBittorrent/qBittorrent.conf" ]]; then
     cp /app/qBittorrent.conf /config/qBittorrent/qBittorrent.conf
 fi
 
+if [[ ! -d "/config/qBittorrent/logs" ]]; then
+    mkdir -p /config/qBittorrent/logs
+fi
+
+ln -sf /proc/self/fd/1 /config/qBittorrent/logs/qbittorrent.log
+
 exec /app/qbittorrent-nox --webui-port="${WEBUI_PORT}" ${EXTRA_ARGS}
