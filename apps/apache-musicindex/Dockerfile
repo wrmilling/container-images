@@ -11,7 +11,8 @@ RUN apt update \
     && mkdir -p /music /cache \
     && chown -R kah:kah /music /cache \
     && a2enmod musicindex \
-    && echo "Listen 8080">>/etc/apache2/ports.conf \
+    && sed -i 's/Listen 80/Listen 8080/' /etc/apache2/ports.conf \
+    && sed -i 's/Listen 443/Listen 8443/' /etc/apache2/ports.conf \
     && rm -rf /var/www/html \
     && ln -s /music /var/www/html
 
