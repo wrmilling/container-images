@@ -15,8 +15,9 @@ RUN apt update \
     && rm -rf /var/www/html \
     && ln -s /music /var/www/html
 
-COPY config/musicindex.conf /etc/apache2/conf-enabled/
-COPY config/site.conf /etc/apache2/sites-enabled/000-default.conf
+COPY ./apps/apache-musicindex/config/musicindex.conf /etc/apache2/conf-enabled/
+COPY ./apps/apache-musicindex/config/site.conf /etc/apache2/sites-enabled/000-default.conf
+COPY ./apps/apache-musicindex/entrypoint.sh /entrypoint.sh
 
 WORKDIR /music
 
@@ -24,5 +25,4 @@ USER kah
 
 EXPOSE 8080
 
-COPY entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]
