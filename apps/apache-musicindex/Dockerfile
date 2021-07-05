@@ -6,24 +6,20 @@ ARG VERSION
 USER root
 
 RUN apt update \
-    && apt-get install -y apache2 libapache2-mod-musicindex \
+    && apt-get install -y apache2 ssl-cert libapache2-mod-musicindex \
     && apt-get -y clean all \
     && mkdir -p /music /cache \
     && chown -R kah:kah /music /cache \
-    && a2enmod musicindex \
-    && sed -i 's/Listen 80/Listen 8080/' /etc/apache2/ports.conf \
-    && sed -i 's/Listen 443/Listen 8443/' /etc/apache2/ports.conf \
+    && a2enmod ssl musicindex \
+    && a2ensite default-ssl \
     && rm -rf /var/www/html \
     && ln -s /music /var/www/html
 
 COPY ./apps/apache-musicindex/config/musicindex.conf /etc/apache2/conf-enabled/
-COPY ./apps/apache-musicindex/config/site.conf /etc/apache2/sites-enabled/000-default.conf
 COPY ./apps/apache-musicindex/entrypoint.sh /entrypoint.sh
 
 WORKDIR /music
 
-USER kah
-
-EXPOSE 8080
+EXPOSE 80 443
 
 CMD ["/entrypoint.sh"]
