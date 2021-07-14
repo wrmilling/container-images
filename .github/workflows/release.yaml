@@ -124,9 +124,9 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ~/cache/buildcache
-        key: ${{ secrets.DOCKER_REGISTRY }}/${{ github.repository_owner }}/${{ matrix.container }}:buildcache
+        key: ${{ secrets.DOCKER_REGISTRY }}/${{ github.repository_owner }}/${{ matrix.container }}
         restore-keys: |
-          ${{ secrets.DOCKER_REGISTRY }}/${{ github.repository_owner }}/${{ matrix.container }}:buildcache
+          ${{ secrets.DOCKER_REGISTRY }}/${{ github.repository_owner }}/${{ matrix.container }}
 
     # Install the GOSS testing framework
     - name: Set up goss/dgoss
