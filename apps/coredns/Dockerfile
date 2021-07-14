@@ -19,18 +19,18 @@ WORKDIR /go/src/coredns
 # hadolint ignore=DL4006
 RUN \
   export GOOS \
-  && /bin/ash \
-  && apk --no-cache --no-progress add ca-certificates=20191127-r5 git=2.30.2-r0 libcap=2.46-r0 \
-  && update-ca-certificates \
-  && rm -rf /var/cache/apk/* \
   && GOOS=$(echo ${TARGETPLATFORM} | cut -d / -f1) \
   && export GOARCH \
   && GOARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) \
   && export GOARM \
   && GOARM=$(echo ${TARGETPLATFORM} | cut -d / -f3 | cut -c2-) \
+  && apk --no-cache --no-progress add ca-certificates git libcap \
+  && update-ca-certificates \
   && git clone https://github.com/coredns/coredns.git . \
-  && git checkout v${VERSION} \
-  && mv /plugin.cfg . \
+  && git checkout v${VERSION}
+
+RUN \
+  mv /plugin.cfg . \
   && go get github.com/openshift/coredns-mdns \
   && go get github.com/coredns/alternate \
   && go get github.com/jwhited/wgsd \
