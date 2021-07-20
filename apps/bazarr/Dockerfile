@@ -21,19 +21,15 @@ RUN \
     ${EXTRA_INSTALL_ARG} \
   && \
   ln -s /usr/bin/python3 /usr/bin/python \
-  && \
-  curl -fsSL "https://github.com/morpheus65535/bazarr/archive/v${VERSION}.tar.gz" | tar xzf - -C /app --strip-components=1 \
+  && curl -fsSL -o /tmp/app.zip "https://github.com/morpheus65535/bazarr/releases/download/v${VERSION}/bazarr.zip" \
+  && unzip -q /tmp/app.zip -d /app \
   && pip3 install --no-cache-dir -U -r /app/requirements.txt \
-  && \
-  apt-get remove -y ${EXTRA_INSTALL_ARG} \
+  && apt-get remove -y ${EXTRA_INSTALL_ARG} \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
   && \
   rm -rf \
-    /app/bin \
-    /app/tests \
-    /app/screenshots \
     /tmp/* \
     /var/lib/apt/lists/* \
     /var/tmp/ \
