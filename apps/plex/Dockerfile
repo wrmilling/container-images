@@ -8,9 +8,6 @@ ARG VERSION
 USER root
 
 ENV NVIDIA_DRIVER_CAPABILITIES="compute,video,utility" \
-    INTEL_NEO_VERSION=21.11.19310 \
-    INTEL_IGC_VERSION=1.0.6646 \
-    INTEL_GMMLIB_VERSION=20.3.2 \
     PLEX_DOWNLOAD="https://downloads.plex.tv/plex-media-server-new" \
     PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR="/config/Library/Application Support" \
     PLEX_MEDIA_SERVER_HOME="/usr/lib/plexmediaserver" \
@@ -30,9 +27,6 @@ RUN \
         export ARCH='arm64'; \
         export EXTRA_INSTALL_ARG=''; \
         unset NVIDIA_DRIVER_CAPABILITIES; \
-        unset INTEL_NEO_VERSION; \
-        unset INTEL_IGC_VERSION; \
-        unset INTEL_GMMLIB_VERSION; \
     ;; \
   esac \
   && \
@@ -40,6 +34,7 @@ RUN \
   && \
   apt-get -qq install -y \
     aria2 \
+    jq \
     unrar \
     unzip \
     uuid-runtime \
@@ -48,12 +43,18 @@ RUN \
   && \
   case "${ARCH}" in \
     'amd64') \
-      curl -J -L -o /tmp/gmmlib.deb https://github.com/intel/compute-runtime/releases/download/${INTEL_NEO_VERSION}/intel-gmmlib_${INTEL_GMMLIB_VERSION}_amd64.deb \
-      && apt-get install -y /tmp/gmmlib.deb \
-      && curl -J -L -o /tmp/#1.deb https://github.com/intel/intel-graphics-compiler/releases/download/igc-${INTEL_IGC_VERSION}/{intel-igc-core,intel-igc-opencl}_${INTEL_IGC_VERSION}_amd64.deb \
-      && apt-get install -y /tmp/intel-igc-core.deb /tmp/intel-igc-opencl.deb \
-      && curl -J -L -o /tmp/intel-opencl.deb https://github.com/intel/compute-runtime/releases/download/${INTEL_NEO_VERSION}/intel-opencl_${INTEL_NEO_VERSION}_amd64.deb \
-      && apt-get install -y /tmp/intel-opencl.deb \
+      COMP_RT_RELEASE=$(curl -sX GET "https://api.github.com/repos/intel/compute-runtime/releases/latest" | jq -r '.tag_name') \
+      && COMP_RT_URLS=$(curl -sX GET "https://api.github.com/repos/intel/compute-runtime/releases/tags/${COMP_RT_RELEASE}" | jq -r '.body' | grep wget | sed 's|wget ||g') \
+      && mkdir -p /opencl-intel \
+      && \
+      for i in ${COMP_RT_URLS}; do \
+        i=$(echo ${i} | tr -d '\r'); \
+        echo "**** downloading ${i} ****"; \
+        curl -o "/opencl-intel/$(basename ${i})" \
+          -L "${i}"; \
+      done \
+      && dpkg -i /opencl-intel/*.deb \
+      && rm -rf /opencl-intel \
     ;; \
   esac \
   && \
@@ -64,7 +65,7 @@ RUN \
   && \
   dpkg -i --force-confold /tmp/plex.deb \
   && \
-  apt-get remove -y aria2 \
+  apt-get remove -y aria2 jq \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
