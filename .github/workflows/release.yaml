@@ -90,12 +90,12 @@ jobs:
         fi
         if [ "${{github.event_name}}" == "pull_request" ]; then
           echo ::set-output name=push::false
-          echo ::set-output name=cache_from::"type=local,src=~/cache/buildcache"
+          echo ::set-output name=cache_from::"type=local,src=/tmp/.buildx-cache"
           echo ::set-output name=cache_to::""
         else
           echo ::set-output name=push::true
-          echo ::set-output name=cache_from::"type=local,src=~/cache/buildcache"
-          echo ::set-output name=cache_to::"type=local,dest=~/cache/buildcache,mode=max"
+          echo ::set-output name=cache_from::"type=local,src=/tmp/.buildx-cache"
+          echo ::set-output name=cache_to::"type=local,dest=/tmp/.buildx-cache,mode=max"
         fi
 
     - name: Set up QEMU
@@ -123,7 +123,7 @@ jobs:
     - name: Cache Docker layers
       uses: actions/cache@v2
       with:
-        path: ~/cache/buildcache
+        path: /tmp/.buildx-cache
         key: ${{ secrets.DOCKER_REGISTRY }}/${{ github.repository_owner }}/${{ matrix.container }}
         restore-keys: |
           ${{ secrets.DOCKER_REGISTRY }}/${{ github.repository_owner }}/${{ matrix.container }}
