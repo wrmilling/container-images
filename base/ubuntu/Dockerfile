@@ -42,6 +42,7 @@ RUN \
     bash \
     ca-certificates \
     curl \
+    dig \
     jq \
     locales \
     tini \
