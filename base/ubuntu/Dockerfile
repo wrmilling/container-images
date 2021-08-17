@@ -42,7 +42,7 @@ RUN \
     bash \
     ca-certificates \
     curl \
-    dig \
+    dnsutils \
     jq \
     locales \
     tini \
