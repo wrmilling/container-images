@@ -83,9 +83,13 @@ RUN \
     /var/tmp/*
 
 ENV LANG en_US.UTF-8
+
 USER kah
+
 VOLUME [ "/config" ]
+
 COPY ./base/ubuntu/shim /shim
+
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
 
 LABEL "maintainer"="Devin Buhl <devin.kray@gmail.com>, Bernd Schorgers <me@bjw-s.dev>"
