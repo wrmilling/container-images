@@ -11,7 +11,6 @@ ENV \
   DEBCONF_NONINTERACTIVE_SEEN=true \
   DEBIAN_FRONTEND="noninteractive" \
   APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn \
-  TINI_VERSION=0.19.0 \
   UMASK=0002 \
   MICRO_CONFIG_HOME=/tmp
 
@@ -76,7 +75,6 @@ RUN \
   && apt-get clean \
   && \
   rm -rf \
-    /tini.asc \
     /tmp/* \
     /var/lib/apt/lists/* \
     /var/cache/apt/* \
