@@ -34,18 +34,6 @@ RUN \
     gpg \
     dirmngr
 
-# Install golang and envsubst
-# hadolint ignore=DL3008
-RUN \
-  add-apt-repository ppa:longsleep/golang-backports \
-  && apt-get update \
-  && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 52B59B1571A79DBC054901C0F6BC817356A3D45E \
-  && apt-get install -y --no-install-recommends \
-    golang-1.16 \
-  && export GOPATH=/go \
-  && export PATH=$PATH:/go/bin \
-  && /usr/lib/go-1.16/bin/go get github.com/a8m/envsubst/cmd/envsubst
-
 WORKDIR /tmp/transmission
 
 # Compile transmission
@@ -73,7 +61,6 @@ USER root
 
 COPY --from=builder /usr/local/bin/transmission-daemon /app/transmission-daemon
 COPY --from=builder /usr/local/share/transmission/web /web
-COPY --from=builder /go/bin/envsubst /usr/local/bin/envsubst
 
 # hadolint ignore=DL3008,DL3015
 RUN \
