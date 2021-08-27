@@ -8,7 +8,7 @@ USER root
 ARG VERSION
 ARG nodesource="14.17.5-deb-1nodesource1"
 
-COPY script/ /
+COPY ./apps/wikijs/script/ /
 
 # environment settings
 ENV HOME="/config"
