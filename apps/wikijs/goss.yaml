@@ -11,8 +11,6 @@ file:
 package:
   nodejs:
     installed: true
-    versions:
-    - 14.17.5-deb-1nodesource1
 port:
   tcp:3000:
     listening: true
