@@ -6,7 +6,6 @@ USER root
 
 # set version label
 ARG VERSION
-ARG nodesource="14.17.5-deb-1nodesource1"
 
 COPY ./apps/wikijs/script/ /
 
@@ -20,10 +19,11 @@ RUN \
   curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
   apt-get update -qq && \
   apt-get install -qq --no-install-recommends \
-    nodejs=${nodesource} \
     gcc \
     g++ \
-    make && \
+    make \
+    nodejs \
+    python && \
   echo "**** download wiki.js ****" && \
   mkdir -p /app/wiki /data && \
   if [ -z ${WIKIJS_RELEASE} ]; then \
@@ -47,7 +47,8 @@ RUN \
   apt-get remove -qq \
     gcc \
     g++ \
-    make && \
+    make \
+    python && \
   apt-get purge -qq --auto-remove -o APT::AutoRemove::RecommendsImportant=false && \
   apt-get autoremove -qq && \
   apt-get clean -qq && \
