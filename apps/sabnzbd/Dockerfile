@@ -17,6 +17,7 @@ RUN \
     par2 \
     python3 \
     python3-distutils \
+    python3-pkg-resources \
     unrar \
     unzip \
     ${EXTRA_INSTALL_ARG} \
