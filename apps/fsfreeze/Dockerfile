@@ -5,7 +5,8 @@ ARG BUILDPLATFORM
 ARG VERSION
 
 RUN \
-    apk add --no-cache util-linux==${VERSION}
+    apk add --no-cache \
+        util-linux==${VERSION}
 
 ENTRYPOINT ["/bin/ash", "-c"]
 CMD ["while true; do sleep 3600; done;"]
