@@ -2,8 +2,9 @@ name: Get latest versions
 
 on:
   workflow_dispatch:
-  schedule:
-  - cron: "0 */4 * * *"
+  # # Disabled until https://github.com/docker/build-push-action/issues/463
+  # schedule:
+  # - cron: "0 */4 * * *"
 
 jobs:
   get-version:
