@@ -1,4 +1,4 @@
-FROM docker.io/golang:1.17.0-alpine as builder
+FROM docker.io/golang:1.17.1-alpine as builder
 
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
@@ -8,8 +8,6 @@ ENV CGO_ENABLED=0 \
     GOPATH=/go \
     GOBIN=/go/bin \
     GO111MODULE=on
-
-COPY ./apps/coredns/plugin.cfg /plugin.cfg
 
 WORKDIR /go/src/coredns
 
@@ -26,16 +24,24 @@ RUN \
   && GOARM=$(echo ${TARGETPLATFORM} | cut -d / -f3 | cut -c2-) \
   && apk --no-cache --no-progress add ca-certificates git libcap \
   && update-ca-certificates \
-  && git clone https://github.com/coredns/coredns.git . \
-  && git checkout v${VERSION}
+  && git clone https://github.com/coredns/coredns.git --branch "v${VERSION}" --depth 1 --single-branch .
 
+# Enable plugins
+# hadolint ignore=DL3059
+RUN sed -i '/^kubernetes:kubernetes/a k8s_gateway:github.com/ori-edge/k8s_gateway' plugin.cfg
+# hadolint ignore=DL3059
+RUN sed -i '/^sign:sign/a mdns:github.com/openshift/coredns-mdns' plugin.cfg
+# hadolint ignore=DL3059
+RUN sed -i '/^mdns:github/a alternate:github.com/coredns/alternate' plugin.cfg
+# hadolint ignore=DL3059
+RUN sed -i '/^alternate:github/a wgsd:github.com/jwhited/wgsd' plugin.cfg
+
+# hadolint ignore=DL3059
 RUN \
-  mv /plugin.cfg . \
-  && go get github.com/openshift/coredns-mdns \
+  go get github.com/ori-edge/k8s_gateway \
   && go get github.com/coredns/alternate \
+  && go get github.com/openshift/coredns-mdns \
   && go get github.com/jwhited/wgsd \
-  && go get github.com/miekg/coredns-git \
-  && go get github.com/ori-edge/k8s_gateway \
   && go generate \
   && go mod tidy \
   && go build -ldflags "-s -w -X github.com/coredns/coredns/coremain.GitCommit=$(git describe --always)" -o coredns \
@@ -48,7 +54,7 @@ ARG VERSION
 LABEL org.opencontainers.image.title="CoreDNS"
 LABEL org.opencontainers.image.authors="Anthony Rabbito <hello@anthonyrabbito.com>"
 LABEL org.opencontainers.image.version="${VERSION}"
-LABEL coredns-external-plugins="alternate, mdns, wgsd, coredns-git, k8s_gateway"
+LABEL coredns-external-plugins="alternate, mdns, wgsd, k8s_gateway"
 
 COPY --from=builder /go/src/coredns/coredns /coredns
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
