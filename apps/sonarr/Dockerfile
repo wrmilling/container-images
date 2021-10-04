@@ -20,6 +20,7 @@ RUN \
   && apt-get -qq update \
   && \
   apt-get -qq install -y \
+    ca-certificates \
     mono-complete=${MONO_VERSION}\* \
     libmediainfo0v5 \
   && \
@@ -33,7 +34,7 @@ RUN \
   printf "UpdateMethod=docker\nBranch=main\nPackageVersion=%s\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" "${VERSION}" > /app/package_info \
   && \
   gpgconf --kill all \
-  && apt-get remove -y gnupg2 \
+  && apt-get remove -y gnupg \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
@@ -45,8 +46,7 @@ RUN \
     /var/tmp/ \
   && chown -R kah:kah /app \
   && chmod -R u=rwX,go=rX /app \
-  && printf "umask %d" "${UMASK}" >> /etc/bash.bashrc \
-  && update-ca-certificates
+  && printf "umask %d" "${UMASK}" >> /etc/bash.bashrc
 
 USER kah
 
