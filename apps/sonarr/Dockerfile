@@ -46,7 +46,8 @@ RUN \
     /var/tmp/ \
   && chown -R kah:kah /app \
   && chmod -R u=rwX,go=rX /app \
-  && printf "umask %d" "${UMASK}" >> /etc/bash.bashrc
+  && printf "umask %d" "${UMASK}" >> /etc/bash.bashrc \
+  && cert-sync /etc/ssl/certs/ca-certificates.crt
 
 USER kah
 
